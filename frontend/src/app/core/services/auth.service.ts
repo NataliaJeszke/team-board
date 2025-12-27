@@ -1,13 +1,11 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
 
 import { User, RegisterRequest, AuthResponse, LoginRequest } from '../models';
+import { Observable, tap } from 'rxjs/dist/types';
 
-@Injectable({
-  providedIn: 'root',
-})
+
 export class AuthService {
   private apiUrl = 'http://localhost:3000/auth';
   
@@ -23,7 +21,7 @@ export class AuthService {
 
   register(data: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data).pipe(
-      tap(response => {
+      tap((response: AuthResponse) => {
         this.handleAuthSuccess(response);
       })
     );
@@ -31,7 +29,7 @@ export class AuthService {
 
   login(data: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, data).pipe(
-      tap(response => {
+      tap((response: AuthResponse) => {
         this.handleAuthSuccess(response);
       })
     );
