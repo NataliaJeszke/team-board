@@ -17,7 +17,7 @@
 //       'h-8', // 32px
 //     ],
 //   },
-  
+
 //   slider: {
 //     class: [
 //       // Track styles
@@ -28,22 +28,22 @@
 //       'transition-all',
 //       'duration-300',
 //       'ease-in-out',
-      
+
 //       // Light mode - blue gradient
 //       'bg-gradient-to-r',
 //       'from-sky-100',
 //       'to-sky-200',
-      
+
 //       // Dark mode - slate gradient
 //       'dark:from-slate-800',
 //       'dark:to-slate-900',
-      
+
 //       // Shadow
 //       'shadow-inner',
-      
+
 //       // Hover
 //       'hover:shadow-md',
-      
+
 //       // Width and height
 //       'w-full',
 //       'h-full',
@@ -52,7 +52,7 @@
 //       boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.1)',
 //     },
 //   },
-  
+
 //   handle: {
 //     class: [
 //       // Handle (kropka) styles
@@ -64,21 +64,21 @@
 //       'transition-all',
 //       'duration-300',
 //       'ease-in-out',
-      
+
 //       // Size
 //       'w-6', // 24px
 //       'h-6', // 24px
-      
+
 //       // Position - initially left
 //       'left-1',
 //       'top-1',
-      
+
 //       // Background
 //       'bg-white',
-      
+
 //       // Shadow
 //       'shadow-md',
-      
+
 //       // Z-index for icon overlay
 //       'z-10',
 //     ],
@@ -94,7 +94,7 @@
 //  */
 // export const toggleSwitchCheckedStyles: ToggleSwitchPassThroughOptions = {
 //   ...toggleSwitchStyles,
-  
+
 //   slider: {
 //     ...(toggleSwitchStyles.slider as Record<string, any> || {}),
 //     class: [
@@ -106,14 +106,14 @@
 //       'dark:data-[state=checked]:to-indigo-950',
 //     ],
 //   },
-  
+
 //   handle: {
 //     ...(typeof toggleSwitchStyles.handle === 'object' ? toggleSwitchStyles.handle : {}),
 //     class: [
 //       ...( (toggleSwitchStyles.handle as { class?: string[] })?.class || []),
 //       // Move handle to right when checked
 //       'data-[state=checked]:translate-x-6', // 24px shift
-      
+
 //       // Change background when checked
 //       'data-[state=checked]:bg-gradient-to-br',
 //       'data-[state=checked]:from-indigo-50',
@@ -132,14 +132,14 @@
 //     borderRadius: '9999px',
 //     transitionDuration: '0.3s',
 //   },
-  
+
 //   slider: {
 //     background: '{surface.100}',
 //     hoverBackground: '{surface.200}',
 //     borderRadius: '9999px',
 //     shadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.1)',
 //   },
-  
+
 //   handle: {
 //     width: '1.5rem',
 //     height: '1.5rem',
@@ -148,7 +148,7 @@
 //     hoverBackground: '#ffffff',
 //     shadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
 //   },
-  
+
 //   // Checked state tokens
 //   colorScheme: {
 //     light: {

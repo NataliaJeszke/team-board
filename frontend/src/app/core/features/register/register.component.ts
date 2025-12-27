@@ -10,13 +10,7 @@ import { PasswordModule } from 'primeng/password';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    RouterLink,
-    ButtonModule,
-    InputTextModule,
-    PasswordModule,
-  ],
+  imports: [ReactiveFormsModule, RouterLink, ButtonModule, InputTextModule, PasswordModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
@@ -42,7 +36,7 @@ export class RegisterComponent {
 
     this.authService.register(this.form.getRawValue()).subscribe({
       next: () => this.router.navigate(['/dashboard']),
-      error: (err) => {
+      error: err => {
         this.error = err?.error?.message ?? 'Błąd rejestracji';
         this.loading = false;
       },

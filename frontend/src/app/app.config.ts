@@ -12,20 +12,18 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(
-      withInterceptors([authInterceptor])
-    ),
+    provideHttpClient(withInterceptors([authInterceptor])),
     providePrimeNG({
       theme: {
-          preset: MyBlueTheme,
-          options: {
-            prefix: 'p',
-            darkModeSelector: '.app-dark',
-            cssLayer: false,
-        }
+        preset: MyBlueTheme,
+        options: {
+          prefix: 'p',
+          darkModeSelector: '.app-dark',
+          cssLayer: false,
+        },
       },
       ripple: true,
-      overlayAppendTo: 'body'
-  })
-  ]
+      overlayAppendTo: 'body',
+    }),
+  ],
 };

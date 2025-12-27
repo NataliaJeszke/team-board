@@ -3,15 +3,11 @@
   [pTooltip]="isDarkMode ? 'Przełącz na tryb jasny' : 'Przełącz na tryb ciemny'"
   tooltipPosition="bottom"
 >
-  <p-toggleswitch
-    [(ngModel)]="isDarkMode"
-  >
+  <p-toggleswitch [(ngModel)]="isDarkMode">
     <ng-template pTemplate="handle">
       <i
         class="pi text-base transition-all duration-300"
-        [ngClass]="isDarkMode
-          ? 'pi-moon text-indigo-400'
-          : 'pi-sun text-amber-400'"
+        [ngClass]="isDarkMode ? 'pi-moon text-indigo-400' : 'pi-sun text-amber-400'"
       ></i>
     </ng-template>
   </p-toggleswitch>

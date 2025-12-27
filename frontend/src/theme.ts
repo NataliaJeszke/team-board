@@ -14,22 +14,22 @@ export const MyBlueTheme = definePreset(Aura, {
       700: '{blue.700}',
       800: '{blue.800}',
       900: '{blue.900}',
-      950: '{blue.950}'
+      950: '{blue.950}',
     },
-    
+
     colorScheme: {
       light: {
         primary: {
           color: '{blue.500}',
           inverseColor: '#ffffff',
           hoverColor: '{blue.600}',
-          activeColor: '{blue.700}'
+          activeColor: '{blue.700}',
         },
         highlight: {
           background: '{blue.50}',
           focusBackground: '{blue.100}',
           color: '{blue.700}',
-          focusColor: '{blue.800}'
+          focusColor: '{blue.800}',
         },
 
         surface: {
@@ -44,21 +44,21 @@ export const MyBlueTheme = definePreset(Aura, {
           700: '{zinc.700}',
           800: '{zinc.800}',
           900: '{zinc.900}',
-          950: '{zinc.950}'
-        }
+          950: '{zinc.950}',
+        },
       },
       dark: {
         primary: {
           color: '{blue.400}',
           inverseColor: '{blue.950}',
           hoverColor: '{blue.300}',
-          activeColor: '{blue.200}'
+          activeColor: '{blue.200}',
         },
         highlight: {
           background: '{blue.900}',
           focusBackground: '{blue.800}',
           color: '{blue.50}',
-          focusColor: '#ffffff'
+          focusColor: '#ffffff',
         },
 
         surface: {
@@ -73,18 +73,18 @@ export const MyBlueTheme = definePreset(Aura, {
           700: '{slate.700}',
           800: '{slate.800}',
           900: '{slate.900}',
-          950: '{slate.950}'
-        }
-      }
+          950: '{slate.950}',
+        },
+      },
     },
-    
+
     focusRing: {
       width: '2px',
       style: 'solid',
       color: '{primary.color}',
-      offset: '2px'
-    }
-  }
+      offset: '2px',
+    },
+  },
 });
 
 export default MyBlueTheme;

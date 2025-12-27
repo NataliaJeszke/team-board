@@ -10,13 +10,7 @@ import { PasswordModule } from 'primeng/password';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    RouterLink,
-    ButtonModule,
-    InputTextModule,
-    PasswordModule,
-  ],
+  imports: [ReactiveFormsModule, RouterLink, ButtonModule, InputTextModule, PasswordModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -41,7 +35,7 @@ export class LoginComponent {
 
     this.authService.login(this.form.getRawValue()).subscribe({
       next: () => this.router.navigate(['/dashboard']),
-      error: (err) => {
+      error: err => {
         this.error = err?.error?.message ?? 'Błąd logowania';
         this.loading = false;
       },

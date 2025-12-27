@@ -15,13 +15,13 @@ import { ThemeService } from '../../core/services/theme/theme.service';
   styleUrl: './theme-toggle.component.styles.scss',
 })
 export class ThemeToggleComponent {
-    private themeService = inject(ThemeService);
+  private themeService = inject(ThemeService);
 
-    get isDarkMode() {
-        return this.themeService.isDarkMode();
-      }
-    
-      set isDarkMode(value: boolean) {
-        this.themeService.setDarkMode(value);
-      }
+  get isDarkMode() {
+    return this.themeService.isDarkMode();
+  }
+
+  set isDarkMode(value: boolean) {
+    this.themeService.setDarkMode(value);
+  }
 }

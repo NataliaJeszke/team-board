@@ -7,12 +7,11 @@ import { Observable, tap } from 'rxjs';
 import { User, RegisterRequest, AuthResponse, LoginRequest } from '../../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class AuthService {
   private apiUrl = 'http://localhost:3000/auth';
-  
+
   currentUser = signal<User | null>(null);
   isAuthenticated = signal<boolean>(false);
 
@@ -65,7 +64,7 @@ export class AuthService {
   private checkAuth(): void {
     const token = this.getToken();
     const userStr = localStorage.getItem('user');
-    
+
     if (token && userStr) {
       try {
         const user = JSON.parse(userStr) as User;

@@ -1,17 +1,17 @@
 import { Injectable, signal, effect } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   private readonly STORAGE_KEY = 'theme-mode';
   private readonly DARK_CLASS = 'app-dark';
-  
+
   isDarkMode = signal<boolean>(false);
 
   constructor() {
     this.initializeTheme();
-    
+
     effect(() => {
       this.applyTheme(this.isDarkMode());
     });
@@ -28,17 +28,16 @@ export class ThemeService {
   }
 
   listenToSystemPreferences(): void {
-    window.matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', (e) => {
-        if (!localStorage.getItem(this.STORAGE_KEY)) {
-          this.isDarkMode.set(e.matches);
-        }
-      });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem(this.STORAGE_KEY)) {
+        this.isDarkMode.set(e.matches);
+      }
+    });
   }
 
   private initializeTheme(): void {
     const savedTheme = localStorage.getItem(this.STORAGE_KEY);
-    
+
     if (savedTheme) {
       this.isDarkMode.set(savedTheme === 'dark');
     } else {
@@ -49,7 +48,7 @@ export class ThemeService {
 
   private applyTheme(isDark: boolean): void {
     const htmlElement = document.documentElement;
-    
+
     if (isDark) {
       htmlElement.classList.add(this.DARK_CLASS);
     } else {
