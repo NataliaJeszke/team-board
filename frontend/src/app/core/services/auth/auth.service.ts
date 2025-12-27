@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -10,17 +10,13 @@ import { User, RegisterRequest, AuthResponse, LoginRequest } from '../../models'
   providedIn: 'root',
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+
   private apiUrl = 'http://localhost:3000/auth';
 
   currentUser = signal<User | null>(null);
   isAuthenticated = signal<boolean>(false);
-
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
-    this.checkAuth();
-  }
 
   register(data: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data).pipe(
