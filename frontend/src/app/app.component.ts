@@ -8,6 +8,5 @@ import { RouterOutlet } from '@angular/router';
   styles: [],
 })
 export class AppComponent {
-  title = 'frontend';
+    title = 'frontend';
 }
-const test = 'test'
