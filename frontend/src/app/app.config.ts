@@ -8,7 +8,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { routes } from './app.routes';
 
-import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
+import { authInterceptor } from './core/api/interceptors/auth/auth.interceptor';
 import { AuthEffects } from './core/auth/store/auth.effects';
 import { authReducer } from './core/auth/store/auth.reducer';
 

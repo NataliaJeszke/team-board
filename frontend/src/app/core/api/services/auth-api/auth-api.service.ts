@@ -3,12 +3,14 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { User, RegisterRequest, AuthResponse, LoginRequest } from '../../models';
+import { User, RegisterRequest, LoginRequest } from '../../../models';
+
+import { AuthResponse } from '../../models/auth/auth.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthApiService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:3000/auth';
 
