@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { Observable, tap } from 'rxjs';
 
-import { User, RegisterRequest, AuthResponse, LoginRequest } from '../models';
+import { User, RegisterRequest, AuthResponse, LoginRequest } from '../../models';
 
 @Injectable({
   providedIn: 'root'
