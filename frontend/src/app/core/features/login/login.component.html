@@ -1,0 +1,48 @@
+<div class="min-h-screen flex items-center justify-center bg-surface-100">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg space-y-6"
+    >
+      <h1 class="text-2xl font-semibold text-center">Logowanie</h1>
+  
+      <div class="space-y-2">
+        <input
+          pInputText
+          type="email"
+          placeholder="Email"
+          formControlName="email"
+          class="w-full"
+        />
+      </div>
+  
+      <div class="space-y-2">
+        <p-password
+          formControlName="password"
+          placeholder="Hasło"
+          [feedback]="false"
+          class="w-full"
+        ></p-password>
+      </div>
+  
+      <p-button
+        label="Zaloguj się"
+        type="submit"
+        [loading]="loading"
+        class="w-full"
+      ></p-button>
+  
+      @if (error) {
+        <div class="p-error text-center mb-3">
+          {{ error }}
+        </div>
+      }
+  
+      <p class="text-center text-sm">
+        Nie masz konta?
+        <a routerLink="/register" class="text-primary font-medium">
+          Zarejestruj się
+        </a>
+      </p>
+    </form>
+  </div>

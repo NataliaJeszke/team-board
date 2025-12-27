@@ -1,0 +1,63 @@
+<div class="min-h-screen flex items-center justify-center bg-surface-100">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg space-y-6"
+    >
+      <h1 class="text-2xl font-semibold text-center">Rejestracja</h1>
+  
+      <!-- Name -->
+      <div class="space-y-2">
+        <input
+          pInputText
+          type="text"
+          placeholder="Imię"
+          formControlName="name"
+          class="w-full"
+        />
+      </div>
+  
+      <!-- Email -->
+      <div class="space-y-2">
+        <input
+          pInputText
+          type="email"
+          placeholder="Email"
+          formControlName="email"
+          class="w-full"
+        />
+      </div>
+  
+      <!-- Password -->
+      <div class="space-y-2">
+        <p-password
+          formControlName="password"
+          placeholder="Hasło"
+          [feedback]="false"
+          class="w-full"
+        ></p-password>
+      </div>
+  
+      <!-- Submit -->
+      <p-button
+        label="Zarejestruj się"
+        type="submit"
+        [loading]="loading"
+        class="w-full"
+      ></p-button>
+  
+      <!-- Error -->
+      @if (error) {
+        <div class="p-error text-center mb-3">
+          {{ error }}
+        </div>
+      }
+  
+      <p class="text-center text-sm">
+        Masz już konto?
+        <a routerLink="/login" class="text-primary font-medium">
+          Zaloguj się
+        </a>
+      </p>
+    </form>
+  </div>
