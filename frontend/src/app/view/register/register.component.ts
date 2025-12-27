@@ -10,18 +10,20 @@ import { PasswordModule } from 'primeng/password';
 import { AuthActions } from '../../core/auth/store/auth.actions';
 import { selectAuthLoading, selectAuthError } from '../../core/auth/store/auth.selectors';
 import { AsyncPipe } from '@angular/common';
+import { Card } from "primeng/card";
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
     AsyncPipe,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     RouterLink,
-    ButtonModule, 
-    InputTextModule, 
-    PasswordModule
-  ],
+    ButtonModule,
+    InputTextModule,
+    PasswordModule,
+    Card
+],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })

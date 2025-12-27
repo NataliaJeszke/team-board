@@ -1,26 +1,31 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, effect } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+
 import { Store } from '@ngrx/store';
 
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { CardModule } from 'primeng/card'; 
+import { MessageModule } from 'primeng/message';
 
 import { AuthActions } from '../../core/auth/store/auth.actions';
 import { selectAuthLoading, selectAuthError } from '../../core/auth/store/auth.selectors';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     AsyncPipe,
-    ReactiveFormsModule, 
     RouterLink,
+    CardModule,
     ButtonModule, 
+    MessageModule,
+    PasswordModule,
     InputTextModule, 
-    PasswordModule
+    ReactiveFormsModule, 
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -36,6 +41,16 @@ export class LoginComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
+
+  constructor() {
+    this.loading$.subscribe(loading => {
+      if (loading) {
+        this.form.disable();
+      } else {
+        this.form.enable();
+      }
+    });
+  }
 
   submit(): void {
     if (this.form.invalid) return;

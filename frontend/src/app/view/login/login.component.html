@@ -1,38 +1,71 @@
-@let error = (error$ | async);
-@let loading = (loading$ | async);
+@let error = error$ | async;
+@let loading = loading$ | async;
 
-<div class="min-h-screen flex items-center justify-center bg-surface-100">
-  <form
-    [formGroup]="form"
-    (ngSubmit)="submit()"
-    class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg space-y-6"
-  >
-    <h1 class="text-2xl font-semibold text-center">Logowanie</h1>
-
-    <div class="space-y-2">
-      <input pInputText type="email" placeholder="Email" formControlName="email" class="w-full" />
-    </div>
-
-    <div class="space-y-2">
-      <p-password
-        formControlName="password"
-        placeholder="Hasło"
-        [feedback]="false"
-        class="w-full"
-      ></p-password>
-    </div>
-
-    <p-button label="Zaloguj się" type="submit" [loading]="loading" class="w-full"></p-button>
-
-    @if (error) {
-      <div class="p-error text-center mb-3">
-        {{ error }}
+<div class="min-h-screen flex items-center justify-center bg-surface-100 p-4">
+  <p-card class="w-full max-w-md">
+    <ng-template pTemplate="header">
+      <div class="text-center pt-6">
+        <h1 class="text-2xl font-semibold text-surface-900">Logowanie</h1>
+        <p class="text-surface-600 text-sm mt-2">Witaj ponownie! Zaloguj się do swojego konta</p>
       </div>
-    }
+    </ng-template>
 
-    <p class="text-center text-sm">
-      Nie masz konta?
-      <a routerLink="/register" class="text-primary font-medium"> Zarejestruj się </a>
-    </p>
-  </form>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+      <div class="flex flex-col gap-2">
+        <label for="email" class="font-medium text-surface-700">Email</label>
+        <input
+          pInputText
+          id="email"
+          type="email"
+          placeholder="twoj@email.com"
+          formControlName="email"
+          class="w-full"
+        />
+        @if (form.controls.email.invalid && form.controls.email.touched) {
+          <small class="text-red-500">Podaj prawidłowy adres email</small>
+        }
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="password" class="font-medium text-surface-700">Hasło</label>
+        <p-password
+          formControlName="password"
+          placeholder="Wprowadź hasło"
+          [feedback]="false"
+          [toggleMask]="true"
+          inputStyleClass="w-full"
+        />
+        @if (form.controls.password.invalid && form.controls.password.touched) {
+          <small class="text-red-500">Hasło jest wymagane</small>
+        }
+      </div>
+
+      @if (error) {
+        <p-message severity="error" [text]="error" styleClass="w-full" />
+      }
+
+      <p-button
+        label="Zaloguj się"
+        type="submit"
+        [loading]="loading ?? false"
+        [disabled]="form.invalid"
+        styleClass="w-full"
+        icon="pi pi-sign-in"
+      />
+    </form>
+
+    <ng-template pTemplate="footer">
+      <div class="text-center border-t pt-4">
+        <p class="text-sm text-surface-600">
+          Nie masz konta?
+          <a
+            routerLink="/register"
+            class="text-primary-500 font-medium hover:text-primary-600 transition-colors"
+          >
+            Zarejestruj się
+          </a>
+        </p>
+      </div>
+    </ng-template>
+  </p-card>
 </div>
