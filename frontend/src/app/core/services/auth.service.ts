@@ -2,9 +2,13 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { User, RegisterRequest, AuthResponse, LoginRequest } from '../models';
-import { Observable, tap } from 'rxjs/dist/types';
+import { Observable, tap } from 'rxjs';
 
+import { User, RegisterRequest, AuthResponse, LoginRequest } from '../models';
+
+@Injectable({
+  providedIn: 'root'
+})
 
 export class AuthService {
   private apiUrl = 'http://localhost:3000/auth';
