@@ -1,7 +1,7 @@
 import { definePreset } from '@primeuix/themes';
-import Aura from '@primeuix/themes/aura';
+import Lara from '@primeuix/themes/lara';
 
-export const MyBlueTheme = definePreset(Aura, {
+export const MyBlueTheme = definePreset(Lara, {
   semantic: {
     primary: {
       50: '{blue.50}',
@@ -21,7 +21,7 @@ export const MyBlueTheme = definePreset(Aura, {
       light: {
         primary: {
           color: '{blue.500}',
-          inverseColor: '#ffffff',
+          contrastColor: '#ffffff',
           hoverColor: '{blue.600}',
           activeColor: '{blue.700}',
         },
@@ -31,36 +31,6 @@ export const MyBlueTheme = definePreset(Aura, {
           color: '{blue.700}',
           focusColor: '{blue.800}',
         },
-
-        surface: {
-          0: '#ffffff',
-          50: '{zinc.50}',
-          100: '{zinc.100}',
-          200: '{zinc.200}',
-          300: '{zinc.300}',
-          400: '{zinc.400}',
-          500: '{zinc.500}',
-          600: '{zinc.600}',
-          700: '{zinc.700}',
-          800: '{zinc.800}',
-          900: '{zinc.900}',
-          950: '{zinc.950}',
-        },
-      },
-      dark: {
-        primary: {
-          color: '{blue.400}',
-          inverseColor: '{blue.950}',
-          hoverColor: '{blue.300}',
-          activeColor: '{blue.200}',
-        },
-        highlight: {
-          background: '{blue.900}',
-          focusBackground: '{blue.800}',
-          color: '{blue.50}',
-          focusColor: '#ffffff',
-        },
-
         surface: {
           0: '#ffffff',
           50: '{slate.50}',
@@ -76,13 +46,34 @@ export const MyBlueTheme = definePreset(Aura, {
           950: '{slate.950}',
         },
       },
-    },
-
-    focusRing: {
-      width: '2px',
-      style: 'solid',
-      color: '{primary.color}',
-      offset: '2px',
+      dark: {
+        primary: {
+          color: '{blue.400}',
+          contrastColor: '{surface.900}',
+          hoverColor: '{blue.300}',
+          activeColor: '{blue.200}',
+        },
+        highlight: {
+          background: 'color-mix(in srgb, {blue.400}, transparent 84%)',
+          focusBackground: 'color-mix(in srgb, {blue.400}, transparent 76%)',
+          color: 'rgba(255,255,255,.87)',
+          focusColor: 'rgba(255,255,255,.87)',
+        },
+        surface: {
+          0: '#ffffff',
+          50: '{zinc.50}',
+          100: '{zinc.100}',
+          200: '{zinc.200}',
+          300: '{zinc.300}',
+          400: '{zinc.400}',
+          500: '{zinc.500}',
+          600: '{zinc.600}',
+          700: '{zinc.700}',
+          800: '{zinc.800}',
+          900: '{zinc.900}',
+          950: '{zinc.950}',
+        },
+      },
     },
   },
 });

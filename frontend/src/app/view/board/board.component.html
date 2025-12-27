@@ -1,0 +1,23 @@
+@let user = (currentUser$ | async);
+
+<div class="min-h-screen bg-surface-50">
+  @if (user) {
+    <app-header [user_]="user" />
+
+    <main class="p-6">
+      <div class="bg-white rounded-xl shadow-sm p-6">
+        <h2 class="text-xl font-semibold mb-4">Twój Team Board</h2>
+        <p class="text-surface-600">
+          Tutaj będzie zawartość dashboardu...
+        </p>
+      </div>
+    </main>
+  } @else {
+    <div class="flex items-center justify-center min-h-screen">
+      <div class="text-center">
+        <i class="pi pi-spin pi-spinner text-4xl text-primary mb-4"></i>
+        <p class="text-surface-600">Ładowanie danych użytkownika...</p>
+      </div>
+    </div>
+  }
+</div>

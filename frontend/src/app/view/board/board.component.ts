@@ -6,15 +6,15 @@ import { ButtonModule } from 'primeng/button';
 
 import { AuthActions } from '../../core/auth/store/auth.actions';
 import { selectCurrentUser } from '../../core/auth/store/auth.selectors';
+import { HeaderComponent } from "../../common/header/header.component";
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [AsyncPipe, ButtonModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+  selector: 'app-board',
+  imports: [AsyncPipe, ButtonModule, HeaderComponent],
+  templateUrl: './board.component.html',
+  styleUrl: './board.component.scss',
 })
-export class DashboardComponent {
+export class BoardComponent {
   private store = inject(Store);
   
   currentUser$ = this.store.select(selectCurrentUser);

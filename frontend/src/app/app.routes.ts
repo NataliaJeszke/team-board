@@ -8,16 +8,17 @@ export const routes: Routes = [
   },
   {
     path: 'register',
-    loadComponent: () => import('./view/register/register.component').then(m => m.RegisterComponent),
+    loadComponent: () =>
+      import('./view/register/register.component').then(m => m.RegisterComponent),
   },
   {
-    path: 'dashboard',
-    loadComponent: () => import('./view/dashboard/dashboard.component').then(m => m.DashboardComponent),
-    canActivate: [authGuard]
+    path: 'board',
+    loadComponent: () => import('./view/board/board.component').then(m => m.BoardComponent),
+    canActivate: [authGuard],
   },
   {
     path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full'
-  }
+    redirectTo: 'board',
+    pathMatch: 'full',
+  },
 ];
