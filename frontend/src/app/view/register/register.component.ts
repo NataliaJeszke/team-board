@@ -1,27 +1,36 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 
-import { AuthService } from '../../core/auth/service/auth.service';
+import { AuthActions } from '../../core/auth/store/auth.actions';
+import { selectAuthLoading, selectAuthError } from '../../core/auth/store/auth.selectors';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, ButtonModule, InputTextModule, PasswordModule],
+  imports: [
+    AsyncPipe,
+    ReactiveFormsModule, 
+    RouterLink,
+    ButtonModule, 
+    InputTextModule, 
+    PasswordModule
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  private router = inject(Router);
   private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
+  private store = inject(Store);
 
-  loading = false;
-  error: string | null = null;
+  loading$ = this.store.select(selectAuthLoading);
+  error$ = this.store.select(selectAuthError);
 
   form = this.fb.nonNullable.group({
     name: ['', Validators.required],
@@ -32,15 +41,8 @@ export class RegisterComponent {
   submit(): void {
     if (this.form.invalid) return;
 
-    this.loading = true;
-    this.error = null;
-
-    this.authService.register(this.form.getRawValue()).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
-      error: err => {
-        this.error = err?.error?.message ?? 'Błąd rejestracji';
-        this.loading = false;
-      },
-    });
+    this.store.dispatch(AuthActions.register({ 
+      data: this.form.getRawValue() 
+    }));
   }
 }

@@ -2,14 +2,19 @@ import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angul
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
-import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
-
-import { providePrimeNG } from 'primeng/config';
-import MyBlueTheme from '../theme';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+
+import { routes } from './app.routes';
+
+import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
+import { AuthEffects } from './core/auth/store/auth.effects';
+import { authReducer } from './core/auth/store/auth.reducer';
+
+import { providePrimeNG } from 'primeng/config';
+
+import MyBlueTheme from '../theme';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,8 +33,8 @@ export const appConfig: ApplicationConfig = {
       ripple: true,
       overlayAppendTo: 'body',
     }),
-    provideStore(),
-    provideEffects(),
+    provideStore({ auth: authReducer }),
+    provideEffects([AuthEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

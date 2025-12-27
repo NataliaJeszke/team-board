@@ -1,18 +1,24 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { switchMap, take } from 'rxjs/operators';
 
-import { AuthService } from '../service/auth.service';
+import { selectToken } from '../store/auth.selectors';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
-  const token = authService.getToken();
+  const store = inject(Store);
 
-  if (token) {
-    const clonedReq = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${token}`),
-    });
-    return next(clonedReq);
-  }
+  return store.select(selectToken).pipe(
+    take(1),
+    switchMap(token => {
+      if (token) {
+        const clonedReq = req.clone({
+          headers: req.headers.set('Authorization', `Bearer ${token}`),
+        });
+        return next(clonedReq);
+      }
 
-  return next(req);
+      return next(req);
+    })
+  );
 };
