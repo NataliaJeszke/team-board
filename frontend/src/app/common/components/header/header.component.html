@@ -25,7 +25,7 @@
 
       <p-menu 
         #menu 
-        [model]="menuItems" 
+        [model]="menuItems()" 
         [popup]="true"
         styleClass="mt-2 min-w-[200px]">
         <ng-template pTemplate="item" let-item>
