@@ -27,6 +27,9 @@ import { LanguageEffects } from '@core/language/store/language.effects';
 
 import MyBlueTheme from '../theme';
 
+import { taskReducer } from '@view/user-tasks/store/tasks/task.reducer';
+import { TaskEffects } from '@view/user-tasks/store/tasks/task.effects';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -57,8 +60,8 @@ export const appConfig: ApplicationConfig = {
       ripple: true,
       overlayAppendTo: 'body',
     }),
-    provideStore({ auth: authReducer, language: languageReducer }),
-    provideEffects([AuthEffects, LanguageEffects]),
+    provideStore({ auth: authReducer, language: languageReducer, tasks: taskReducer }),
+    provideEffects([AuthEffects, LanguageEffects, TaskEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };
