@@ -6,6 +6,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
+import { Language } from '@core/models';
+import { DEFAULT_LANGUAGE } from '@core/constants';
+
 import { setLanguage } from './language.actions';
 
 @Injectable()
@@ -26,7 +29,7 @@ export class LanguageEffects {
     );
   
     initLang$ = createEffect(() => {
-      const savedLang = (localStorage.getItem('lang') as 'pl' | 'en') ?? 'pl';
+      const savedLang = (localStorage.getItem('lang') as Language) ?? DEFAULT_LANGUAGE;
       return of(setLanguage({ lang: savedLang }));
     });
   }

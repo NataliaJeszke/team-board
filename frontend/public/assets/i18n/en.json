@@ -1,0 +1,16 @@
+{
+  "common": {
+    "components": {
+      "header": {
+        "menu": {
+          "language": {
+            "title": "Language",
+            "polish": "Polski",
+            "english": "English"
+        },
+        "logout": "Log out"
+        }
+      }
+    }
+  }
+}
