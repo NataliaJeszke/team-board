@@ -1,10 +1,13 @@
-import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, isDevMode, importProvidersFrom } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { providePrimeNG } from 'primeng/config';
 
@@ -21,6 +24,15 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
+    importProvidersFrom(
+      TranslateModule.forRoot({
+        defaultLanguage: 'pl',
+        loader: {
+          provide: TranslateLoader,
+          useClass: TranslateHttpLoader,
+        },
+      })
+    ),
     providePrimeNG({
       theme: {
         preset: MyBlueTheme,
