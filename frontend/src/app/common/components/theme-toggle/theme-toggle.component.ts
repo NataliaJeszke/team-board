@@ -7,21 +7,19 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 
 import { ThemeService } from '@core/services/theme/theme.service';
+import { toggleSwitchStyles } from './theme-toggle.component.styles';
 
 @Component({
   selector: 'tb-common-theme-toggle',
   imports: [ButtonModule, TooltipModule, ToggleSwitch, FormsModule, CommonModule],
   templateUrl: './theme-toggle.component.html',
-  styleUrl: './theme-toggle.component.styles.scss',
 })
 export class ThemeToggleComponent {
-  private themeService = inject(ThemeService);
+  private readonly themeService = inject(ThemeService);
 
-  get isDarkMode() {
-    return this.themeService.isDarkMode();
-  }
+  readonly toggleSwitchDt = toggleSwitchStyles
 
-  set isDarkMode(value: boolean) {
-    this.themeService.setDarkMode(value);
-  }
+  isDarkMode = () => this.themeService.isDarkMode();
+  
+  toggleTheme = (value: boolean) => this.themeService.setDarkMode(value);
 }

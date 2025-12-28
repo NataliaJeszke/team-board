@@ -1,13 +1,38 @@
+<!-- @let darkMode = isDarkMode();
+
 <div
   class="inline-flex items-center cursor-pointer select-none"
-  [pTooltip]="isDarkMode ? 'Przełącz na tryb jasny' : 'Przełącz na tryb ciemny'"
+  [pTooltip]="darkMode ? 'Przełącz na tryb jasny' : 'Przełącz na tryb ciemny'"
   tooltipPosition="bottom"
 >
-  <p-toggleswitch [(ngModel)]="isDarkMode">
+  <p-toggleswitch 
+    [ngModel]="darkMode" 
+    (ngModelChange)="toggleTheme($event)"
+    class="[&_.p-toggleswitch]:!w-[3.25rem] [&_.p-toggleswitch]:!h-40 [&_.p-toggleswitch-slider]:!rounded-lg [&_.p-toggleswitch-handle]:!w-8 [&_.p-toggleswitch-handle]:!h-8">
     <ng-template pTemplate="handle">
       <i
-        class="pi text-base transition-all duration-300"
-        [ngClass]="isDarkMode ? 'pi-moon text-indigo-400' : 'pi-sun text-amber-400'"
+        class="pi text-lg transition-all duration-300"
+        [ngClass]="darkMode ? 'pi-moon text-indigo-400' : 'pi-sun text-amber-400'"
+      ></i>
+    </ng-template>
+  </p-toggleswitch>
+</div> -->
+
+@let darkMode = isDarkMode();
+
+<div
+  class="inline-flex items-center cursor-pointer select-none"
+  [pTooltip]="darkMode ? 'Przełącz na tryb jasny' : 'Przełącz na tryb ciemny'"
+  tooltipPosition="bottom"
+>
+  <p-toggleswitch 
+    [ngModel]="darkMode" 
+    (ngModelChange)="toggleTheme($event)"
+    [dt]="toggleSwitchDt">
+    <ng-template pTemplate="handle">
+      <i
+        class="pi text-lg transition-all duration-300"
+        [ngClass]="darkMode ? 'pi-moon text-indigo-400' : 'pi-sun text-amber-400'"
       ></i>
     </ng-template>
   </p-toggleswitch>
