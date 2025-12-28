@@ -6,6 +6,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
+import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 
 import { Language, User } from '@core/models';
@@ -14,10 +15,11 @@ import { setLanguage } from '@core/language/store/language.actions';
 import { selectCurrentLanguage } from '@core/language/store/language.selectors';
 
 import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'tb-header',
-  imports: [ButtonModule, MenuModule, ThemeToggleComponent, TranslateModule],
+  imports: [ButtonModule, MenuModule, ThemeToggleComponent, TranslateModule, CommonModule, BadgeModule],
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
@@ -44,31 +46,36 @@ export class HeaderComponent {
         items: [
           {
             label: this.translate.instant('common.components.header.menu.language.polish'),
-            badge: currentLang === LANGUAGES.PL ? '✓' : '',
+            icon: 'pi pi-globe',
+            badge: currentLang === LANGUAGES.PL ? '✓' : undefined,
             command: () => this.changeLanguage(LANGUAGES.PL),
           },
           {
             label: this.translate.instant('common.components.header.menu.language.english'),
-            badge: currentLang === LANGUAGES.EN ? '✓' : '',
+            icon: 'pi pi-globe',
+            badge: currentLang === LANGUAGES.EN ? '✓' : undefined,
             command: () => this.changeLanguage(LANGUAGES.EN),
           },
         ],
       },
       {
-        separator: true,
-      },
-      {
-        label: this.translate.instant('common.components.header.menu.logout'),
-        command: () => this.logout(),
+        label: this.translate.instant('common.components.header.menu.account'),
+        items: [
+          {
+            label: this.translate.instant('common.components.header.menu.logout'),
+            icon: 'pi pi-sign-out',
+            command: () => this.logout(),
+          },
+        ],
       },
     ];
   });
 
-  changeLanguage(lang: Language) {
+  private changeLanguage(lang: Language) {
     this.languageStore.dispatch(setLanguage({ lang }));
   }
 
-  logout(): void {
+  private logout(): void {
     console.log('Wylogowanie...');
     this.router.navigate(['/login']);
   }
