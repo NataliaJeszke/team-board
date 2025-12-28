@@ -32,10 +32,10 @@ import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.select
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
-  private store = inject(Store);
+  private authStore = inject(Store);
 
-  loading$ = this.store.select(selectAuthLoading);
-  error$ = this.store.select(selectAuthError);
+  error$ = this.authStore.select(selectAuthError);
+  loading$ = this.authStore.select(selectAuthLoading);
 
   form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -55,7 +55,7 @@ export class LoginComponent {
   submit(): void {
     if (this.form.invalid) return;
 
-    this.store.dispatch(AuthActions.login({ 
+    this.authStore.dispatch(AuthActions.login({ 
       credentials: this.form.getRawValue() 
     }));
   }

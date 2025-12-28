@@ -1,9 +1,9 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
+import { MenuModule } from 'primeng/menu';
+import { ButtonModule } from 'primeng/button';
 
 import { User } from '@core/models';
 
