@@ -1,5 +1,6 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Store } from '@ngrx/store';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
@@ -19,27 +20,37 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'tb-header',
-  imports: [ButtonModule, MenuModule, ThemeToggleComponent, TranslateModule, CommonModule, BadgeModule],
+  imports: [
+    ButtonModule,
+    MenuModule,
+    ThemeToggleComponent,
+    TranslateModule,
+    CommonModule,
+    BadgeModule,
+  ],
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
-  private router = inject(Router);
-  private languageStore = inject(Store);
-  private translate = inject(TranslateService);
+  private readonly router = inject(Router);
+  private readonly languageStore = inject(Store);
+  private readonly translate = inject(TranslateService);
 
-  user_ = input<User>();
+  readonly user_ = input<User>();
 
-  currentLanguage = signal<Language>(DEFAULT_LANGUAGE);
+  readonly currentLanguage = signal<Language>(DEFAULT_LANGUAGE);
+
+  readonly menuItems = computed<MenuItem[]>(() => this.buildMenuItems(this.currentLanguage()));
 
   constructor() {
-    this.languageStore.select(selectCurrentLanguage).subscribe(lang => {
-      this.currentLanguage.set(lang);
-    });
+    this.languageStore
+      .select(selectCurrentLanguage)
+      .pipe(takeUntilDestroyed())
+      .subscribe(lang => {
+        this.currentLanguage.set(lang);
+      });
   }
 
-  menuItems = computed<MenuItem[]>(() => {
-    const currentLang = this.currentLanguage();
-
+  private buildMenuItems(currentLang: Language): MenuItem[] {
     return [
       {
         label: this.translate.instant('common.components.header.menu.language.title'),
@@ -69,14 +80,19 @@ export class HeaderComponent {
         ],
       },
     ];
-  });
+  }
 
   private changeLanguage(lang: Language) {
     this.languageStore.dispatch(setLanguage({ lang }));
   }
 
   private logout(): void {
-    console.log('Wylogowanie...');
+    this.cleanupOverlays();
     this.router.navigate(['/login']);
+  }
+
+  private cleanupOverlays(): void {
+    const overlays = document.querySelectorAll('.p-menu-overlay');
+    overlays.forEach(overlay => overlay.remove());
   }
 }
