@@ -9,11 +9,11 @@ import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 
 import { Language, User } from '@core/models';
+import { DEFAULT_LANGUAGE, LANGUAGES } from '@core/constants';
 import { setLanguage } from '@core/language/store/language.actions';
 import { selectCurrentLanguage } from '@core/language/store/language.selectors';
 
 import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
-import { DEFAULT_LANGUAGE, LANGUAGES } from '@core/constants';
 
 @Component({
   selector: 'tb-header',
@@ -41,7 +41,6 @@ export class HeaderComponent {
     return [
       {
         label: this.translate.instant('common.components.header.menu.language.title'),
-        icon: 'pi pi-globe',
         items: [
           {
             label: this.translate.instant('common.components.header.menu.language.polish'),
@@ -60,9 +59,7 @@ export class HeaderComponent {
       },
       {
         label: this.translate.instant('common.components.header.menu.logout'),
-        icon: 'pi pi-sign-out',
         command: () => this.logout(),
-        styleClass: 'text-red-500',
       },
     ];
   });
