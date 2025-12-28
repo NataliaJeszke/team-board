@@ -20,10 +20,10 @@ import { routes } from './app.routes';
 
 import { authInterceptor } from '@core/api/interceptors/auth/auth.interceptor';
 
-import { AuthEffects } from '@core/features/auth/store/auth.effects';
-import { authReducer } from '@core/features/auth/store/auth.reducer';
-import { languageReducer } from '@core/features/language/store/language.reducer';
-import { LanguageEffects } from '@core/features/language/store/language.effects';
+import { AuthEffects } from '@core/auth/store/auth.effects';
+import { authReducer } from '@core/auth/store/auth.reducer';
+import { languageReducer } from '@core/language/store/language.reducer';
+import { LanguageEffects } from '@core/language/store/language.effects';
 
 import MyBlueTheme from '../theme';
 

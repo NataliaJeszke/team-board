@@ -13,8 +13,8 @@ import { ButtonModule } from 'primeng/button';
 
 import { Language, User } from '@core/models';
 import { DEFAULT_LANGUAGE, LANGUAGES } from '@core/constants';
-import { setLanguage } from '@core/features/language/store/language.actions';
-import { selectCurrentLanguage } from '@core/features/language/store/language.selectors';
+import { setLanguage } from '@core/language/store/language.actions';
+import { selectCurrentLanguage } from '@core/language/store/language.selectors';
 
 import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
 

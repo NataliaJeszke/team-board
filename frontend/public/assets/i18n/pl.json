@@ -2,6 +2,7 @@
   "common": {
     "components": {
       "header": {
+        "board": "Tablica",
         "menu": {
           "language": {
             "title": "Język",

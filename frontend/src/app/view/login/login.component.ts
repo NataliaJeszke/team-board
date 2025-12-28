@@ -11,8 +11,8 @@ import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { AuthActions } from '@core/features/auth/store/auth.actions';
-import { selectAuthLoading, selectAuthError } from '@core/features/auth/store/auth.selectors';
+import { AuthActions } from '@core/auth/store/auth.actions';
+import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.selectors';
 
 @Component({
   selector: 'tb-login',
