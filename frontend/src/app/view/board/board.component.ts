@@ -10,7 +10,7 @@ import { selectCurrentUser } from '@core/auth/store/auth.selectors';
 import { HeaderComponent } from '@common/components/header/header.component';
 
 @Component({
-  selector: 'app-board',
+  selector: 'tb-board',
   imports: [AsyncPipe, ButtonModule, HeaderComponent],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',

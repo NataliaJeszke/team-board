@@ -9,7 +9,7 @@ import { ToggleSwitch } from 'primeng/toggleswitch';
 import { ThemeService } from '@core/services/theme/theme.service';
 
 @Component({
-  selector: 'app-common-theme-toggle',
+  selector: 'tb-common-theme-toggle',
   imports: [ButtonModule, TooltipModule, ToggleSwitch, FormsModule, CommonModule],
   templateUrl: './theme-toggle.component.html',
   styleUrl: './theme-toggle.component.styles.scss',

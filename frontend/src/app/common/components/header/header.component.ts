@@ -11,7 +11,7 @@ import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-togg
 
 
 @Component({
-  selector: 'app-header',
+  selector: 'tb-header',
   imports: [ButtonModule, MenuModule, ThemeToggleComponent],
   templateUrl: './header.component.html',
 })

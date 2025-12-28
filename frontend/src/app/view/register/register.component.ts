@@ -14,8 +14,7 @@ import { AuthActions } from '@core/auth/store/auth.actions';
 import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.selectors';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
+  selector: 'tb-register',
   imports: [
     Card,
     AsyncPipe,

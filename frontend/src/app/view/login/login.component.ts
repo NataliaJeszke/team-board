@@ -15,7 +15,7 @@ import { AuthActions } from '@core/auth/store/auth.actions';
 import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.selectors';
 
 @Component({
-  selector: 'app-login',
+  selector: 'tb-login',
   standalone: true,
   imports: [
     AsyncPipe,
