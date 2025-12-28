@@ -1,18 +1,18 @@
-import { Component, inject, effect } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card'; 
+import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
+import { PasswordModule } from 'primeng/password';
+import { InputTextModule } from 'primeng/inputtext';
 
-import { AuthActions } from '../../core/auth/store/auth.actions';
-import { selectAuthLoading, selectAuthError } from '../../core/auth/store/auth.selectors';
+import { AuthActions } from '@core/auth/store/auth.actions';
+import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-login',

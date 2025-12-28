@@ -1,8 +1,8 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { AuthResponse } from '../../api/models/auth/auth.model';
+import { AuthResponse } from '@core/api/models/auth/auth.model';
 
-import { LoginRequest, RegisterRequest } from '../../models';
+import { LoginRequest, RegisterRequest } from '@core/models';
 
 export const AuthActions = createActionGroup({
   source: 'Auth',

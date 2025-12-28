@@ -1,28 +1,29 @@
 import { Component, inject } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+
 import { Store } from '@ngrx/store';
 
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
-
-import { AuthActions } from '../../core/auth/store/auth.actions';
-import { selectAuthLoading, selectAuthError } from '../../core/auth/store/auth.selectors';
-import { AsyncPipe } from '@angular/common';
 import { Card } from "primeng/card";
+import { ButtonModule } from 'primeng/button';
+import { PasswordModule } from 'primeng/password';
+import { InputTextModule } from 'primeng/inputtext';
+
+import { AuthActions } from '@core/auth/store/auth.actions';
+import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
+    Card,
     AsyncPipe,
-    ReactiveFormsModule,
     RouterLink,
     ButtonModule,
-    InputTextModule,
     PasswordModule,
-    Card
+    InputTextModule,
+    ReactiveFormsModule,
 ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',

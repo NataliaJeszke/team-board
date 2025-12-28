@@ -6,13 +6,13 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
+import { providePrimeNG } from 'primeng/config';
+
 import { routes } from './app.routes';
 
-import { authInterceptor } from './core/api/interceptors/auth/auth.interceptor';
-import { AuthEffects } from './core/auth/store/auth.effects';
-import { authReducer } from './core/auth/store/auth.reducer';
-
-import { providePrimeNG } from 'primeng/config';
+import { AuthEffects } from '@core/auth/store/auth.effects';
+import { authReducer } from '@core/auth/store/auth.reducer';
+import { authInterceptor } from '@core/api/interceptors/auth/auth.interceptor';
 
 import MyBlueTheme from '../theme';
 

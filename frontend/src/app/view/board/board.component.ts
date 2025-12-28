@@ -4,9 +4,10 @@ import { AsyncPipe } from '@angular/common';
 
 import { ButtonModule } from 'primeng/button';
 
-import { AuthActions } from '../../core/auth/store/auth.actions';
-import { selectCurrentUser } from '../../core/auth/store/auth.selectors';
-import { HeaderComponent } from "../../common/header/header.component";
+import { AuthActions } from '@core/auth/store/auth.actions';
+import { selectCurrentUser } from '@core/auth/store/auth.selectors';
+
+import { HeaderComponent } from '@common/components/header/header.component';
 
 @Component({
   selector: 'app-board',
@@ -16,7 +17,7 @@ import { HeaderComponent } from "../../common/header/header.component";
 })
 export class BoardComponent {
   private store = inject(Store);
-  
+
   currentUser$ = this.store.select(selectCurrentUser);
 
   logout(): void {

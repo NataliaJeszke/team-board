@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 
-import { ThemeService } from '../../core/services/theme/theme.service';
+import { ThemeService } from '@core/services/theme/theme.service';
 
 @Component({
   selector: 'app-common-theme-toggle',

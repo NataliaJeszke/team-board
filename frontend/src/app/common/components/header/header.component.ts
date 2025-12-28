@@ -5,9 +5,10 @@ import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 
-import { User } from '../../core/models';
+import { User } from '@core/models';
 
-import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
+import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
+
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,7 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 })
 export class HeaderComponent {
   private router = inject(Router);
-  
+
   user_ = input<User>();
   currentLanguage = signal<'PL' | 'EN'>('PL');
 
@@ -29,25 +30,25 @@ export class HeaderComponent {
           label: 'Polski',
           icon: 'pi pi-check',
           badge: this.currentLanguage() === 'PL' ? '✓' : '',
-          command: () => this.changeLanguage('PL')
+          command: () => this.changeLanguage('PL'),
         },
         {
           label: 'English',
           icon: 'pi pi-check',
           badge: this.currentLanguage() === 'EN' ? '✓' : '',
-          command: () => this.changeLanguage('EN')
-        }
-      ]
+          command: () => this.changeLanguage('EN'),
+        },
+      ],
     },
     {
-      separator: true
+      separator: true,
     },
     {
       label: 'Wyloguj',
       icon: 'pi pi-sign-out',
       command: () => this.logout(),
-      styleClass: 'text-red-500'
-    }
+      styleClass: 'text-red-500',
+    },
   ];
 
   changeLanguage(lang: 'PL' | 'EN'): void {
