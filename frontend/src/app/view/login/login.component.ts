@@ -5,14 +5,14 @@ import { RouterLink } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import { CardModule } from 'primeng/card'; 
+import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { AuthActions } from '@core/auth/store/auth.actions';
-import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.selectors';
+import { AuthActions } from '@core/features/auth/store/auth.actions';
+import { selectAuthLoading, selectAuthError } from '@core/features/auth/store/auth.selectors';
 
 @Component({
   selector: 'tb-login',
@@ -21,11 +21,11 @@ import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.select
     AsyncPipe,
     RouterLink,
     CardModule,
-    ButtonModule, 
+    ButtonModule,
     MessageModule,
     PasswordModule,
-    InputTextModule, 
-    ReactiveFormsModule, 
+    InputTextModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -55,8 +55,10 @@ export class LoginComponent {
   submit(): void {
     if (this.form.invalid) return;
 
-    this.authStore.dispatch(AuthActions.login({ 
-      credentials: this.form.getRawValue() 
-    }));
+    this.authStore.dispatch(
+      AuthActions.login({
+        credentials: this.form.getRawValue(),
+      })
+    );
   }
 }

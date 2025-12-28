@@ -5,13 +5,13 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 
-import { Card } from "primeng/card";
+import { Card } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { AuthActions } from '@core/auth/store/auth.actions';
-import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.selectors';
+import { AuthActions } from '@core/features/auth/store/auth.actions';
+import { selectAuthLoading, selectAuthError } from '@core/features/auth/store/auth.selectors';
 
 @Component({
   selector: 'tb-register',
@@ -23,7 +23,7 @@ import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.select
     PasswordModule,
     InputTextModule,
     ReactiveFormsModule,
-],
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
@@ -43,8 +43,10 @@ export class RegisterComponent {
   submit(): void {
     if (this.form.invalid) return;
 
-    this.store.dispatch(AuthActions.register({ 
-      data: this.form.getRawValue() 
-    }));
+    this.store.dispatch(
+      AuthActions.register({
+        data: this.form.getRawValue(),
+      })
+    );
   }
 }

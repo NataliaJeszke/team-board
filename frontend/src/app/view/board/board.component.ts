@@ -4,8 +4,8 @@ import { AsyncPipe } from '@angular/common';
 
 import { ButtonModule } from 'primeng/button';
 
-import { AuthActions } from '@core/auth/store/auth.actions';
-import { selectCurrentUser } from '@core/auth/store/auth.selectors';
+import { AuthActions } from '@core/features/auth/store/auth.actions';
+import { selectCurrentUser } from '@core/features/auth/store/auth.selectors';
 
 import { HeaderComponent } from '@common/components/header/header.component';
 
