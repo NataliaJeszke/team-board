@@ -1,9 +1,7 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { Store } from '@ngrx/store';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 import { MenuItem } from 'primeng/api';
@@ -13,10 +11,8 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 
 import { Language, User } from '@core/models';
-
-import { setLanguage } from '@core/language/store/language.actions';
-import { selectCurrentLanguage } from '@core/language/store/language.selectors';
-import { DEFAULT_LANGUAGE, LANGUAGES } from '@core/language/constants/language.constants';
+import { LanguageFacade } from '@core/language/language.facade';
+import { LANGUAGES } from '@core/language/constants/language.constants';
 
 import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
 
@@ -36,26 +32,17 @@ import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-togg
 })
 export class HeaderComponent {
   private readonly router = inject(Router);
-  private readonly languageStore = inject(Store);
   private readonly translate = inject(TranslateService);
+  private readonly languageFacade = inject(LanguageFacade);
 
   readonly user_ = input<User>();
   readonly taskCount_ = input<number>(0);
 
-  readonly currentLanguage = signal<Language>(DEFAULT_LANGUAGE);
+  readonly currentLanguage = this.languageFacade.currentLanguage;
 
   readonly userMenuItems = computed<MenuItem[]>(() =>
     this.buildUserMenuItems(this.currentLanguage())
   );
-
-  constructor() {
-    this.languageStore
-      .select(selectCurrentLanguage)
-      .pipe(takeUntilDestroyed())
-      .subscribe(lang => {
-        this.currentLanguage.set(lang);
-      });
-  }
 
   getInitials(user?: User): string {
     if (!user?.name) return '??';
@@ -90,9 +77,7 @@ export class HeaderComponent {
           },
         ],
       },
-      {
-        separator: true,
-      },
+      { separator: true },
       {
         label: this.translate.instant('common.components.header.menu.logout'),
         icon: 'pi pi-sign-out',
@@ -102,7 +87,7 @@ export class HeaderComponent {
   }
 
   private changeLanguage(lang: Language): void {
-    this.languageStore.dispatch(setLanguage({ lang }));
+    this.languageFacade.setLanguage(lang);
     this.cleanupOverlays();
   }
 
@@ -112,7 +97,8 @@ export class HeaderComponent {
   }
 
   private cleanupOverlays(): void {
-    const overlays = document.querySelectorAll('.p-menu-overlay, .p-component-overlay');
-    overlays.forEach(overlay => overlay.remove());
+    document
+      .querySelectorAll('.p-menu-overlay, .p-component-overlay')
+      .forEach(overlay => overlay.remove());
   }
 }
