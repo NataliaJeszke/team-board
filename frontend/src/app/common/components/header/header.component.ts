@@ -12,9 +12,10 @@ import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 
 import { Language, User } from '@core/models';
-import { DEFAULT_LANGUAGE, LANGUAGES } from '@core/constants';
+
 import { setLanguage } from '@core/language/store/language.actions';
 import { selectCurrentLanguage } from '@core/language/store/language.selectors';
+import { DEFAULT_LANGUAGE, LANGUAGES } from '@core/language/constants/language.constants';
 
 import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
 

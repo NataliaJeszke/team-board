@@ -1,5 +1,5 @@
 import { Language } from "@core/models";
-import { DEFAULT_LANGUAGE } from "@core/constants";
+import { DEFAULT_LANGUAGE } from "@core/language/constants/language.constants";
 
 export interface LanguageState {
     lang: Language;

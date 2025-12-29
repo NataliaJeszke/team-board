@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { Language } from '@core/models';
-import { DEFAULT_LANGUAGE } from '@core/constants';
+import { DEFAULT_LANGUAGE } from '@core/language/constants/language.constants';
 
 import { setLanguage } from './language.actions';
 
