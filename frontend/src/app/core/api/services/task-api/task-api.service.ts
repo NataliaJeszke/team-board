@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { CreateTaskDto, TaskListResponse, TaskResponse } from '@core/api/models/task/task.model';
 
@@ -12,9 +12,17 @@ export class TaskApiService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:3000/tasks';
 
-  getTasks(): Observable<TaskListResponse> {
-    return this.http.get<TaskListResponse>(this.apiUrl);
-  }
+  // getTasks(): Observable<TaskListResponse> {
+  //   return this.http.get<TaskListResponse>(this.apiUrl);
+  // }
+
+getTasks(): Observable<TaskListResponse> {
+  return this.http.get<TaskListResponse>(this.apiUrl).pipe(
+    tap(response => {
+      console.log('📦 Response z backendu:', response);
+    })
+  );
+}
 
   getTaskById(id: number): Observable<TaskResponse> {
     return this.http.get<TaskResponse>(`${this.apiUrl}/${id}`);

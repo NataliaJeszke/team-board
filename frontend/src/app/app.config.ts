@@ -25,8 +25,8 @@ import { authReducer } from '@core/auth/store/auth.reducer';
 import { languageReducer } from '@core/language/store/language.reducer';
 import { LanguageEffects } from '@core/language/store/language.effects';
 
-import { taskReducer } from '@feature/tasks/store/tasks/task.reducer';
-import { TaskEffects } from '@feature/tasks/store/tasks/task.effects';
+import { TasksEffects } from '@feature/tasks/store/tasks/tasks.effects';
+import { tasksReducer } from '@feature/tasks/store/tasks/tasks.reducer';
 
 import MyBlueTheme from '../theme';
 
@@ -60,8 +60,8 @@ export const appConfig: ApplicationConfig = {
       ripple: true,
       overlayAppendTo: 'body',
     }),
-    provideStore({ auth: authReducer, language: languageReducer, tasks: taskReducer }),
-    provideEffects([AuthEffects, LanguageEffects, TaskEffects]),
+    provideStore({ auth: authReducer, language: languageReducer, tasks: tasksReducer }),
+    provideEffects([AuthEffects, LanguageEffects, TasksEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

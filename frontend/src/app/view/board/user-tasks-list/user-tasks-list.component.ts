@@ -1,23 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
 
-import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
 
-import { CreateTaskDto } from '@core/api/models/task/task.model';
-
-import {
-  selectAllTasks,
-  selectTasksLoading,
-} from '@feature/tasks/store/tasks/task.selectors';
-import { TaskActions } from '@feature/tasks/store/tasks/task.actions';
 import { Task, TaskStatus } from '@feature/tasks/task.model';
+import { TasksFacade } from '@feature/tasks/task.facade';
 
 import { TaskComponent } from '@common/components/task/task.component';
+import { AuthFacade } from '@core/auth/auth.facade';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'tb-user-tasks',
@@ -25,41 +20,37 @@ import { TaskComponent } from '@common/components/task/task.component';
   imports: [CommonModule, ButtonModule, MenuModule, BadgeModule, TranslateModule, TaskComponent],
   templateUrl: './user-tasks-list.component.html',
 })
-export class UserTasksComponent {
-  private taskStore = inject(Store);
+export class UserTasksComponent implements OnInit {
+  protected readonly tasksFacade = inject(TasksFacade);
+  protected readonly authFacade = inject (AuthFacade);
 
-  readonly tasks$ = this.taskStore.select(selectAllTasks);
-  readonly loading$ = this.taskStore.select(selectTasksLoading);
-
-  readonly currentUserId = 1;
+  private readonly user = toSignal(this.authFacade.user$);
+  
+  protected readonly currentUserId = computed<number | null>(() => {
+    const user = this.user();
+    return user ? user.id : null;
+  });
 
   constructor() {
-    this.taskStore.dispatch(TaskActions.loadTasks());
+    effect(() => {
+      console.log('📦 Tasks from facade:', this.tasksFacade.tasks$());
+    });
   }
 
-  onCreateTask(taskData: CreateTaskDto) {
-    this.taskStore.dispatch(TaskActions.createTask({ task: taskData }));
+  ngOnInit(): void {
+    this.tasksFacade.loadTasks();
   }
 
-  onStatusChange(event: { task: Task; newStatus: TaskStatus }) {
-    this.taskStore.dispatch(
-      TaskActions.updateTask({
-        id: event.task.id,
-        task: {
-          status: event.newStatus,
-          title: '',
-          assignedToId: 0,
-          priority: 'low',
-        },
-      })
-    );
+  onEdit(task: Task): void {
+    // TODO: Open edit dialog
+    console.log('Edit task:', task);
   }
 
-  onDeleteTask(task: Task) {
-    this.taskStore.dispatch(TaskActions.deleteTask({ id: task.id }));
+  onDelete(task: Task): void {
+    this.tasksFacade.deleteTask(task.id);
   }
 
-  onEditTask(task: Task) {
-    console.log('edit', task);
+  onStatusChange(event: { task: Task; newStatus: TaskStatus }): void {
+    this.tasksFacade.changeTaskStatus(event.task.id, event.newStatus);
   }
 }

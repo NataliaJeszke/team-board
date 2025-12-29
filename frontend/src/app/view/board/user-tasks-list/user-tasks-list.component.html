@@ -1,28 +1,29 @@
-@let tasks = (tasks$ | async);
-@let loading = (loading$ | async);
+@let userId = currentUserId();
 
-@if (loading) {
-  <div class="flex justify-center py-8 text-muted">
-    Ładowanie...
-  </div>
-}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  @if (tasksFacade.loading$()) {
+    <p>Ładowanie...</p>
+  }
 
-@else if (tasks?.length) {
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    @for (task of tasks; track task.id) {
-      <tb-task
-        [task]="task"
-        [currentUserId]="currentUserId"
-        (edit)="onEditTask($event)"
-        (delete)="onDeleteTask($event)"
-        (statusChange)="onStatusChange($event)"
-      />
-    }
-  </div>
-}
+  @if (tasksFacade.error$()) {
+    <p class="text-red-500">{{ tasksFacade.error$() }}</p>
+  }
 
-@else {
-  <div class="text-center text-muted py-8">
-    Brak tasków 🎉
-  </div>
-}
+  @if (tasksFacade.warning$()) {
+    <p class="text-yellow-500">{{ tasksFacade.warning$() }}</p>
+  }
+
+  @if (userId !== null) {
+    <div class="task-grid">
+      @for (task of tasksFacade.tasks$(); track task.id) {
+        <tb-task
+          [task]="task"
+          [currentUserId]="userId"
+          (edit)="onEdit($event)"
+          (delete)="onDelete($event)"
+          (statusChange)="onStatusChange($event)"
+        />
+      }
+    </div>
+  }
+</div>
