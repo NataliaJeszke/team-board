@@ -10,6 +10,7 @@ import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { Language, User } from '@core/models';
 
@@ -28,8 +29,10 @@ import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-togg
     TranslateModule,
     CommonModule,
     BadgeModule,
+    TooltipModule,
   ],
   templateUrl: './header.component.html',
+  styleUrls: ['./header.component.style.scss'],
 })
 export class HeaderComponent {
   private readonly router = inject(Router);
@@ -37,10 +40,13 @@ export class HeaderComponent {
   private readonly translate = inject(TranslateService);
 
   readonly user_ = input<User>();
+  readonly taskCount_ = input<number>(0);
 
   readonly currentLanguage = signal<Language>(DEFAULT_LANGUAGE);
 
-  readonly menuItems = computed<MenuItem[]>(() => this.buildMenuItems(this.currentLanguage()));
+  readonly userMenuItems = computed<MenuItem[]>(() =>
+    this.buildUserMenuItems(this.currentLanguage())
+  );
 
   constructor() {
     this.languageStore
@@ -51,40 +57,53 @@ export class HeaderComponent {
       });
   }
 
-  private buildMenuItems(currentLang: Language): MenuItem[] {
+  getInitials(user?: User): string {
+    if (!user?.name) return '??';
+
+    const names = user.name.trim().split(' ');
+    if (names.length === 1) {
+      return names[0].substring(0, 2).toUpperCase();
+    }
+
+    return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+  }
+
+  onTasksClick(): void {
+    this.router.navigate(['/tasks']);
+  }
+
+  private buildUserMenuItems(currentLang: Language): MenuItem[] {
     return [
       {
         label: this.translate.instant('common.components.header.menu.language.title'),
+        icon: 'pi pi-globe',
         items: [
           {
             label: this.translate.instant('common.components.header.menu.language.polish'),
-            icon: 'pi pi-globe',
-            badge: currentLang === LANGUAGES.PL ? '✓' : undefined,
+            icon: currentLang === LANGUAGES.PL ? 'pi pi-check' : undefined,
             command: () => this.changeLanguage(LANGUAGES.PL),
           },
           {
             label: this.translate.instant('common.components.header.menu.language.english'),
-            icon: 'pi pi-globe',
-            badge: currentLang === LANGUAGES.EN ? '✓' : undefined,
+            icon: currentLang === LANGUAGES.EN ? 'pi pi-check' : undefined,
             command: () => this.changeLanguage(LANGUAGES.EN),
           },
         ],
       },
       {
-        label: this.translate.instant('common.components.header.menu.account'),
-        items: [
-          {
-            label: this.translate.instant('common.components.header.menu.logout'),
-            icon: 'pi pi-sign-out',
-            command: () => this.logout(),
-          },
-        ],
+        separator: true,
+      },
+      {
+        label: this.translate.instant('common.components.header.menu.logout'),
+        icon: 'pi pi-sign-out',
+        command: () => this.logout(),
       },
     ];
   }
 
-  private changeLanguage(lang: Language) {
+  private changeLanguage(lang: Language): void {
     this.languageStore.dispatch(setLanguage({ lang }));
+    this.cleanupOverlays();
   }
 
   private logout(): void {
@@ -93,7 +112,7 @@ export class HeaderComponent {
   }
 
   private cleanupOverlays(): void {
-    const overlays = document.querySelectorAll('.p-menu-overlay');
+    const overlays = document.querySelectorAll('.p-menu-overlay, .p-component-overlay');
     overlays.forEach(overlay => overlay.remove());
   }
 }
