@@ -24,7 +24,6 @@ import { AuthFacade } from '@core/auth/auth.facade';
     ReactiveFormsModule,
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);

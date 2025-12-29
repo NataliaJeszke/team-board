@@ -10,8 +10,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { getInitialsFromName } from '@utils/getInitialsFromName.utils';
 
 import { TaskService } from '@feature/tasks/service/task.service';
-import { TaskPriority, TaskStatus, Task } from '@feature/tasks/task.model';
-
+import { TaskPriority, TaskStatus, Task } from '@feature/tasks/tasks.model';
 
 @Component({
   selector: 'tb-task',

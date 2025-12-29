@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { TaskPriority, TaskStatus } from '@feature/tasks/task.model';
+import { TaskPriority, TaskStatus } from '@feature/tasks/tasks.model';
 
 @Injectable()
 export class TaskService {
@@ -48,7 +48,10 @@ export class TaskService {
     return task.createdById === currentUserId;
   }
 
-  canChangeStatus(task: { createdById: number; assignedToId: number }, currentUserId: number): boolean {
+  canChangeStatus(
+    task: { createdById: number; assignedToId: number },
+    currentUserId: number
+  ): boolean {
     return task.createdById === currentUserId || task.assignedToId === currentUserId;
   }
 }

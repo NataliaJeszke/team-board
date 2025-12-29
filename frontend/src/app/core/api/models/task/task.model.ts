@@ -1,4 +1,4 @@
-import { Task, TaskStatus, TaskPriority } from '@feature/tasks/task.model';
+import { Task, TaskStatus, TaskPriority } from '@feature/tasks/tasks.model';
 
 export interface TaskResponse {
   success: boolean;

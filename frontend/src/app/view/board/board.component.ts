@@ -13,7 +13,6 @@ import { UserTasksComponent } from '@view/board/user-tasks-list/user-tasks-list.
   selector: 'tb-board',
   imports: [AsyncPipe, ButtonModule, HeaderComponent, UserTasksComponent],
   templateUrl: './board.component.html',
-  styleUrl: './board.component.scss',
 })
 export class BoardComponent {
   private userStore = inject(Store);

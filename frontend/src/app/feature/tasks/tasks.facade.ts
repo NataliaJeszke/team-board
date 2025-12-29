@@ -12,7 +12,7 @@ import {
   selectTasksByCreator,
   selectTasksByAssignee,
 } from './store/tasks/tasks.selectors';
-import { Task, TaskStatus } from './task.model';
+import { Task, TaskStatus } from './tasks.model';
 
 @Injectable({ providedIn: 'root' })
 export class TasksFacade {

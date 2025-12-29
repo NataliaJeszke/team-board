@@ -2,8 +2,7 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { TaskListResponse } from '@core/api/models/task/task.model';
 
-import { Task, TaskStatus } from '@feature/tasks/task.model';
-
+import { Task, TaskStatus } from '@feature/tasks/tasks.model';
 
 export const TasksActions = createActionGroup({
   source: 'Tasks',

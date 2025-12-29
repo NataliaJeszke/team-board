@@ -7,8 +7,8 @@ import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
 
-import { Task, TaskStatus } from '@feature/tasks/task.model';
-import { TasksFacade } from '@feature/tasks/task.facade';
+import { Task, TaskStatus } from '@feature/tasks/tasks.model';
+import { TasksFacade } from '@feature/tasks/tasks.facade';
 
 import { TaskComponent } from '@common/components/task/task.component';
 import { AuthFacade } from '@core/auth/auth.facade';
@@ -22,10 +22,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class UserTasksComponent implements OnInit {
   protected readonly tasksFacade = inject(TasksFacade);
-  protected readonly authFacade = inject (AuthFacade);
+  protected readonly authFacade = inject(AuthFacade);
 
   private readonly user = toSignal(this.authFacade.user$);
-  
+
   protected readonly currentUserId = computed<number | null>(() => {
     const user = this.user();
     return user ? user.id : null;
