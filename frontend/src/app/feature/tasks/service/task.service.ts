@@ -6,15 +6,6 @@ import { TaskPriority, TaskStatus } from '@feature/tasks/task.model';
 export class TaskService {
   readonly availableStatuses: TaskStatus[] = ['todo', 'in_progress', 'done'];
 
-  getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  }
-
   getPriorityLabel(priority: TaskPriority): string {
     const labels: Record<TaskPriority, string> = {
       low: 'Niski',

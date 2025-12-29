@@ -7,8 +7,11 @@ import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { TooltipModule } from 'primeng/tooltip';
 
-import { TaskPriority, TaskStatus, Task } from '@feature/tasks/task.model';
+import { getInitialsFromName } from '@utils/getInitialsFromName.utils';
+
 import { TaskService } from '@feature/tasks/service/task.service';
+import { TaskPriority, TaskStatus, Task } from '@feature/tasks/task.model';
+
 
 @Component({
   selector: 'tb-task',
@@ -27,12 +30,11 @@ export class TaskComponent {
   statusChange = output<{ task: Task; newStatus: TaskStatus }>();
 
   isCreator = computed(() => this.task().createdById === this.currentUserId());
-
   isAssignee = computed(() => this.task().assignedToId === this.currentUserId());
-
   availableStatuses = computed(() => this.taskService.availableStatuses);
 
-  getInitials = (name: string) => this.taskService.getInitials(name);
+  readonly getInitials = getInitialsFromName;
+
   getPriorityLabel = (priority: TaskPriority) => this.taskService.getPriorityLabel(priority);
   getPrioritySeverity = (priority: TaskPriority) => this.taskService.getPrioritySeverity(priority);
   getStatusLabel = (status: TaskStatus) => this.taskService.getStatusLabel(status);

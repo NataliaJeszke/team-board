@@ -24,7 +24,7 @@
 
         <div class="relative">
           <button class="header__user" (click)="userMenu.toggle($event)" aria-label="User menu">
-            <span>{{ getInitials(user) }}</span>
+            <span> {{ getInitialsFromName(user_()?.name) }}</span>
             <i class="pi pi-chevron-down"></i>
           </button>
 

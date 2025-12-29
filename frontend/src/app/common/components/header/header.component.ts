@@ -10,11 +10,14 @@ import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 
+import { getInitialsFromName } from '@utils/getInitialsFromName.utils';
+
 import { Language, User } from '@core/models';
 import { LanguageFacade } from '@core/language/language.facade';
 import { LANGUAGES } from '@core/language/constants/language.constants';
 
 import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
+
 
 @Component({
   selector: 'tb-header',
@@ -44,16 +47,7 @@ export class HeaderComponent {
     this.buildUserMenuItems(this.currentLanguage())
   );
 
-  getInitials(user?: User): string {
-    if (!user?.name) return '??';
-
-    const names = user.name.trim().split(' ');
-    if (names.length === 1) {
-      return names[0].substring(0, 2).toUpperCase();
-    }
-
-    return (names[0][0] + names[names.length - 1][0]).toUpperCase();
-  }
+  readonly getInitialsFromName = getInitialsFromName;
 
   onTasksClick(): void {
     this.router.navigate(['/tasks']);

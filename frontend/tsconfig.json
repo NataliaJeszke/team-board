@@ -20,7 +20,8 @@
       "@core/*": ["app/core/*"],
       "@view/*": ["app/view/*"],
       "@common/*": ["app/common/*"],
-      "@feature/*": ["app/feature/*"]
+      "@feature/*": ["app/feature/*"],
+      "@utils/*": ["app/utils/*"],
     }
   },
   "angularCompilerOptions": {
