@@ -19,7 +19,8 @@
     "paths": {
       "@core/*": ["app/core/*"],
       "@view/*": ["app/view/*"],
-      "@common/*": ["app/common/*"]
+      "@common/*": ["app/common/*"],
+      "@feature/*": ["app/feature/*"]
     }
   },
   "angularCompilerOptions": {

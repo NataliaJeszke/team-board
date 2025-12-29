@@ -7,33 +7,22 @@ import { TagModule } from 'primeng/tag';
 import { AvatarModule } from 'primeng/avatar';
 import { TooltipModule } from 'primeng/tooltip';
 
-import { Task, TaskPriority, TaskStatus } from '@core/models/task.model';
+import { Task, TaskPriority, TaskStatus } from '@feature/tasks/task.model';
 
 @Component({
   selector: 'tb-task',
-  imports: [
-    CardModule,
-    ButtonModule,
-    TagModule,
-    AvatarModule,
-    TooltipModule,
-    DatePipe
-  ],
+  imports: [CardModule, ButtonModule, TagModule, AvatarModule, TooltipModule, DatePipe],
   templateUrl: './task.component.html',
 })
 export class TaskComponent {
   task = input.required<Task>();
   currentUserId = input.required<number>();
-  
+
   edit = output<Task>();
   delete = output<Task>();
   statusChange = output<{ task: Task; newStatus: TaskStatus }>();
 
-  readonly availableStatuses: TaskStatus[] = [
-    'todo',
-    'in_progress',
-    'done',
-  ];
+  readonly availableStatuses: TaskStatus[] = ['todo', 'in_progress', 'done'];
 
   get isCreator(): boolean {
     return this.task().createdById === this.currentUserId();
@@ -46,7 +35,7 @@ export class TaskComponent {
   getInitials(name: string): string {
     return name
       .split(' ')
-      .map((n) => n[0])
+      .map(n => n[0])
       .join('')
       .toUpperCase()
       .slice(0, 2);

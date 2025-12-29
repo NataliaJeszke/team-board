@@ -1,14 +1,14 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { switchMap, take } from 'rxjs/operators';
 
-import { selectToken } from '@core/auth/store/auth.selectors';
+import { AuthFacade } from '@core/auth/auth.facade';
+
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const store = inject(Store);
+  const authFacade = inject(AuthFacade);
 
-  return store.select(selectToken).pipe(
+  return authFacade.token$.pipe(
     take(1),
     switchMap(token => {
       if (token) {
@@ -17,7 +17,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         });
         return next(clonedReq);
       }
-
       return next(req);
     })
   );

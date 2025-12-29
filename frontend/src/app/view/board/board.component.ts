@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { selectCurrentUser } from '@core/auth/store/auth.selectors';
 
 import { HeaderComponent } from '@common/components/header/header.component';
-import { UserTasksComponent } from "@view/user-tasks/user-tasks.component";
+import { UserTasksComponent } from '@view/board/user-tasks-list/user-tasks-list.component';
 
 @Component({
   selector: 'tb-board',

@@ -1,9 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-
-import { Store } from '@ngrx/store';
 
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -11,8 +9,8 @@ import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { AuthActions } from '@core/auth/store/auth.actions';
-import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.selectors';
+import { LoginRequest } from '@core/models';
+import { AuthFacade } from '@core/auth/auth.facade';
 
 @Component({
   selector: 'tb-login',
@@ -32,10 +30,10 @@ import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.select
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
-  private authStore = inject(Store);
+  private authFacade = inject(AuthFacade);
 
-  error$ = this.authStore.select(selectAuthError);
-  loading$ = this.authStore.select(selectAuthLoading);
+  loading$ = this.authFacade.loading$;
+  error$ = this.authFacade.error$;
 
   form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -55,10 +53,7 @@ export class LoginComponent {
   submit(): void {
     if (this.form.invalid) return;
 
-    this.authStore.dispatch(
-      AuthActions.login({
-        credentials: this.form.getRawValue(),
-      })
-    );
+    const credentials: LoginRequest = this.form.getRawValue();
+    this.authFacade.login(credentials);
   }
 }

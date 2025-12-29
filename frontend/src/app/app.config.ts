@@ -25,10 +25,10 @@ import { authReducer } from '@core/auth/store/auth.reducer';
 import { languageReducer } from '@core/language/store/language.reducer';
 import { LanguageEffects } from '@core/language/store/language.effects';
 
-import MyBlueTheme from '../theme';
+import { taskReducer } from '@feature/tasks/store/tasks/task.reducer';
+import { TaskEffects } from '@feature/tasks/store/tasks/task.effects';
 
-import { taskReducer } from '@view/user-tasks/store/tasks/task.reducer';
-import { TaskEffects } from '@view/user-tasks/store/tasks/task.effects';
+import MyBlueTheme from '../theme';
 
 export const appConfig: ApplicationConfig = {
   providers: [

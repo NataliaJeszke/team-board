@@ -1,22 +1,21 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
-
-import { Card } from 'primeng/card';
+import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { AuthActions } from '@core/auth/store/auth.actions';
-import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.selectors';
+import { RegisterRequest } from '@core/models';
+import { AuthFacade } from '@core/auth/auth.facade';
 
 @Component({
   selector: 'tb-register',
+  standalone: true,
   imports: [
-    Card,
+    CardModule,
     AsyncPipe,
     RouterLink,
     ButtonModule,
@@ -29,10 +28,10 @@ import { selectAuthLoading, selectAuthError } from '@core/auth/store/auth.select
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);
-  private store = inject(Store);
+  private authFacade = inject(AuthFacade);
 
-  loading$ = this.store.select(selectAuthLoading);
-  error$ = this.store.select(selectAuthError);
+  loading$ = this.authFacade.loading$;
+  error$ = this.authFacade.error$;
 
   form = this.fb.nonNullable.group({
     name: ['', Validators.required],
@@ -43,10 +42,7 @@ export class RegisterComponent {
   submit(): void {
     if (this.form.invalid) return;
 
-    this.store.dispatch(
-      AuthActions.register({
-        data: this.form.getRawValue(),
-      })
-    );
+    const data: RegisterRequest = this.form.getRawValue();
+    this.authFacade.register(data);
   }
 }
