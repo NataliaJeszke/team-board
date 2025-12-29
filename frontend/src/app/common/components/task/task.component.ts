@@ -29,9 +29,9 @@ export class TaskComponent {
   delete = output<Task>();
   statusChange = output<{ task: Task; newStatus: TaskStatus }>();
 
-  isCreator = computed(() => this.task().createdById === this.currentUserId());
-  isAssignee = computed(() => this.task().assignedToId === this.currentUserId());
-  availableStatuses = computed(() => this.taskService.availableStatuses);
+  readonly isCreator = computed(() => this.task().createdById === this.currentUserId());
+  readonly isAssignee = computed(() => this.task().assignedToId === this.currentUserId());
+  readonly availableStatuses = computed(() => this.taskService.availableStatuses);
 
   readonly getInitials = getInitialsFromName;
 
