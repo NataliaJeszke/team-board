@@ -60,6 +60,10 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 
   &__tasks-icon {
@@ -152,5 +156,13 @@
         color: var(--surface-400);
       }
     }
+  }
+
+  &__tasks p-button {
+    height: 2.5rem;
+    min-width: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

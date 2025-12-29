@@ -17,6 +17,17 @@
             </span>
           }
         </div>
+
+        <p-button
+          icon="pi pi-plus"
+          outlined
+          severity="secondary"
+          size="small"
+          ariaLabel="Add task"
+          pTooltip="{{ 'common.components.header.addTask' | translate }}"
+          tooltipPosition="bottom"
+          (onClick)="onAddTask()"
+        />
       </div>
 
       <div class="header__controls">

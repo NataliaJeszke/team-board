@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { TooltipModule } from 'primeng/tooltip';
 
-import { getInitialsFromName } from '@utils/getInitialsFromName.utils';
+import { getInitialsFromName } from '@utils/index';
 
 import { TaskService } from '@feature/tasks/service/task.service';
 import { TaskPriority, TaskStatus, Task } from '@feature/tasks/tasks.model';

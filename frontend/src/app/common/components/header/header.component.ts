@@ -10,7 +10,7 @@ import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 
-import { getInitialsFromName } from '@utils/getInitialsFromName.utils';
+import { cleanupOverlays, getInitialsFromName } from '@utils/index';
 
 import { Language, User } from '@core/models';
 import { LanguageFacade } from '@core/language/language.facade';
@@ -49,8 +49,8 @@ export class HeaderComponent {
 
   readonly getInitialsFromName = getInitialsFromName;
 
-  onTasksClick(): void {
-    this.router.navigate(['/tasks']);
+  onAddTask(): void {
+    console.log('Add task clicked');
   }
 
   private buildUserMenuItems(currentLang: Language): MenuItem[] {
@@ -82,17 +82,11 @@ export class HeaderComponent {
 
   private changeLanguage(lang: Language): void {
     this.languageFacade.setLanguage(lang);
-    this.cleanupOverlays();
+    cleanupOverlays();
   }
 
   private logout(): void {
-    this.cleanupOverlays();
+    cleanupOverlays();
     this.router.navigate(['/login']);
-  }
-
-  private cleanupOverlays(): void {
-    document
-      .querySelectorAll('.p-menu-overlay, .p-component-overlay')
-      .forEach(overlay => overlay.remove());
   }
 }
