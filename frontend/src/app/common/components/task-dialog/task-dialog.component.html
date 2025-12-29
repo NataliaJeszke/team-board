@@ -1,0 +1,82 @@
+<form [formGroup]="taskForm" (ngSubmit)="onSave()" class="task-dialog-form">
+    <div class="form-container">
+      <!-- Title Field -->
+      <div class="field">
+        <label for="title" class="field-label">
+          Tytuł <span class="required">*</span>
+        </label>
+        <input
+          id="title"
+          type="text"
+          pInputText
+          formControlName="title"
+          placeholder="Wprowadź tytuł zadania"
+          class="w-full"
+          [class.ng-invalid]="isFieldInvalid('title')"
+          [class.ng-dirty]="isFieldInvalid('title')"
+        />
+        @if(isFieldInvalid('title')) {
+          <small class="error-message">{{ getFieldError('title') }}</small>
+        }
+      </div>
+  
+      <!-- Assigned To Field -->
+      <div class="field">
+        <label for="assignedTo" class="field-label">
+          Przypisane do <span class="required">*</span>
+        </label>
+        <p-select
+          id="assignedTo"
+          formControlName="assignedToId"
+          [options]="availableUsers"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Wybierz użytkownika"
+          styleClass="w-full"
+          [class.ng-invalid]="isFieldInvalid('assignedToId')"
+          [class.ng-dirty]="isFieldInvalid('assignedToId')"
+        />
+        @if(isFieldInvalid('assignedToId')) {
+          <small class="error-message">{{ getFieldError('assignedToId') }}</small>
+        }
+      </div>
+  
+      <!-- Priority Field -->
+      <div class="field">
+        <label for="priority" class="field-label">
+          Priorytet <span class="required">*</span>
+        </label>
+        <p-select
+          id="priority"
+          formControlName="priority"
+          [options]="priorityOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Wybierz priorytet"
+          styleClass="w-full"
+        />
+      </div>
+  
+      <!-- Status Field -->
+      <div class="field">
+        <label for="status" class="field-label">
+          Status <span class="required">*</span>
+        </label>
+        <p-select
+          id="status"
+          formControlName="status"
+          [options]="statusOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Wybierz status"
+          styleClass="w-full"
+        />
+      </div>
+    </div>
+  
+    <!-- Footer Buttons -->
+    <div class="dialog-footer">
+      <p-button label="Anuluj" severity="secondary" [text]="true" (onClick)="onCancel()" />
+      <p-button label="Zapisz" severity="primary" [disabled]="taskForm.invalid" (onClick)="onSave()" />
+    </div>
+  </form>
