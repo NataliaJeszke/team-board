@@ -3,10 +3,10 @@
   (click)="toggleTheme()"
   [pTooltip]="isDarkMode() ? 'Przełącz na tryb jasny' : 'Przełącz na tryb ciemny'"
   tooltipPosition="bottom"
-  class="theme-toggle-btn"
-  [ngClass]="isDarkMode() ? 'dark-mode' : 'light-mode'"
+  class="theme-toggle__button"
+  [ngClass]="isDarkMode() ? 'theme-toggle--dark' : 'theme-toggle--light'"
   [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
   [attr.aria-pressed]="isDarkMode()"
 >
-  <i class="pi" [ngClass]="isDarkMode() ? 'pi-moon' : 'pi-sun'"></i>
+  <i class="pi theme-toggle__icon" [ngClass]="isDarkMode() ? 'pi-moon' : 'pi-sun'"></i>
 </button>

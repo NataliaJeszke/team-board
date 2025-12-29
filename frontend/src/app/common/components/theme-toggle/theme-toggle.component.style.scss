@@ -1,36 +1,38 @@
-.theme-toggle-btn {
-  position: relative;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition:
-    box-shadow 0.2s ease-in-out,
-    background 0.3s ease-in-out;
-  overflow: hidden;
-  cursor: pointer;
-  border: none;
+.theme-toggle {
+  &__button {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition:
+      box-shadow 0.2s ease-in-out,
+      background 0.3s ease-in-out;
 
-  &:focus {
-    outline: none;
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+    }
   }
 
-  &:hover {
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
-  }
-
-  i {
+  &__icon {
     font-size: 1.25rem;
     color: white;
   }
-}
 
-.dark-mode {
-  background: linear-gradient(to bottom right, #312e81, #5b21b6, #1e1b4b);
-}
+  &--dark {
+    background: linear-gradient(to bottom right, #312e81, #5b21b6, #1e1b4b);
+  }
 
-.light-mode {
-  background: linear-gradient(to bottom right, #38bdf8, #3b82f6, #7dd3fc);
+  &--light {
+    background: linear-gradient(to bottom right, #38bdf8, #3b82f6, #7dd3fc);
+  }
 }
