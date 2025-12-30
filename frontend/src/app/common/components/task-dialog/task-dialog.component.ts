@@ -1,70 +1,57 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { Select } from 'primeng/select';
+import { SelectModule } from 'primeng/select';
+import { TaskStatus, Task, TaskPriority } from '@feature/tasks/tasks.model';
 
-import { Task, TaskPriority, TaskStatus } from '@feature/tasks/tasks.model';
-import { TasksFacade } from '@feature/tasks/tasks.facade';
-import { TaskService } from '@feature/tasks/service/task.service';
-
-interface TaskFormValue {
+export interface TaskFormValue {
   title: string;
-  assignedToId: number | null;
+  assignedToId: number;
   priority: TaskPriority;
   status: TaskStatus;
 }
 
-interface UserOption {
+export interface TaskDialogData {
+  task: Task | null;
+  availableUsers: [];
+  currentUserId: number;
+}
+
+export interface TaskDialogResult {
+  action: 'save' | 'cancel';
+  formValue?: TaskFormValue;
+  taskId?: number;
+}
+
+export interface MockUser {
   id: number;
   name: string;
 }
 
-interface TaskDialogData {
-  task?: Task | null;
-  availableUsers: UserOption[];
-  currentUserId: number;
-}
-
 @Component({
   selector: 'tb-task-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    InputTextModule,
-    Select,
-  ],
-  providers: [TaskService],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, SelectModule],
   templateUrl: './task-dialog.component.html',
 })
 export class TaskDialogComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
-  private readonly tasksFacade = inject(TasksFacade);
-  private readonly taskService = inject(TaskService);
   private readonly ref = inject(DynamicDialogRef);
   private readonly config = inject(DynamicDialogConfig<TaskDialogData>);
 
-  // Data from dialog config
   task: Task | null = null;
-  availableUsers: UserOption[] = [];
+  availableUsers = [];
   currentUserId = 0;
-  isEditMode = false;
 
-  // Form
-  taskForm!: FormGroup<{
-    title: any;
-    assignedToId: any;
-    priority: any;
-    status: any;
-  }>;
+  get isEditMode(): boolean {
+    return this.task !== null;
+  }
 
-  // Dropdown options
+  taskForm!: FormGroup;
+
   readonly priorityOptions = [
     { value: 'low' as TaskPriority, label: 'Niski' },
     { value: 'medium' as TaskPriority, label: 'Średni' },
@@ -78,14 +65,19 @@ export class TaskDialogComponent implements OnInit {
     { value: 'done' as TaskStatus, label: 'Gotowe' },
   ];
 
-  ngOnInit(): void {
-    // Get data from config
-    this.task = this.config.data?.task ?? null;
-    this.availableUsers = this.config.data?.availableUsers ?? [];
-    this.currentUserId = this.config.data?.currentUserId ?? 0;
-    this.isEditMode = this.task !== null;
+  readonly mockUsers: MockUser[] = [
+    { id: 1, name: 'Natalia Jeszke' },
+    { id: 2, name: 'Jan Kowalski' },
+    { id: 3, name: 'Anna Nowak' },
+  ];
 
-    // Initialize form
+  ngOnInit(): void {
+    this.task = this.config.data?.task ?? null;
+    this.availableUsers = this.config.data?.availableUsers?.length
+      ? this.config.data.availableUsers
+      : this.mockUsers;
+    this.currentUserId = this.config.data?.currentUserId ?? 0;
+
     this.taskForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       assignedToId: [null as number | null, Validators.required],
@@ -93,7 +85,6 @@ export class TaskDialogComponent implements OnInit {
       status: ['todo' as TaskStatus, Validators.required],
     });
 
-    // Populate form if editing
     if (this.task) {
       this.populateForm(this.task);
     }
@@ -109,7 +100,7 @@ export class TaskDialogComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.ref.close();
+    this.ref.close({ action: 'cancel' } as TaskDialogResult);
   }
 
   onSave(): void {
@@ -120,28 +111,13 @@ export class TaskDialogComponent implements OnInit {
 
     const formValue = this.taskForm.value as TaskFormValue;
 
-    if (this.isEditMode && this.task) {
-      // Edit mode
-      this.tasksFacade.updateTask(this.task.id, {
-        title: formValue.title,
-        assignedToId: formValue.assignedToId!,
-        priority: formValue.priority,
-        status: formValue.status,
-        updatedAt: new Date(),
-      });
-    } else {
-      // Create mode
-      this.tasksFacade.createTask({
-        title: formValue.title,
-        assignedToId: formValue.assignedToId!,
-        createdById: this.currentUserId,
-        priority: formValue.priority,
-        status: formValue.status,
-        updatedAt: new Date(),
-      });
-    }
+    const result: TaskDialogResult = {
+      action: 'save',
+      formValue,
+      taskId: this.task?.id,
+    };
 
-    this.ref.close({ saved: true });
+    this.ref.close(result);
   }
 
   isFieldInvalid(fieldName: string): boolean {

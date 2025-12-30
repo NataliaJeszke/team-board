@@ -1,11 +1,13 @@
-@let user = (currentUser$ | async);
+<p-toast position="top-right" />
+
+@let user = currentUser$ | async;
 
 <div class="min-h-screen bg-surface-50">
   @if (user) {
-    <tb-header [user_]="user" />
+    <tb-header [user_]="user" (addTaskClick)="onAddTask()" />
 
     <main class="p-6">
-      <tb-user-tasks />
+      <tb-user-tasks [user_]="user" [tasks_]="tasksFacade.tasks$()"/>
     </main>
   } @else {
     <div class="flex items-center justify-center min-h-screen">

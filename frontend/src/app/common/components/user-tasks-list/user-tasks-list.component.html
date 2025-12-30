@@ -1,0 +1,24 @@
+<div class="user-tasks-container">
+  @if (loading_()) {
+    <div class="loading-state">
+      <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
+      <p>Ładowanie zadań...</p>
+    </div>
+  }
+  
+  @else if (tasks_().length > 0) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      @for (task of tasks_(); track task.id) {
+        <tb-task [task_]="task" [currentUserId_]="user_().id" />
+      }
+    </div>
+  }
+  
+  @else {
+    <div class="empty-state">
+      <i class="pi pi-inbox text-4xl text-surface-400"></i>
+      <p>Brak zadań</p>
+      <small>Dodaj nowe zadanie, aby rozpocząć</small>
+    </div>
+  }
+</div>

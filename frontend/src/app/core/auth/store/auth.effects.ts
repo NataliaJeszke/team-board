@@ -11,9 +11,9 @@ import { AuthActions } from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
+  private router = inject(Router);
   private actions$ = inject(Actions);
   private authApiService = inject(AuthApiService);
-  private router = inject(Router);
 
   login$ = createEffect(() =>
     this.actions$.pipe(

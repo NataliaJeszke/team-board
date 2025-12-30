@@ -21,15 +21,15 @@ import { TaskPriority, TaskStatus, Task } from '@feature/tasks/tasks.model';
 export class TaskComponent {
   private readonly taskService = inject(TaskService);
 
-  task = input.required<Task>();
-  currentUserId = input.required<number>();
+  task_ = input.required<Task>();
+  currentUserId_ = input.required<number>();
 
   edit = output<Task>();
   delete = output<Task>();
   statusChange = output<{ task: Task; newStatus: TaskStatus }>();
 
-  readonly isCreator = computed(() => this.task().createdById === this.currentUserId());
-  readonly isAssignee = computed(() => this.task().assignedToId === this.currentUserId());
+  readonly isCreator = computed(() => this.task_().createdById === this.currentUserId_());
+  readonly isAssignee = computed(() => this.task_().assignedToId === this.currentUserId_());
   readonly availableStatuses = computed(() => this.taskService.availableStatuses);
 
   readonly getInitials = getInitialsFromName;
@@ -41,17 +41,17 @@ export class TaskComponent {
 
   onEdit(): void {
     if (this.isCreator()) {
-      this.edit.emit(this.task());
+      this.edit.emit(this.task_());
     }
   }
 
   onDelete(): void {
     if (this.isCreator()) {
-      this.delete.emit(this.task());
+      this.delete.emit(this.task_());
     }
   }
 
   onStatusChange(newStatus: TaskStatus): void {
-    this.statusChange.emit({ task: this.task(), newStatus });
+    this.statusChange.emit({ task: this.task_(), newStatus });
   }
 }

@@ -1,6 +1,5 @@
 <form [formGroup]="taskForm" (ngSubmit)="onSave()" class="task-dialog-form">
     <div class="form-container">
-      <!-- Title Field -->
       <div class="field">
         <label for="title" class="field-label">
           Tytuł <span class="required">*</span>
@@ -20,7 +19,6 @@
         }
       </div>
   
-      <!-- Assigned To Field -->
       <div class="field">
         <label for="assignedTo" class="field-label">
           Przypisane do <span class="required">*</span>
@@ -41,7 +39,6 @@
         }
       </div>
   
-      <!-- Priority Field -->
       <div class="field">
         <label for="priority" class="field-label">
           Priorytet <span class="required">*</span>
@@ -57,7 +54,6 @@
         />
       </div>
   
-      <!-- Status Field -->
       <div class="field">
         <label for="status" class="field-label">
           Status <span class="required">*</span>
@@ -74,7 +70,6 @@
       </div>
     </div>
   
-    <!-- Footer Buttons -->
     <div class="dialog-footer">
       <p-button label="Anuluj" severity="secondary" [text]="true" (onClick)="onCancel()" />
       <p-button label="Zapisz" severity="primary" [disabled]="taskForm.invalid" (onClick)="onSave()" />

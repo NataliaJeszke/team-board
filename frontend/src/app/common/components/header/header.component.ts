@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -17,9 +17,6 @@ import { LanguageFacade } from '@core/language/language.facade';
 import { LANGUAGES } from '@core/language/constants/language.constants';
 
 import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
-
 
 @Component({
   selector: 'tb-header',
@@ -34,16 +31,16 @@ import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.style.scss'],
-  providers: [DialogService],
 })
 export class HeaderComponent {
   private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
-  private readonly dialogService = inject(DialogService);
   private readonly languageFacade = inject(LanguageFacade);
 
   readonly user_ = input<User>();
   readonly taskCount_ = input<number>(0);
+
+  readonly addTaskClick = output<void>();
 
   readonly currentLanguage = this.languageFacade.currentLanguage;
 
@@ -51,29 +48,10 @@ export class HeaderComponent {
     this.buildUserMenuItems(this.currentLanguage())
   );
 
-  private dialogRef: DynamicDialogRef | null = null;
   readonly getInitialsFromName = getInitialsFromName;
 
   onAddTask(): void {
-    this.dialogRef = this.dialogService.open(TaskDialogComponent, {
-      header: 'Dodaj nowe zadanie',
-      width: '500px',
-      data: {
-        currentUserId: this.user_()?.id ?? 0,
-        availableUsers: [
-          { id: 1, name: 'Jan Kowalski' },
-          { id: 2, name: 'Anna Nowak' },
-        ],
-        task: null,
-      },
-      closable: true,
-    });
-  
-    this.dialogRef?.onClose.subscribe((result) => {
-      if (result?.saved) {
-        console.log('Task został dodany');
-      }
-    });
+    this.addTaskClick.emit();
   }
 
   private buildUserMenuItems(currentLang: Language): MenuItem[] {

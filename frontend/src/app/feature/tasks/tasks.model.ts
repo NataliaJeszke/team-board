@@ -1,5 +1,6 @@
 export type TaskStatus = 'todo' | 'in_progress' | 'delayed' | 'done';
 export type TaskPriority = 'low' | 'medium' | 'high';
+export type TaskDialogResult = 'saved' | 'cancelled';
 
 export interface Task {
   id: number;
