@@ -39,11 +39,6 @@ export class BoardComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const dict = this.usersDictionary();
-      console.log('📦 Users dictionary w BoardComponent:', dict);
-    });
-
-    effect(() => {
       const error = this.tasksFacade.error$();
       if (error) {
         this.messageService.add({
@@ -101,8 +96,6 @@ export class BoardComponent implements OnInit {
       )
       .subscribe(result => {
         if (result?.action === 'save') {
-          console.log('New task data:', result.formValue);
-
           this.tasksFacade.createTask(result.formValue);
 
           this.messageService.add({
@@ -144,8 +137,6 @@ export class BoardComponent implements OnInit {
       .subscribe(result => {
         if (result?.action === 'save') {
           this.tasksFacade.updateTask(result.taskId!, result.formValue);
-
-          console.log('Updated task data:', result.formValue);
 
           this.messageService.add({
             severity: 'success',

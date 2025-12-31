@@ -13,10 +13,6 @@ export class UsersApiService {
   private apiUrl = 'http://localhost:3000/users';
 
   getUsersDictionary(): Observable<UserDictionary> {
-    return this.http.get<UserDictionary>(`${this.apiUrl}/dictionary`).pipe(
-      tap(dictionary => {
-        console.log('📦 Users dictionary:', dictionary);
-      })
-    );
+    return this.http.get<UserDictionary>(`${this.apiUrl}/dictionary`)
   }
 }

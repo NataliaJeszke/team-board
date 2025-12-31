@@ -26,7 +26,6 @@ export class TaskApiService {
   }
 
   createTask(data: CreateTaskDto): Observable<TaskResponse> {
-    console.log('task api service', data);
     return this.http.post<TaskResponse>(this.apiUrl, data);
   }
 
