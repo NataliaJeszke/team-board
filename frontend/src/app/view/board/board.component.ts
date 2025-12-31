@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { AuthFacade } from '@core/auth/auth.facade';
+
 import { TasksFacade } from '@feature/tasks/tasks.facade';
 import { UsersFacade } from '@feature/users/users.facade';
 
@@ -35,7 +36,7 @@ export class BoardComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const error = this.tasksFacade.error$();
+      const error = this.tasksFacade.error();
       if (error) {
         this.messageService.add({
           severity: 'error',
@@ -47,7 +48,7 @@ export class BoardComponent implements OnInit {
     });
 
     effect(() => {
-      const warning = this.tasksFacade.warning$();
+      const warning = this.tasksFacade.warning();
       if (warning) {
         this.messageService.add({
           severity: 'warn',
@@ -65,17 +66,8 @@ export class BoardComponent implements OnInit {
   }
 
   onAddTask(): void {
-    this.boardService.openAddTaskDialog(this.currentUser$).subscribe(result => {
-      if (result?.action === 'save' && result.formValue) {
-        this.boardService.createTask(result.formValue);
-  
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sukces',
-          detail: 'Zadanie zostało dodane pomyślnie',
-          life: 3000,
-        });
-      }
+    this.boardService.handleAddTaskDialog(this.currentUser$).subscribe(result => {
+      this.messageService.add(result);
     });
   }
 

@@ -7,7 +7,7 @@ import { User } from '@core/models';
 
 import { TasksFacade } from '@feature/tasks/tasks.facade';
 import { UsersFacade } from '@feature/users/users.facade';
-import { TaskDialogResult, TaskFormValue, TaskOperationResult, TaskStatus } from '@feature/tasks/model/tasks.model';
+import { TaskOperationResult, TaskStatus } from '@feature/tasks/model/tasks.model';
 
 import { TaskDialogComponent } from '@common/components/task-dialog/task-dialog.component';
 import { ConfirmDialogComponent } from '@common/components/confirm-dialog/confirm-dialog.component';
@@ -17,15 +17,16 @@ import { TaskUiEventsService } from '@common/components/task/service/task-ui-eve
 @Injectable()
 export class BoardService {
   private readonly dialogService = inject(DialogService);
+  private readonly taskUiEvents = inject(TaskUiEventsService);
+  
   private readonly tasksFacade = inject(TasksFacade);
   private readonly usersFacade = inject(UsersFacade);
-  private readonly taskUiEvents = inject(TaskUiEventsService);
 
   readonly usersDictionary = this.usersFacade.dictionary;
 
-  openAddTaskDialog(
+  handleAddTaskDialog(
     currentUser$: Observable<User | null>
-  ): Observable<TaskDialogResult | undefined> {
+  ): Observable<TaskOperationResult> {
     return currentUser$.pipe(
       first(Boolean),
       map(user => {
@@ -43,6 +44,23 @@ export class BoardService {
           },
         });
         return ref?.onClose ?? EMPTY;
+      }),
+      switchMap(result => {
+        if (result?.action === 'save' && result.formValue) {
+          this.tasksFacade.createTask(result.formValue);
+          this.tasksFacade.loadTasks();
+
+          return [
+            {
+              success: true,
+              severity: 'success' as const,
+              summary: 'Sukces',
+              detail: 'Zadanie zostało dodane pomyślnie',
+              life: 3000,
+            },
+          ];
+        }
+        return EMPTY;
       })
     );
   }
@@ -103,15 +121,16 @@ export class BoardService {
         const upperStatus = event.status.toUpperCase() as TaskStatus;
         this.tasksFacade.changeTaskStatus(event.taskId, upperStatus);
 
-        return EMPTY;
-      }),
-      map(() => ({
-        success: true,
-        severity: 'success' as const,
-        summary: 'Status zmieniony',
-        detail: 'Status zadania został zmieniony pomyślnie',
-        life: 2000,
-      }))
+        return [
+          {
+            success: true,
+            severity: 'success' as const,
+            summary: 'Status zmieniony',
+            detail: 'Status zadania został zmieniony pomyślnie',
+            life: 2000,
+          },
+        ];
+      })
     );
   }
 
@@ -153,11 +172,6 @@ export class BoardService {
         ];
       })
     );
-  }
-
-  createTask(formValue: TaskFormValue): void {
-    this.tasksFacade.createTask(formValue);
-    this.tasksFacade.loadTasks();
   }
 
   initializeData(): void {

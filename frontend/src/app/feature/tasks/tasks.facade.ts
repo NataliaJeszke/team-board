@@ -22,11 +22,11 @@ import { Task, TaskStatus } from './model/tasks.model';
 export class TasksFacade {
   private readonly store = inject(Store);
 
-  readonly tasks$ = this.store.selectSignal(selectAllTasks);
-  readonly loading$ = this.store.selectSignal(selectTasksLoading);
-  readonly error$ = this.store.selectSignal(selectTasksError);
-  readonly count$ = this.store.selectSignal(selectTasksCount);
-  readonly warning$ = this.store.selectSignal(selectTasksWarning);
+  readonly tasks = this.store.selectSignal(selectAllTasks);
+  readonly loading = this.store.selectSignal(selectTasksLoading);
+  readonly error = this.store.selectSignal(selectTasksError);
+  readonly count = this.store.selectSignal(selectTasksCount);
+  readonly warning = this.store.selectSignal(selectTasksWarning);
 
   loadTasks(): void {
     this.store.dispatch(TasksActions.loadTasks());

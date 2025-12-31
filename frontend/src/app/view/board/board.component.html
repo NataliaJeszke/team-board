@@ -1,7 +1,7 @@
 <p-toast position="top-right" />
 
 @let user = currentUser$ | async;
-@let tasks = tasksFacade.tasks$();
+@let tasks = tasksFacade.tasks();
 
 <div class="min-h-screen bg-surface-50">
   @if (user) {

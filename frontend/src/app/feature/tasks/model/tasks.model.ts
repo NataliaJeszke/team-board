@@ -39,7 +39,6 @@ export interface TaskOperationResult {
   severity: 'success' | 'error' | 'warn' | 'info';
   summary: string;
   detail: string;
-  life: number;
 }
 
 export type TaskStatus = (typeof TASK_STATUSES)[number];
