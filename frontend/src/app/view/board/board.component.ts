@@ -17,6 +17,7 @@ import { TaskDialogComponent } from '@common/components/task-dialog/task-dialog.
 import { UserTasksComponent } from '@common/components/user-tasks-list/user-tasks-list.component';
 import { TaskUiEventsService } from '@feature/tasks/services/task-ui-events.service';
 import { TaskStatus } from '@feature/tasks/tasks.model';
+import { ConfirmDialogComponent } from '@common/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'tb-board',
@@ -73,6 +74,7 @@ export class BoardComponent implements OnInit {
 
     this.onEditTask();
     this.onChangeTaskStatus();
+    this.onDeleteTask();
   }
 
   onAddTask(): void {
@@ -164,7 +166,7 @@ export class BoardComponent implements OnInit {
         withLatestFrom(this.currentUser$),
         switchMap(([event, user]) => {
           if (!user) return EMPTY;
-          
+
           const upperStatus = event.status.toUpperCase() as TaskStatus;
   
           this.tasksFacade.changeTaskStatus(event.taskId, upperStatus);
@@ -178,6 +180,45 @@ export class BoardComponent implements OnInit {
           summary: 'Status zmieniony',
           detail: 'Status zadania został zmieniony pomyślnie',
           life: 2000,
+        });
+  
+        this.tasksFacade.loadTasks();
+      });
+  }
+
+  private onDeleteTask(): void {
+    this.taskUiEvents.uiEvents$
+      .pipe(
+        filter(e => e.type === 'delete'),
+        switchMap(event => {
+          const taskId = event.taskId;
+  
+          return this.tasksFacade.getTaskById(taskId).pipe(
+            first(),
+            switchMap(task => {
+              if (!task) return EMPTY;
+  
+              const ref = this.dialogService.open(ConfirmDialogComponent, {
+                header: 'Potwierdzenie',
+                width: '400px',
+                data: { task }
+              });
+  
+              return ref?.onClose ?? EMPTY;
+            }),
+            map(confirmed => ({ confirmed, taskId }))
+          );
+        }),
+        filter(({ confirmed }) => confirmed)
+      )
+      .subscribe(({ taskId }) => {
+        this.tasksFacade.deleteTask(taskId);
+  
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Usunięto',
+          detail: 'Zadanie zostało usunięte',
+          life: 3000,
         });
   
         this.tasksFacade.loadTasks();
