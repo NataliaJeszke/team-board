@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { TaskPriority, TaskStatus } from '@feature/tasks/tasks.model';
 
 @Injectable()
-export class TaskService {
+export class TaskUiService {
   readonly availableStatuses: TaskStatus[] = ['todo', 'in_progress', 'done'];
 
   getPriorityLabel(priority: TaskPriority): string {

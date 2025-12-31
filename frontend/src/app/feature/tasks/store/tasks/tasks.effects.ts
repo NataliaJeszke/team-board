@@ -24,31 +24,29 @@ export class TasksEffects {
     )
   );
 
-  // createTask$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(TasksActions.createTask),
-  //     mergeMap(({ task }) =>
-  //       this.taskApiService.createTask(task).pipe(
-  //         map((task) => TasksActions.createTaskSuccess({ task })),
-  //         catchError((error) =>
-  //           of(TasksActions.createTaskFailure({ error: error.message }))
-  //         )
-  //       )
-  //     )
-  //   )
-  // );
+  createTask$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TasksActions.createTask),
+      mergeMap(({ task }) =>
+        this.taskApiService.createTask(task).pipe(
+          map(response => TasksActions.createTaskSuccess({ task: response.data })),
+          catchError(error => of(TasksActions.createTaskFailure({ error: error.message })))
+        )
+      )
+    )
+  );
 
-  // updateTask$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(TasksActions.updateTask),
-  //     mergeMap(({ id, changes }) =>
-  //       this.taskApiService.updateTask(id, changes).pipe(
-  //         map(task => TasksActions.updateTaskSuccess({ task })),
-  //         catchError(error => of(TasksActions.updateTaskFailure({ error: error.message })))
-  //       )
-  //     )
-  //   )
-  // );
+  updateTask$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TasksActions.updateTask),
+      mergeMap(({ id, changes }) =>
+        this.taskApiService.updateTask(id, changes).pipe(
+          map(response => TasksActions.updateTaskSuccess({ task: response.data })),
+          catchError(error => of(TasksActions.updateTaskFailure({ error: error.message })))
+        )
+      )
+    )
+  );
 
   deleteTask$ = createEffect(() =>
     this.actions$.pipe(
@@ -62,17 +60,15 @@ export class TasksEffects {
     )
   );
 
-  // changeTaskStatus$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(TasksActions.changeTaskStatus),
-  //     mergeMap(({ id, status }) =>
-  //       this.taskApiService.updateTaskStatus(id, status).pipe(
-  //         map((task) => TasksActions.changeTaskStatusSuccess({ task })),
-  //         catchError((error) =>
-  //           of(TasksActions.changeTaskStatusFailure({ error: error.message }))
-  //         )
-  //       )
-  //     )
-  //   )
-  // );
+  changeTaskStatus$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TasksActions.changeTaskStatus),
+      mergeMap(({ id, status }) =>
+        this.taskApiService.updateTaskStatus(id, status).pipe(
+          map(response => TasksActions.updateTaskSuccess({ task: response.data })),
+          catchError(error => of(TasksActions.changeTaskStatusFailure({ error: error.message })))
+        )
+      )
+    )
+  );
 }

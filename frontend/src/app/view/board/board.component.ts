@@ -1,6 +1,6 @@
 import { Component, effect, inject, OnInit } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { EMPTY, first, switchMap } from 'rxjs';
+import { EMPTY, filter, first, map, switchMap, withLatestFrom } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
@@ -10,10 +10,13 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { AuthFacade } from '@core/auth/auth.facade';
 
 import { TasksFacade } from '@feature/tasks/tasks.facade';
+import { UsersFacade } from '@feature/users/users.facade';
 
 import { HeaderComponent } from '@common/components/header/header.component';
 import { TaskDialogComponent } from '@common/components/task-dialog/task-dialog.component';
 import { UserTasksComponent } from '@common/components/user-tasks-list/user-tasks-list.component';
+import { TaskUiEventsService } from '@feature/tasks/services/task-ui-events.service';
+import { TaskStatus } from '@feature/tasks/tasks.model';
 
 @Component({
   selector: 'tb-board',
@@ -23,13 +26,22 @@ import { UserTasksComponent } from '@common/components/user-tasks-list/user-task
 })
 export class BoardComponent implements OnInit {
   private readonly authFacade = inject(AuthFacade);
-  private readonly dialogService = inject(DialogService);
-  private readonly messageService = inject(MessageService);
+  private readonly usersFacade = inject(UsersFacade);
   protected readonly tasksFacade = inject(TasksFacade);
 
+  private readonly dialogService = inject(DialogService);
+  private readonly messageService = inject(MessageService);
+  private readonly taskUiEvents = inject(TaskUiEventsService);
+
   readonly currentUser$ = this.authFacade.user$;
+  readonly usersDictionary = this.usersFacade.dictionary;
 
   constructor() {
+    effect(() => {
+      const dict = this.usersDictionary();
+      console.log('📦 Users dictionary w BoardComponent:', dict);
+    });
+
     effect(() => {
       const error = this.tasksFacade.error$();
       if (error) {
@@ -57,17 +69,30 @@ export class BoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.tasksFacade.loadTasks();
+    this.usersFacade.loadUsersDictionary();
+
+    this.onEditTask();
+    this.onChangeTaskStatus();
   }
 
   onAddTask(): void {
     this.currentUser$
       .pipe(
         first(Boolean),
-        switchMap(user => {
+        map(user => {
+          const dictionary = this.usersDictionary();
+          const availableUsers = Object.values(dictionary);
+
+          return { user, availableUsers };
+        }),
+        switchMap(({ user, availableUsers }) => {
           const ref = this.dialogService.open(TaskDialogComponent, {
             header: 'Dodaj nowe zadanie',
             width: '500px',
-            data: { currentUserId: user.id, task: null },
+            data: {
+              currentUserId: user.id,
+              availableUsers,
+            },
           });
           return ref?.onClose ?? EMPTY;
         })
@@ -75,6 +100,8 @@ export class BoardComponent implements OnInit {
       .subscribe(result => {
         if (result?.action === 'save') {
           console.log('New task data:', result.formValue);
+
+          this.tasksFacade.createTask(result.formValue);
 
           this.messageService.add({
             severity: 'success',
@@ -88,34 +115,72 @@ export class BoardComponent implements OnInit {
       });
   }
 
-  // onAddTask(): void {
-  //   this.currentUser$
-  //     .pipe(
-  //       first(Boolean),
-  //       switchMap(user => {
-  //         // ✅ Załaduj userów przed otwarciem dialogu
-  //         return this.userFacade.getUsers().pipe(
-  //           map(users => ({ user, users }))
-  //         );
-  //       }),
-  //       switchMap(({ user, users }) => {
-  //         const ref = this.dialogService.open(TaskDialogComponent, {
-  //           header: 'Dodaj nowe zadanie',
-  //           width: '500px',
-  //           data: {
-  //             task: null,
-  //             currentUserId: user.id,
-  //             availableUsers: users.map(u => ({ id: u.id, name: u.name }))
-  //           } as TaskDialogData,
-  //         });
+  private onEditTask(): void {
+    this.taskUiEvents.uiEvents$
+      .pipe(
+        filter(e => e.type === 'edit'),
+        withLatestFrom(this.currentUser$),
+        switchMap(([event, user]) => {
+          if (!user) return EMPTY;
 
-  //         return ref.onClose ?? EMPTY;
-  //       })
-  //     )
-  //     .subscribe(result => {
-  //       if (result?.action === 'save') {
-  //         this.handleCreateTask(result.formValue);
-  //       }
-  //     });
-  // }
+          const dictionary = this.usersDictionary();
+          const availableUsers = Object.values(dictionary);
+
+          const ref = this.dialogService.open(TaskDialogComponent, {
+            header: 'Edytuj zadanie',
+            width: '500px',
+            data: {
+              task: event.task,
+              currentUserId: user.id,
+              availableUsers,
+            },
+          });
+
+          return ref?.onClose ?? EMPTY;
+        })
+      )
+      .subscribe(result => {
+        if (result?.action === 'save') {
+          this.tasksFacade.updateTask(result.taskId!, result.formValue);
+
+          console.log('Updated task data:', result.formValue);
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Zapisano zmiany',
+            detail: 'Zadanie zostało zaktualizowane',
+            life: 3000,
+          });
+
+          this.tasksFacade.loadTasks();
+        }
+      });
+  }
+
+  private onChangeTaskStatus(): void {
+    this.taskUiEvents.uiEvents$
+      .pipe(
+        filter(e => e.type === 'statusChange'),
+        withLatestFrom(this.currentUser$),
+        switchMap(([event, user]) => {
+          if (!user) return EMPTY;
+          
+          const upperStatus = event.status.toUpperCase() as TaskStatus;
+  
+          this.tasksFacade.changeTaskStatus(event.taskId, upperStatus);
+  
+          return EMPTY;
+        })
+      )
+      .subscribe(() => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Status zmieniony',
+          detail: 'Status zadania został zmieniony pomyślnie',
+          life: 2000,
+        });
+  
+        this.tasksFacade.loadTasks();
+      });
+  }
 }

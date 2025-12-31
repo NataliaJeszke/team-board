@@ -6,26 +6,11 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { TaskStatus, Task, TaskPriority } from '@feature/tasks/tasks.model';
 
-export interface TaskFormValue {
-  title: string;
-  assignedToId: number;
-  priority: TaskPriority;
-  status: TaskStatus;
-}
+import { UserDictionary } from '@core/api/models/users/users-api.model';
 
-export interface TaskDialogData {
-  task: Task | null;
-  availableUsers: [];
-  currentUserId: number;
-}
+import { TaskStatus, Task, TaskPriority, TaskDialogData, TaskDialogResult, TaskFormValue } from '@feature/tasks/tasks.model';
 
-export interface TaskDialogResult {
-  action: 'save' | 'cancel';
-  formValue?: TaskFormValue;
-  taskId?: number;
-}
 
 export interface MockUser {
   id: number;
@@ -43,7 +28,7 @@ export class TaskDialogComponent implements OnInit {
   private readonly config = inject(DynamicDialogConfig<TaskDialogData>);
 
   task: Task | null = null;
-  availableUsers = [];
+  availableUsers: UserDictionary[] = [];
   currentUserId = 0;
 
   get isEditMode(): boolean {
@@ -65,22 +50,14 @@ export class TaskDialogComponent implements OnInit {
     { value: 'done' as TaskStatus, label: 'Gotowe' },
   ];
 
-  readonly mockUsers: MockUser[] = [
-    { id: 1, name: 'Natalia Jeszke' },
-    { id: 2, name: 'Jan Kowalski' },
-    { id: 3, name: 'Anna Nowak' },
-  ];
-
   ngOnInit(): void {
     this.task = this.config.data?.task ?? null;
-    this.availableUsers = this.config.data?.availableUsers?.length
-      ? this.config.data.availableUsers
-      : this.mockUsers;
+    this.availableUsers = this.config.data?.availableUsers ?? [];
     this.currentUserId = this.config.data?.currentUserId ?? 0;
 
     this.taskForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      assignedToId: [null as number | null, Validators.required],
+      assignedToId: [null as number | null],
       priority: ['medium' as TaskPriority, Validators.required],
       status: ['todo' as TaskStatus, Validators.required],
     });

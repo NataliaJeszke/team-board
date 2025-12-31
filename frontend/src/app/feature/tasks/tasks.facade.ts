@@ -13,6 +13,7 @@ import {
   selectTasksByAssignee,
 } from './store/tasks/tasks.selectors';
 import { Task, TaskStatus } from './tasks.model';
+import { CreateTaskDto } from '@core/api/models/task/task-api.model';
 
 @Injectable({ providedIn: 'root' })
 export class TasksFacade {
@@ -28,7 +29,7 @@ export class TasksFacade {
     this.store.dispatch(TasksActions.loadTasks());
   }
 
-  createTask(task: Omit<Task, 'id' | 'createdAt'>): void {
+  createTask(task: CreateTaskDto): void {
     this.store.dispatch(TasksActions.createTask({ task }));
   }
 

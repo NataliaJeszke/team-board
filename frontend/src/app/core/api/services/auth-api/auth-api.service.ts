@@ -3,9 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { AuthResponse } from '@core/api/models/auth/auth.model';
+import { AuthResponse } from '@core/api/models/auth/auth-api.model';
 import { User, RegisterRequest, LoginRequest } from '@core/models';
-
 
 @Injectable({
   providedIn: 'root',

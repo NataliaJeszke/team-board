@@ -1,4 +1,4 @@
-import { Component, input, output, inject, computed } from '@angular/core';
+import { Component, input, inject, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import { TagModule } from 'primeng/tag';
@@ -9,49 +9,48 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { getInitialsFromName } from '@utils/index';
 
-import { TaskService } from '@feature/tasks/service/task.service';
+import { TaskUiService } from '@feature/tasks/services/task-ui.service';
+import { TaskUiEventsService } from '@feature/tasks/services/task-ui-events.service';
+
 import { TaskPriority, TaskStatus, Task } from '@feature/tasks/tasks.model';
 
 @Component({
   selector: 'tb-task',
   imports: [CardModule, ButtonModule, TagModule, AvatarModule, TooltipModule, DatePipe],
-  providers: [TaskService],
+  providers: [TaskUiService],
   templateUrl: './task.component.html',
 })
 export class TaskComponent {
-  private readonly taskService = inject(TaskService);
+  private readonly taskUiService = inject(TaskUiService);
+  private readonly taskUiEvents = inject(TaskUiEventsService);
 
   task_ = input.required<Task>();
   currentUserId_ = input.required<number>();
 
-  edit = output<Task>();
-  delete = output<Task>();
-  statusChange = output<{ task: Task; newStatus: TaskStatus }>();
-
   readonly isCreator = computed(() => this.task_().createdById === this.currentUserId_());
   readonly isAssignee = computed(() => this.task_().assignedToId === this.currentUserId_());
-  readonly availableStatuses = computed(() => this.taskService.availableStatuses);
+  readonly availableStatuses = computed(() => this.taskUiService.availableStatuses);
 
   readonly getInitials = getInitialsFromName;
 
-  getPriorityLabel = (priority: TaskPriority) => this.taskService.getPriorityLabel(priority);
-  getPrioritySeverity = (priority: TaskPriority) => this.taskService.getPrioritySeverity(priority);
-  getStatusLabel = (status: TaskStatus) => this.taskService.getStatusLabel(status);
-  getStatusSeverity = (status: TaskStatus) => this.taskService.getStatusSeverity(status);
+  getPriorityLabel = (priority: TaskPriority) => this.taskUiService.getPriorityLabel(priority);
+  getPrioritySeverity = (priority: TaskPriority) => this.taskUiService.getPrioritySeverity(priority);
+  getStatusLabel = (status: TaskStatus) => this.taskUiService.getStatusLabel(status);
+  getStatusSeverity = (status: TaskStatus) => this.taskUiService.getStatusSeverity(status);
 
   onEdit(): void {
     if (this.isCreator()) {
-      this.edit.emit(this.task_());
+      this.taskUiEvents.edit(this.task_());
     }
   }
 
   onDelete(): void {
     if (this.isCreator()) {
-      this.delete.emit(this.task_());
+      this.taskUiEvents.delete(this.task_().id);
     }
   }
 
   onStatusChange(newStatus: TaskStatus): void {
-    this.statusChange.emit({ task: this.task_(), newStatus });
+    this.taskUiEvents.changeStatus(this.task_().id, newStatus);
   }
 }

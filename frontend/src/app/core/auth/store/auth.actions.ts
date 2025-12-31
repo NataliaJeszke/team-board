@@ -1,21 +1,21 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { AuthResponse } from '@core/api/models/auth/auth.model';
+import { AuthResponse } from '@core/api/models/auth/auth-api.model';
 
 import { LoginRequest, RegisterRequest } from '@core/models';
 
 export const AuthActions = createActionGroup({
   source: 'Auth',
   events: {
-    'Login': props<{ credentials: LoginRequest }>(),
+    Login: props<{ credentials: LoginRequest }>(),
     'Login Success': props<{ response: AuthResponse }>(),
     'Login Failure': props<{ error: string }>(),
-    
-    'Register': props<{ data: RegisterRequest }>(),
+
+    Register: props<{ data: RegisterRequest }>(),
     'Register Success': props<{ response: AuthResponse }>(),
     'Register Failure': props<{ error: string }>(),
-    
-    'Logout': emptyProps(),
+
+    Logout: emptyProps(),
     'Logout Complete': emptyProps(),
-  }
+  },
 });

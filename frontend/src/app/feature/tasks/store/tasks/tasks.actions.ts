@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { TaskListResponse } from '@core/api/models/task/task.model';
+import { CreateTaskDto, TaskListResponse } from '@core/api/models/task/task-api.model';
 
 import { Task, TaskStatus } from '@feature/tasks/tasks.model';
 
@@ -11,7 +11,7 @@ export const TasksActions = createActionGroup({
     'Load Tasks Success': props<{ response: TaskListResponse }>(),
     'Load Tasks Failure': props<{ error: string }>(),
 
-    'Create Task': props<{ task: Omit<Task, 'id' | 'createdAt'> }>(),
+    'Create Task': props<{ task: CreateTaskDto }>(),
     'Create Task Success': props<{ task: Task }>(),
     'Create Task Failure': props<{ error: string }>(),
 
