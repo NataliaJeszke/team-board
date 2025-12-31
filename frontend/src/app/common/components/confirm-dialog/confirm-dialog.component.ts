@@ -1,14 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 
-import { Task } from '@feature/tasks/tasks.model';
+import { ButtonModule } from 'primeng/button';
+import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 
-export interface ConfirmDialogData {
-  task: Task;
-  message?: string; // opcjonalny własny komunikat
-}
+import { Task } from '@feature/tasks/model/tasks.model';
+
+import { ConfirmDialogData } from './model/confirm-dialog.model';
 
 @Component({
   selector: 'tb-confirm-dialog',
@@ -28,11 +26,10 @@ export class ConfirmDialogComponent implements OnInit {
       this.ref.close(false);
       return;
     }
-  
+
     this.task = this.config.data.task;
     this.message =
-      this.config.data.message ||
-      `Czy na pewno chcesz usunąć zadanie "${this.task.title}"?`;
+      this.config.data.message || `Czy na pewno chcesz usunąć zadanie "${this.task.title}"?`;
   }
 
   confirm(): void {

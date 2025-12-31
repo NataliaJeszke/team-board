@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
@@ -9,84 +9,56 @@ import { SelectModule } from 'primeng/select';
 
 import { UserDictionary } from '@core/api/models/users/users-api.model';
 
-import { TaskStatus, Task, TaskPriority, TaskDialogData, TaskDialogResult, TaskFormValue } from '@feature/tasks/tasks.model';
+import { Task, TaskDialogData, TaskDialogResult } from '@feature/tasks/model/tasks.model';
 
-
-export interface MockUser {
-  id: number;
-  name: string;
-}
+import { TaskDialogUiService } from './service/task-dialog-ui.service';
 
 @Component({
   selector: 'tb-task-dialog',
   imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, SelectModule],
+  providers: [TaskDialogUiService],
   templateUrl: './task-dialog.component.html',
 })
 export class TaskDialogComponent implements OnInit {
-  private readonly fb = inject(FormBuilder);
   private readonly ref = inject(DynamicDialogRef);
   private readonly config = inject(DynamicDialogConfig<TaskDialogData>);
+  readonly taskDialogUiService = inject(TaskDialogUiService);
+
+  readonly taskForm: FormGroup = this.taskDialogUiService.createTaskForm();
 
   task: Task | null = null;
   availableUsers: UserDictionary[] = [];
-  currentUserId = 0;
 
-  get isEditMode(): boolean {
-    return this.task !== null;
-  }
-
-  taskForm!: FormGroup;
-
-  readonly priorityOptions = [
-    { value: 'low' as TaskPriority, label: 'Niski' },
-    { value: 'medium' as TaskPriority, label: 'Średni' },
-    { value: 'high' as TaskPriority, label: 'Wysoki' },
-  ];
-
-  readonly statusOptions = [
-    { value: 'todo' as TaskStatus, label: 'Do zrobienia' },
-    { value: 'in_progress' as TaskStatus, label: 'W trakcie' },
-    { value: 'delayed' as TaskStatus, label: 'Opóźnione' },
-    { value: 'done' as TaskStatus, label: 'Gotowe' },
-  ];
+  private currentUserId!: number;
 
   ngOnInit(): void {
-    this.task = this.config.data?.task ?? null;
-    this.availableUsers = this.config.data?.availableUsers ?? [];
-    this.currentUserId = this.config.data?.currentUserId ?? 0;
+    if (!this.config.data) {
+      throw new Error('TaskDialogComponent: Dialog data is required');
+    }
 
-    this.taskForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      assignedToId: [null as number | null],
-      priority: ['medium' as TaskPriority, Validators.required],
-      status: ['todo' as TaskStatus, Validators.required],
-    });
+    this.task = this.config.data.task;
+    this.availableUsers = this.config.data.availableUsers;
+    this.currentUserId = this.config.data.currentUserId;
 
     if (this.task) {
-      this.populateForm(this.task);
+      this.taskDialogUiService.populateForm(this.taskForm, this.task);
     }
   }
 
-  private populateForm(task: Task): void {
-    this.taskForm.patchValue({
-      title: task.title,
-      assignedToId: task.assignedToId,
-      priority: task.priority,
-      status: task.status,
-    });
-  }
+  isEditMode = () => this.task !== null;
+  priorityOptions = () => this.taskDialogUiService.priorityOptions;
+  statusOptions = () => this.taskDialogUiService.statusOptions;
 
   onCancel(): void {
     this.ref.close({ action: 'cancel' } as TaskDialogResult);
   }
 
   onSave(): void {
-    if (this.taskForm.invalid) {
-      this.taskForm.markAllAsTouched();
+    if (!this.taskDialogUiService.validateForm(this.taskForm)) {
       return;
     }
 
-    const formValue = this.taskForm.value as TaskFormValue;
+    const formValue = this.taskDialogUiService.getFormValue(this.taskForm);
 
     const result: TaskDialogResult = {
       action: 'save',
@@ -98,29 +70,10 @@ export class TaskDialogComponent implements OnInit {
   }
 
   isFieldInvalid(fieldName: string): boolean {
-    const field = this.taskForm.get(fieldName);
-    return !!(field && field.invalid && (field.dirty || field.touched));
+    return this.taskDialogUiService.isFieldInvalid(this.taskForm, fieldName);
   }
 
   getFieldError(fieldName: string): string | null {
-    const field = this.taskForm.get(fieldName);
-
-    if (!field || !field.errors) {
-      return null;
-    }
-
-    if (field.errors['required']) {
-      return 'To pole jest wymagane';
-    }
-
-    if (field.errors['minlength']) {
-      return `Minimalna długość: ${field.errors['minlength'].requiredLength} znaków`;
-    }
-
-    if (field.errors['maxlength']) {
-      return `Maksymalna długość: ${field.errors['maxlength'].requiredLength} znaków`;
-    }
-
-    return null;
+    return this.taskDialogUiService.getFieldError(this.taskForm, fieldName);
   }
 }

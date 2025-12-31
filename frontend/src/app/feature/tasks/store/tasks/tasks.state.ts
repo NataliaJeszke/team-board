@@ -1,4 +1,4 @@
-import { Task } from '@feature/tasks/tasks.model';
+import { Task } from '@feature/tasks/model/tasks.model';
 
 export interface TasksState {
   tasks: Task[];

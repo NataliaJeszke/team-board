@@ -1,5 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+
+import { NewTaskRequest } from '@core/api/models/task/task-api.model';
+
 import { TasksActions } from './store/tasks/tasks.actions';
 import {
   selectTaskById,
@@ -12,8 +15,8 @@ import {
   selectTasksByCreator,
   selectTasksByAssignee,
 } from './store/tasks/tasks.selectors';
-import { Task, TaskStatus } from './tasks.model';
-import { CreateTaskDto } from '@core/api/models/task/task-api.model';
+import { Task, TaskStatus } from './model/tasks.model';
+
 
 @Injectable({ providedIn: 'root' })
 export class TasksFacade {
@@ -29,7 +32,7 @@ export class TasksFacade {
     this.store.dispatch(TasksActions.loadTasks());
   }
 
-  createTask(task: CreateTaskDto): void {
+  createTask(task: NewTaskRequest): void {
     this.store.dispatch(TasksActions.createTask({ task }));
   }
 

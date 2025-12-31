@@ -18,10 +18,7 @@
     </div>
 
     <div class="field">
-      <label for="assignedTo" class="field-label">
-        Przypisane do
-        <!-- usuń <span class="required">*</span> -->
-      </label>
+      <label for="assignedTo" class="field-label"> Przypisane do </label>
       <p-select
         id="assignedTo"
         formControlName="assignedToId"
@@ -43,11 +40,11 @@
       <p-select
         id="priority"
         formControlName="priority"
-        [options]="priorityOptions"
+        [options]="priorityOptions()"
         optionLabel="label"
         optionValue="value"
         placeholder="Wybierz priorytet"
-        styleClass="w-full"
+        class="w-full"
       />
     </div>
 
@@ -56,11 +53,11 @@
       <p-select
         id="status"
         formControlName="status"
-        [options]="statusOptions"
+        [options]="statusOptions()"
         optionLabel="label"
         optionValue="value"
         placeholder="Wybierz status"
-        styleClass="w-full"
+        class="w-full"
       />
     </div>
   </div>

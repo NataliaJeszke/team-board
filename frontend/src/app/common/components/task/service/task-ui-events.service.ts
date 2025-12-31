@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { Task, TaskStatus } from '@feature/tasks/tasks.model';
+import { Task, TaskStatus } from '@feature/tasks/model/tasks.model';
 
 export type TaskUiEvent =
   | { type: 'edit'; task: Task }

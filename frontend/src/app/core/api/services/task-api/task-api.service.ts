@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import {
-  CreateTaskDto,
+  NewTaskRequest,
   TaskListResponse,
   TaskResponse,
 } from '@core/api/models/task/task-api.model';
 
-import { TaskStatus } from '@feature/tasks/tasks.model';
+import { Task, TaskStatus } from '@feature/tasks/model/tasks.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,11 +25,11 @@ export class TaskApiService {
     return this.http.get<TaskResponse>(`${this.apiUrl}/${id}`);
   }
 
-  createTask(data: CreateTaskDto): Observable<TaskResponse> {
+  createTask(data: NewTaskRequest): Observable<TaskResponse> {
     return this.http.post<TaskResponse>(this.apiUrl, data);
   }
 
-  updateTask(id: number, data: Partial<CreateTaskDto>): Observable<TaskResponse> {
+  updateTask(id: number, data: Partial<Task>): Observable<TaskResponse> {
     return this.http.put<TaskResponse>(`${this.apiUrl}/${id}`, data);
   }
 

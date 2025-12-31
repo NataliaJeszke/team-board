@@ -9,10 +9,10 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { getInitialsFromName } from '@utils/index';
 
-import { TaskUiService } from '@feature/tasks/services/task-ui.service';
-import { TaskUiEventsService } from '@feature/tasks/services/task-ui-events.service';
+import { TaskUiService } from '@common/components/task/service/task-ui.service';
+import { TaskUiEventsService } from '@common/components/task/service/task-ui-events.service';
 
-import { TaskPriority, TaskStatus, Task } from '@feature/tasks/tasks.model';
+import { TaskPriority, TaskStatus, Task } from '@feature/tasks/model/tasks.model';
 
 @Component({
   selector: 'tb-task',
@@ -34,7 +34,8 @@ export class TaskComponent {
   readonly getInitials = getInitialsFromName;
 
   getPriorityLabel = (priority: TaskPriority) => this.taskUiService.getPriorityLabel(priority);
-  getPrioritySeverity = (priority: TaskPriority) => this.taskUiService.getPrioritySeverity(priority);
+  getPrioritySeverity = (priority: TaskPriority) =>
+    this.taskUiService.getPrioritySeverity(priority);
   getStatusLabel = (status: TaskStatus) => this.taskUiService.getStatusLabel(status);
   getStatusSeverity = (status: TaskStatus) => this.taskUiService.getStatusSeverity(status);
 

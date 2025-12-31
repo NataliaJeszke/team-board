@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { TaskPriority, TaskStatus } from '@feature/tasks/tasks.model';
+import { TaskPriority, TaskStatus } from '@feature/tasks/model/tasks.model';
 
 @Injectable()
 export class TaskUiService {

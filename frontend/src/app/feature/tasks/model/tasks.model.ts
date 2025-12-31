@@ -1,7 +1,6 @@
 import { UserDictionary } from "@core/api/models/users/users-api.model";
 
-export type TaskStatus = 'todo' | 'in_progress' | 'delayed' | 'done';
-export type TaskPriority = 'low' | 'medium' | 'high';
+import { TASK_STATUSES, TASK_PRIORITIES } from "../constants/tasks.constants";
 
 export interface Task {
   id: number;
@@ -34,3 +33,14 @@ export interface TaskDialogResult {
   formValue?: TaskFormValue;
   taskId?: number;
 }
+
+export interface TaskOperationResult {
+  success: boolean;
+  severity: 'success' | 'error' | 'warn' | 'info';
+  summary: string;
+  detail: string;
+  life: number;
+}
+
+export type TaskStatus = (typeof TASK_STATUSES)[number];
+export type TaskPriority = (typeof TASK_PRIORITIES)[number];

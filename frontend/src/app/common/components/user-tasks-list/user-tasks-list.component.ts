@@ -9,7 +9,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { User } from '@core/models';
 
-import { Task } from '@feature/tasks/tasks.model';
+import { Task } from '@feature/tasks/model/tasks.model';
 
 import { TaskComponent } from '@common/components/task/task.component';
 
