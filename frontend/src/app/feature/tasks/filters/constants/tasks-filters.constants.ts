@@ -30,16 +30,19 @@ export const TASK_FILTERS_CONFIG: readonly FilterConfig[] = [
       type: 'select',
       placeholder: 'features.tasks.filters.labels.author',
       options: [],
+      width: '300px',
     },
     {
       key: 'assigneeId',
       type: 'select',
       placeholder: 'features.tasks.filters.labels.assignee',
       options: [],
+      width: '400px',
     },
     {
       key: 'createdAt',
       type: 'date',
       placeholder: 'features.tasks.filters.labels.createdAt',
+      width: '300px',
     },
   ];
