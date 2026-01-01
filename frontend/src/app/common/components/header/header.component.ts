@@ -1,6 +1,5 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
@@ -12,8 +11,9 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { cleanupOverlays, getInitialsFromName } from '@utils/index';
 
-import { Language, User } from '@core/models';
+import { AuthFacade } from '@core/auth/auth.facade';
 import { LanguageFacade } from '@core/language/language.facade';
+import { Language, User } from '@core/models';
 import { LANGUAGES } from '@core/language/constants/language.constants';
 
 import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
@@ -33,7 +33,7 @@ import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-togg
   styleUrls: ['./header.component.style.scss'],
 })
 export class HeaderComponent {
-  private readonly router = inject(Router);
+  private readonly authFacade = inject(AuthFacade);
   private readonly translate = inject(TranslateService);
   private readonly languageFacade = inject(LanguageFacade);
 
@@ -72,11 +72,17 @@ export class HeaderComponent {
           },
         ],
       },
-      { separator: true },
       {
-        label: this.translate.instant('common.components.header.menu.logout'),
-        icon: 'pi pi-sign-out',
-        command: () => this.logout(),
+        separator: true,
+      },
+      {
+        items: [
+          {
+            label: this.translate.instant('common.components.header.menu.logout'),
+            icon: 'pi pi-sign-out',
+            command: () => this.logout(),
+          },
+        ],
       },
     ];
   }
@@ -88,6 +94,6 @@ export class HeaderComponent {
 
   private logout(): void {
     cleanupOverlays();
-    this.router.navigate(['/login']);
+    this.authFacade.logout();
   }
 }
