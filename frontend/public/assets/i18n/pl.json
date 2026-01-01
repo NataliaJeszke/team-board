@@ -76,6 +76,8 @@
         "labels": {
           "status": "Status",
           "priority": "Priorytet",
+          "author": "Autor",
+          "assignee": "Przypisany do",
           "createdAt": "Data utworzenia"
         }
       }
