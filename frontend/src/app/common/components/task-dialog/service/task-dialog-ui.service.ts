@@ -1,24 +1,50 @@
 import { Injectable, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-
+import { TranslateService } from '@ngx-translate/core';
 import { TaskStatus, Task, TaskPriority, TaskFormValue } from '@feature/tasks/model/tasks.model';
 
 @Injectable()
 export class TaskDialogUiService {
   private readonly fb = inject(FormBuilder);
+  private readonly translate = inject(TranslateService);
 
-  readonly priorityOptions = [
-    { value: 'low' as TaskPriority, label: 'Niski' },
-    { value: 'medium' as TaskPriority, label: 'Średni' },
-    { value: 'high' as TaskPriority, label: 'Wysoki' },
-  ];
+  get priorityOptions() {
+    return [
+      {
+        value: 'low' as TaskPriority,
+        label: this.translate.instant('common.components.task-dialog.priority.low'),
+      },
+      {
+        value: 'medium' as TaskPriority,
+        label: this.translate.instant('common.components.task-dialog.priority.medium'),
+      },
+      {
+        value: 'high' as TaskPriority,
+        label: this.translate.instant('common.components.task-dialog.priority.high'),
+      },
+    ];
+  }
 
-  readonly statusOptions = [
-    { value: 'todo' as TaskStatus, label: 'Do zrobienia' },
-    { value: 'in_progress' as TaskStatus, label: 'W trakcie' },
-    { value: 'delayed' as TaskStatus, label: 'Opóźnione' },
-    { value: 'done' as TaskStatus, label: 'Gotowe' },
-  ];
+  get statusOptions() {
+    return [
+      {
+        value: 'todo' as TaskStatus,
+        label: this.translate.instant('common.components.task-dialog.status.todo'),
+      },
+      {
+        value: 'in_progress' as TaskStatus,
+        label: this.translate.instant('common.components.task-dialog.status.in_progress'),
+      },
+      {
+        value: 'delayed' as TaskStatus,
+        label: this.translate.instant('common.components.task-dialog.status.delayed'),
+      },
+      {
+        value: 'done' as TaskStatus,
+        label: this.translate.instant('common.components.task-dialog.status.done'),
+      },
+    ];
+  }
 
   createTaskForm(): FormGroup {
     return this.fb.group({
@@ -45,11 +71,7 @@ export class TaskDialogUiService {
 
   getFieldError(form: FormGroup, fieldName: string): string | null {
     const field = form.get(fieldName);
-
-    if (!field || !field.errors) {
-      return null;
-    }
-
+    if (!field || !field.errors) return null;
     return this.mapErrorToMessage(field);
   }
 
@@ -90,35 +112,31 @@ export class TaskDialogUiService {
 
   private mapErrorToMessage(field: AbstractControl): string | null {
     const errors = field.errors;
+    if (!errors) return null;
 
-    if (!errors) {
-      return null;
-    }
-
-    if (errors['required']) {
-      return 'To pole jest wymagane';
-    }
-
+    if (errors['required'])
+      return this.translate.instant('common.components.task-dialog.validation.required');
     if (errors['minlength']) {
       const minLength = errors['minlength'].requiredLength;
       const actualLength = errors['minlength'].actualLength;
-      return `Minimalna długość: ${minLength} znaków (podano: ${actualLength})`;
+      return this.translate.instant('common.components.task-dialog.validation.minlength', {
+        min: minLength,
+        actual: actualLength,
+      });
     }
-
     if (errors['maxlength']) {
       const maxLength = errors['maxlength'].requiredLength;
       const actualLength = errors['maxlength'].actualLength;
-      return `Maksymalna długość: ${maxLength} znaków (podano: ${actualLength})`;
+      return this.translate.instant('common.components.task-dialog.validation.maxlength', {
+        max: maxLength,
+        actual: actualLength,
+      });
     }
+    if (errors['email'])
+      return this.translate.instant('common.components.task-dialog.validation.email');
+    if (errors['pattern'])
+      return this.translate.instant('common.components.task-dialog.validation.pattern');
 
-    if (errors['email']) {
-      return 'Nieprawidłowy format email';
-    }
-
-    if (errors['pattern']) {
-      return 'Nieprawidłowy format';
-    }
-
-    return 'Nieprawidłowa wartość';
+    return this.translate.instant('common.components.task-dialog.validation.invalid');
   }
 }

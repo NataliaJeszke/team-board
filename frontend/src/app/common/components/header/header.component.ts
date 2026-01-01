@@ -21,13 +21,13 @@ import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-togg
 @Component({
   selector: 'tb-header',
   imports: [
-    ButtonModule,
     MenuModule,
-    ThemeToggleComponent,
-    TranslateModule,
-    CommonModule,
     BadgeModule,
+    ButtonModule,
+    CommonModule,
     TooltipModule,
+    TranslateModule,
+    ThemeToggleComponent,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.style.scss'],

@@ -4,6 +4,8 @@ import { NewTaskRequest, TaskListResponse } from '@core/api/models/task/task-api
 
 import { Task, TaskStatus } from '@feature/tasks/model/tasks.model';
 
+import { TasksFilters } from './tasks.state';
+
 export const TasksActions = createActionGroup({
   source: 'Tasks',
   events: {
@@ -26,5 +28,8 @@ export const TasksActions = createActionGroup({
     'Change Task Status': props<{ id: number; status: TaskStatus }>(),
     'Change Task Status Success': props<{ task: Task }>(),
     'Change Task Status Failure': props<{ error: string }>(),
+
+    'Set Filters': props<{ filters: Partial<TasksFilters> }>(),
+    'Clear Filters': emptyProps(),
   },
 });

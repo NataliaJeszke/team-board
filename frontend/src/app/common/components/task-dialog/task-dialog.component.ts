@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ButtonModule } from 'primeng/button';
@@ -15,7 +16,7 @@ import { TaskDialogUiService } from './service/task-dialog-ui.service';
 
 @Component({
   selector: 'tb-task-dialog',
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, SelectModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, SelectModule, TranslateModule],
   providers: [TaskDialogUiService],
   templateUrl: './task-dialog.component.html',
 })

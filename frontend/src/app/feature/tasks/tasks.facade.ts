@@ -11,11 +11,13 @@ import {
   selectTasksError,
   selectTasksLoading,
   selectTasksWarning,
+  selectFilteredTasks,
   selectTasksByStatus,
   selectTasksByCreator,
   selectTasksByAssignee,
 } from './store/tasks/tasks.selectors';
 import { Task, TaskStatus } from './model/tasks.model';
+import { TasksFilters } from './store/tasks/tasks.state';
 
 
 @Injectable({ providedIn: 'root' })
@@ -23,9 +25,10 @@ export class TasksFacade {
   private readonly store = inject(Store);
 
   readonly tasks = this.store.selectSignal(selectAllTasks);
+  readonly filteredTasks = this.store.selectSignal(selectFilteredTasks);
+  readonly count = this.store.selectSignal(selectTasksCount);
   readonly loading = this.store.selectSignal(selectTasksLoading);
   readonly error = this.store.selectSignal(selectTasksError);
-  readonly count = this.store.selectSignal(selectTasksCount);
   readonly warning = this.store.selectSignal(selectTasksWarning);
 
   loadTasks(): void {
@@ -62,5 +65,13 @@ export class TasksFacade {
 
   getTasksByCreator(userId: number) {
     return this.store.select(selectTasksByCreator(userId));
+  }
+
+  setFilters(filters: Partial<TasksFilters>) {
+    this.store.dispatch(TasksActions.setFilters({ filters }));
+  }
+
+  clearFilters() {
+    this.store.dispatch(TasksActions.clearFilters());
   }
 }
