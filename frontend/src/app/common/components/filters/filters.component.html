@@ -1,10 +1,11 @@
 <p-card class="mb-4">
-    @if (filterForm(); as form) {
-      <form [formGroup]="form" class="flex flex-wrap gap-4">
-        @for (filter of config(); track filter.key) {
-          <div [ngClass]="filter.width || 'w-48'">
-            @switch (filter.type) {
-              @case ('select') {
+  @if (filterForm(); as form) {
+    <form [formGroup]="form" class="flex flex-wrap gap-4">
+      @for (filter of config(); track filter.key) {
+        <div>
+          @switch (filter.type) {
+            @case ('select') {
+              <div [ngStyle]="{ width: filter.width }">
                 <p-select
                   [options]="getSelectOptions(filter)"
                   [formControlName]="filter.key"
@@ -14,31 +15,32 @@
                   [showClear]="true"
                   class="w-full"
                 />
-              }
-              @case ('date') {
-                <p-datepicker
-                  [formControlName]="filter.key"
-                  [placeholder]="getPlaceholder(filter.placeholder)"
-                  dateFormat="yy-mm-dd"
-                  [showIcon]="true"
-                  [showClear]="true"
-                  class="w-full"
-                />
-              }
+              </div>
             }
-          </div>
-        }
-        
-        <div class="flex items-end">
-          <p-button
-            type="button"
-            outlined="true"
-            class="p-button-text text-sm"
-            (click)="resetFilters()"
-          >
-            {{ 'common.components.filters.actions.reset' | translate }}
-          </p-button>
+            @case ('date') {
+              <p-datepicker
+                [formControlName]="filter.key"
+                [placeholder]="getPlaceholder(filter.placeholder)"
+                dateFormat="yy-mm-dd"
+                [showIcon]="true"
+                [showClear]="true"
+                [class]="filter.width || 'w-full'"
+              />
+            }
+          }
         </div>
-      </form>
-    }
-  </p-card>
+      }
+
+      <div class="flex items-end">
+        <p-button
+          type="button"
+          outlined="true"
+          class="p-button-text text-sm"
+          (click)="resetFilters()"
+        >
+          {{ 'common.components.filters.actions.reset' | translate }}
+        </p-button>
+      </div>
+    </form>
+  }
+</p-card>

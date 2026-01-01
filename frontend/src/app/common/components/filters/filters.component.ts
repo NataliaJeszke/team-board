@@ -1,13 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  DestroyRef,
-  effect,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -24,13 +16,13 @@ import { FiltersService } from './service/filters-ui.service';
   selector: 'tb-filters',
   standalone: true,
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
     CardModule,
     SelectModule,
-    DatePickerModule,
-    TranslateModule,
     ButtonModule,
+    CommonModule,
+    TranslateModule,
+    DatePickerModule,
+    ReactiveFormsModule,
   ],
   providers: [FiltersService],
   templateUrl: './filters.component.html',
