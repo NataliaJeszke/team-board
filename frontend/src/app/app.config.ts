@@ -3,6 +3,7 @@ import {
   provideZoneChangeDetection,
   isDevMode,
   importProvidersFrom,
+  APP_INITIALIZER,
 } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
@@ -32,6 +33,8 @@ import { tasksReducer } from '@feature/tasks/store/tasks/tasks.reducer';
 
 import { environment } from './environments/environment';
 import MyBlueTheme from '../theme';
+import { AuthInitService } from '@core/auth/services/auth-init/auth-init.service';
+import { firstValueFrom } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -39,6 +42,14 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([apiPrefixInterceptor, authInterceptor])),
     { provide: API_CONFIG, useValue: { baseUrl: environment.apiBaseUrl } },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (authInitService: AuthInitService) => {
+        return () => firstValueFrom(authInitService.initializeAuth());
+      },
+      deps: [AuthInitService],
+      multi: true,
+    },
     importProvidersFrom(
       TranslateModule.forRoot({
         fallbackLang: 'pl',

@@ -10,6 +10,7 @@ import {
   selectAuthLoading,
   selectCurrentUser,
   selectIsAuthenticated,
+  selectAuthInitialized,
 } from './store/auth.selectors';
 
 @Injectable({ providedIn: 'root' })
@@ -21,6 +22,7 @@ export class AuthFacade {
   readonly loading$ = this.authStore.select(selectAuthLoading);
   readonly error$ = this.authStore.select(selectAuthError);
   readonly token$ = this.authStore.select(selectToken);
+  readonly initialized$ = this.authStore.select(selectAuthInitialized);
 
   login(credentials: LoginRequest) {
     this.authStore.dispatch(AuthActions.login({ credentials }));
