@@ -1,15 +1,17 @@
-import { User } from "@core/models";
+import { User } from '@core/models';
 
 export interface AuthState {
-    user: User | null;
-    token: string | null;
-    loading: boolean;
-    error: string | null;
-  }
-  
-  export const initialAuthState: AuthState = {
-    user: null,
-    token: null,
-    loading: false,
-    error: null,
-  };
+  token: string | null;
+  user: User | null;
+  loading: boolean;
+  error: string | null;
+  initialized: boolean;
+}
+
+export const initialState: AuthState = {
+  token: null,
+  user: null,
+  loading: false,
+  error: null,
+  initialized: false,
+};
