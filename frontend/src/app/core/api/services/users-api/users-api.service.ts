@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
 
+import { API_ENDPOINTS } from '@core/api/config/constants/api-endpoints.constants';
 import { UserDictionary } from '@core/api/models/users/users-api.model';
 
 @Injectable({
@@ -10,9 +10,8 @@ import { UserDictionary } from '@core/api/models/users/users-api.model';
 })
 export class UsersApiService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/users';
 
   getUsersDictionary(): Observable<UserDictionary> {
-    return this.http.get<UserDictionary>(`${this.apiUrl}/dictionary`)
+    return this.http.get<UserDictionary>(API_ENDPOINTS.USERS.DICTIONARY);
   }
 }

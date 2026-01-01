@@ -2,16 +2,16 @@ import { Task } from '@feature/tasks/model/tasks.model';
 
 export interface TasksState {
   tasks: Task[];
-  loading: boolean;
-  error: string | null;
   count: number;
+  loading: boolean;
   warning: string | null;
+  error: string | null;
 }
 
 export const initialState: TasksState = {
   tasks: [],
-  loading: false,
-  error: null,
   count: 0,
+  loading: false,
   warning: null,
+  error: null,
 };

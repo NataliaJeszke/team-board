@@ -18,7 +18,9 @@ import { providePrimeNG } from 'primeng/config';
 
 import { routes } from './app.routes';
 
-import { authInterceptor } from '@core/api/interceptors/auth/auth.interceptor';
+import { API_CONFIG } from '@core/api/config/tokens/api-config.token';
+import { authInterceptor } from '@core/api/config/interceptors/auth/auth.interceptor';
+import { apiPrefixInterceptor } from '@core/api/config/interceptors/api-prefix/api-prefix.interceptor';
 
 import { AuthEffects } from '@core/auth/store/auth.effects';
 import { authReducer } from '@core/auth/store/auth.reducer';
@@ -28,13 +30,15 @@ import { LanguageEffects } from '@core/language/store/language.effects';
 import { TasksEffects } from '@feature/tasks/store/tasks/tasks.effects';
 import { tasksReducer } from '@feature/tasks/store/tasks/tasks.reducer';
 
+import { environment } from './environments/environment';
 import MyBlueTheme from '../theme';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([apiPrefixInterceptor, authInterceptor])),
+    { provide: API_CONFIG, useValue: { baseUrl: environment.apiBaseUrl } },
     importProvidersFrom(
       TranslateModule.forRoot({
         fallbackLang: 'pl',

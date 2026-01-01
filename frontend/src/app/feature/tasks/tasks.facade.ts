@@ -39,13 +39,13 @@ export class TasksFacade {
   updateTask(id: number, changes: Partial<Task>): void {
     this.store.dispatch(TasksActions.updateTask({ id, changes }));
   }
+  
+  changeTaskStatus(id: number, status: TaskStatus): void {
+    this.store.dispatch(TasksActions.changeTaskStatus({ id, status }));
+  }
 
   deleteTask(id: number): void {
     this.store.dispatch(TasksActions.deleteTask({ id }));
-  }
-
-  changeTaskStatus(id: number, status: TaskStatus): void {
-    this.store.dispatch(TasksActions.changeTaskStatus({ id, status }));
   }
 
   getTaskById(id: number) {
