@@ -9,7 +9,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { AuthFacade } from '@core/auth/auth.facade';
 
 import { TasksFacade } from '@feature/tasks/tasks.facade';
-import { UsersFacade } from '@feature/users/users.facade';
+import { UsersFacade } from '@feature/users-dictionary/users-dictionary.facade';
 
 import { FilterValues } from '@common/components/filters/model/filters.model';
 import { HeaderComponent } from '@common/components/header/header.component';
@@ -17,7 +17,6 @@ import { FiltersComponent } from '@common/components/filters/filters.component';
 import { UserTasksComponent } from '@common/components/user-tasks-list/user-tasks-list.component';
 
 import { BoardService } from './service/board.service';
-
 
 @Component({
   selector: 'tb-board',

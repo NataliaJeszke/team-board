@@ -6,11 +6,10 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { User } from '@core/models';
 
 import { TasksFacade } from '@feature/tasks/tasks.facade';
-import { UsersFacade } from '@feature/users/users.facade';
+import { UsersFacade } from '@feature/users-dictionary/users-dictionary.facade';
 import { TasksFilters } from '@feature/tasks/store/tasks/tasks.state';
 import { TaskOperationResult, TaskStatus } from '@feature/tasks/model/tasks.model';
 import { TasksFiltersService } from '@feature/tasks/filters/service/tasks-filters.service';
-
 
 import { TaskDialogComponent } from '@common/components/task-dialog/task-dialog.component';
 import { ConfirmDialogComponent } from '@common/components/confirm-dialog/confirm-dialog.component';
@@ -22,7 +21,7 @@ export class BoardService {
   private readonly dialogService = inject(DialogService);
   private readonly taskUiEvents = inject(TaskUiEventsService);
   private readonly filtersService = inject(TasksFiltersService);
-  
+
   private readonly tasksFacade = inject(TasksFacade);
   private readonly usersFacade = inject(UsersFacade);
 
@@ -34,9 +33,7 @@ export class BoardService {
     return this.filtersService.buildConfig(availableUsers);
   }
 
-  handleAddTaskDialog(
-    currentUser$: Observable<User | null>
-  ): Observable<TaskOperationResult> {
+  handleAddTaskDialog(currentUser$: Observable<User | null>): Observable<TaskOperationResult> {
     return currentUser$.pipe(
       first(Boolean),
       map(user => {
@@ -75,9 +72,7 @@ export class BoardService {
     );
   }
 
-  handleEditTaskEvents(
-    currentUser$: Observable<User | null>
-  ): Observable<TaskOperationResult> {
+  handleEditTaskEvents(currentUser$: Observable<User | null>): Observable<TaskOperationResult> {
     return this.taskUiEvents.uiEvents$.pipe(
       filter(e => e.type === 'edit'),
       withLatestFrom(currentUser$),
@@ -119,9 +114,7 @@ export class BoardService {
     );
   }
 
-  handleStatusChangeEvents(
-    currentUser$: Observable<User | null>
-  ): Observable<TaskOperationResult> {
+  handleStatusChangeEvents(currentUser$: Observable<User | null>): Observable<TaskOperationResult> {
     return this.taskUiEvents.uiEvents$.pipe(
       filter(e => e.type === 'statusChange'),
       withLatestFrom(currentUser$),
