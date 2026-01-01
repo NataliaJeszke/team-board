@@ -12,6 +12,74 @@
           "account": "Konto",
           "logout": "Wyloguj się"
         }
+      },
+      "filters": {
+        "actions": {
+          "apply": "Zastosuj",
+          "clear": "Wyczyść",
+          "reset": "Resetuj"
+        }
+      },
+      "task-dialog": {
+        "labels": {
+          "title": "Tytuł",
+          "assignedTo": "Przypisane do",
+          "priority": "Priorytet",
+          "status": "Status"
+        },
+        "placeholders": {
+          "title": "Wprowadź tytuł zadania",
+          "assignedTo": "Wybierz użytkownika (opcjonalnie)",
+          "priority": "Wybierz priorytet",
+          "status": "Wybierz status"
+        },
+        "actions": {
+          "cancel": "Anuluj",
+          "save": "Zapisz"
+        },
+        "priority": {
+          "low": "Niski",
+          "medium": "Średni",
+          "high": "Wysoki"
+        },
+        "status": {
+          "todo": "Do zrobienia",
+          "in_progress": "W trakcie",
+          "delayed": "Opóźnione",
+          "done": "Gotowe"
+        },
+        "validation": {
+          "required": "To pole jest wymagane",
+          "minlength": "Minimalna długość: {{min}} znaków (podano: {{actual}})",
+          "maxlength": "Maksymalna długość: {{max}} znaków (podano: {{actual}})",
+          "email": "Nieprawidłowy format email",
+          "pattern": "Nieprawidłowy format",
+          "invalid": "Nieprawidłowa wartość"
+        }
+      }
+    }
+  },
+  "features": {
+    "tasks": {
+      "filters": {
+        "status": {
+          "todo": "Do zrobienia",
+          "in_progress": "W trakcie",
+          "delayed": "Opóźnione",
+          "done": "Zrobione"
+        },
+        "priority": {
+          "low": "Niska",
+          "medium": "Średnia",
+          "high": "Wysoka"
+        },
+        "labels": {
+          "status": "Status",
+          "priority": "Priorytet",
+          "author": "Utworzony przez",
+          "assignee": "Przypisany do",
+          "createdAt": "Data utworzenia"
+        }
       }
     }
   }

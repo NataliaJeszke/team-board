@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 
 import { MessageService } from 'primeng/api';
@@ -11,7 +11,9 @@ import { AuthFacade } from '@core/auth/auth.facade';
 import { TasksFacade } from '@feature/tasks/tasks.facade';
 import { UsersFacade } from '@feature/users/users.facade';
 
+import { FilterValues } from '@common/components/filters/model/filters.model';
 import { HeaderComponent } from '@common/components/header/header.component';
+import { FiltersComponent } from '@common/components/filters/filters.component';
 import { UserTasksComponent } from '@common/components/user-tasks-list/user-tasks-list.component';
 
 import { BoardService } from './service/board.service';
@@ -20,7 +22,14 @@ import { BoardService } from './service/board.service';
 @Component({
   selector: 'tb-board',
   templateUrl: './board.component.html',
-  imports: [AsyncPipe, ButtonModule, HeaderComponent, UserTasksComponent, ToastModule],
+  imports: [
+    AsyncPipe,
+    ButtonModule,
+    HeaderComponent,
+    UserTasksComponent,
+    ToastModule,
+    FiltersComponent,
+  ],
   providers: [DialogService, MessageService, BoardService],
 })
 export class BoardComponent implements OnInit {
@@ -33,6 +42,10 @@ export class BoardComponent implements OnInit {
 
   readonly currentUser$ = this.authFacade.user$;
   readonly usersDictionary = this.usersFacade.dictionary;
+
+  readonly taskFiltersConfig = computed(() => {
+    return this.boardService.getFiltersConfig();
+  });
 
   constructor() {
     effect(() => {
@@ -62,7 +75,7 @@ export class BoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.boardService.initializeData();
-    this.subscribeToUiEvents();
+    this.subscribeToUiTaskEvents();
   }
 
   onAddTask(): void {
@@ -71,7 +84,15 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  private subscribeToUiEvents(): void {
+  onFiltersChanged(filters: FilterValues): void {
+    this.boardService.applyFilters(filters);
+  }
+
+  onFiltersReset(): void {
+    this.boardService.resetFilters();
+  }
+
+  private subscribeToUiTaskEvents(): void {
     this.boardService
       .handleEditTaskEvents(this.currentUser$)
       .subscribe(result => this.messageService.add(result));
@@ -80,8 +101,6 @@ export class BoardComponent implements OnInit {
       .handleStatusChangeEvents(this.currentUser$)
       .subscribe(result => this.messageService.add(result));
 
-    this.boardService
-      .handleDeleteTaskEvents()
-      .subscribe(result => this.messageService.add(result));
+    this.boardService.handleDeleteTaskEvents().subscribe(result => this.messageService.add(result));
   }
 }

@@ -1,13 +1,17 @@
 <p-toast position="top-right" />
 
 @let user = currentUser$ | async;
-@let tasks = tasksFacade.tasks();
+@let tasks = tasksFacade.filteredTasks();
 
 <div class="min-h-screen bg-surface-50">
   @if (user) {
     <tb-header [user_]="user" (addTaskClick)="onAddTask()" />
 
     <main class="p-6">
+      <tb-filters 
+      [config]="taskFiltersConfig()"
+      (filtersChanged)="onFiltersChanged($event)"
+    />
       <tb-user-tasks [user_]="user" [tasks_]="tasks"/>
     </main>
   } @else {

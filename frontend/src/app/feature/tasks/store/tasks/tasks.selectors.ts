@@ -30,3 +30,7 @@ export const selectTasksByCreator = (userId: number) =>
   createSelector(selectAllTasks, tasks =>
     tasks.filter((task: Task) => task.createdById === userId)
   );
+
+export const selectTasksFilters = createSelector(selectTasksState, state => state.filters);
+
+export const selectFilteredTasks = createSelector(selectTasksState, state => state.filteredTasks);

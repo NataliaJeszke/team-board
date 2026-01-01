@@ -7,22 +7,32 @@ import { User } from '@core/models';
 
 import { TasksFacade } from '@feature/tasks/tasks.facade';
 import { UsersFacade } from '@feature/users/users.facade';
+import { TasksFilters } from '@feature/tasks/store/tasks/tasks.state';
 import { TaskOperationResult, TaskStatus } from '@feature/tasks/model/tasks.model';
+import { TasksFiltersService } from '@feature/tasks/filters/service/tasks-filters.service';
+
 
 import { TaskDialogComponent } from '@common/components/task-dialog/task-dialog.component';
 import { ConfirmDialogComponent } from '@common/components/confirm-dialog/confirm-dialog.component';
 import { TaskUiEventsService } from '@common/components/task/service/task-ui-events.service';
-
+import { FilterConfig, FilterValues } from '@common/components/filters/model/filters.model';
 
 @Injectable()
 export class BoardService {
   private readonly dialogService = inject(DialogService);
   private readonly taskUiEvents = inject(TaskUiEventsService);
+  private readonly filtersService = inject(TasksFiltersService);
   
   private readonly tasksFacade = inject(TasksFacade);
   private readonly usersFacade = inject(UsersFacade);
 
   readonly usersDictionary = this.usersFacade.dictionary;
+
+  getFiltersConfig(): FilterConfig[] {
+    const dictionary = this.usersDictionary();
+    const availableUsers = Object.values(dictionary);
+    return this.filtersService.buildConfig(availableUsers);
+  }
 
   handleAddTaskDialog(
     currentUser$: Observable<User | null>
@@ -172,6 +182,15 @@ export class BoardService {
         ];
       })
     );
+  }
+
+  applyFilters(filters: FilterValues): void {
+    console.log('apply sie wywolalo service board', filters);
+    this.tasksFacade.setFilters(filters as Partial<TasksFilters>);
+  }
+
+  resetFilters(): void {
+    this.tasksFacade.clearFilters();
   }
 
   initializeData(): void {

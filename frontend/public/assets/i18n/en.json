@@ -6,11 +6,79 @@
         "menu": {
           "language": {
             "title": "Language",
-            "polish": "Polski",
+            "polish": "Polish",
             "english": "English"
+          },
+          "account": "Account",
+          "logout": "Logout"
+        }
+      },
+      "filters": {
+        "actions": {
+          "apply": "Apply",
+          "clear": "Clear",
+          "reset": "Reset"
+        }
+      },
+      "task-dialog": {
+        "labels": {
+          "title": "Title",
+          "assignedTo": "Assigned To",
+          "priority": "Priority",
+          "status": "Status"
         },
-        "account": "Account",
-        "logout": "Log out"
+        "placeholders": {
+          "title": "Enter task title",
+          "assignedTo": "Select a user (optional)",
+          "priority": "Select priority",
+          "status": "Select status"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "save": "Save"
+        },
+        "priority": {
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High"
+        },
+        "status": {
+          "todo": "To Do",
+          "in_progress": "In Progress",
+          "delayed": "Delayed",
+          "done": "Done"
+        },
+        "validation": {
+          "required": "This field is required",
+          "minlength": "Minimum length: {{min}} characters (provided: {{actual}})",
+          "maxlength": "Maximum length: {{max}} characters (provided: {{actual}})",
+          "email": "Invalid email format",
+          "pattern": "Invalid format",
+          "invalid": "Invalid value"
+        }
+      }
+    }
+  },
+  "features": {
+    "tasks": {
+      "filters": {
+        "status": {
+          "todo": "To Do",
+          "in_progress": "In Progress",
+          "delayed": "Delayed",
+          "done": "Done"
+        },
+        "priority": {
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High"
+        },
+        "labels": {
+          "status": "Status",
+          "priority": "Priority",
+          "author": "Author",
+          "assignee": "Assignee",
+          "createdAt": "Created At"
         }
       }
     }
