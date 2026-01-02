@@ -1,7 +1,11 @@
 <div class="p-d-flex p-flex-column p-ai-center p-jc-center">
-    <h3>{{ message }}</h3>
-    <div class="p-mt-3">
-      <button pButton class="p-button-danger p-mr-2" (click)="confirm()">Usuń</button>
-      <button pButton class="p-button-secondary" (click)="cancel()">Anuluj</button>
-    </div>
+  <h3>{{ message }}</h3>
+  <div class="p-mt-3">
+    <button pButton class="p-button-danger p-mr-2" (click)="confirm()">
+      {{ 'common.components.confirm-dialog.actions.confirm' | translate }}
+    </button>
+    <button pButton class="p-button-secondary" (click)="cancel()">
+      {{ 'common.components.confirm-dialog.actions.cancel' | translate }}
+    </button>
   </div>
+</div>

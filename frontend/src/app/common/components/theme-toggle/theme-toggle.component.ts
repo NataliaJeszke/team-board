@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { TooltipModule } from 'primeng/tooltip';
 
 import { ThemeService } from '@core/services/theme/theme.service';
 
 @Component({
   selector: 'tb-common-theme-toggle',
-  imports: [CommonModule, TooltipModule],
+  imports: [CommonModule, TooltipModule, TranslateModule],
   templateUrl: './theme-toggle.component.html',
   styleUrls: ['./theme-toggle.component.style.scss'],
 })

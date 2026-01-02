@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { EMPTY, filter, first, map, Observable, switchMap } from 'rxjs';
 
+import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { User } from '@core/models';
@@ -18,6 +19,7 @@ import { FilterConfig, FilterValues } from '@common/components/filters/model/fil
 
 @Injectable()
 export class BoardService {
+  private readonly translate = inject(TranslateService);
   private readonly dialogService = inject(DialogService);
   private readonly taskUiEvents = inject(TaskUiEventsService);
   private readonly filtersService = inject(TasksFiltersService);
@@ -57,8 +59,8 @@ export class BoardService {
             {
               success: true,
               severity: 'success' as const,
-              summary: 'Sukces',
-              detail: 'Zadanie zostało dodane pomyślnie',
+              summary: this.translate.instant('views.board.toast.taskCreated.summary'),
+              detail: this.translate.instant('views.board.toast.taskCreated.detail'),
               life: 3000,
             },
           ];
@@ -96,8 +98,8 @@ export class BoardService {
                 {
                   success: true,
                   severity: 'success' as const,
-                  summary: 'Zapisano zmiany',
-                  detail: 'Zadanie zostało zaktualizowane',
+                  summary: this.translate.instant('views.board.toast.taskUpdated.summary'),
+                  detail: this.translate.instant('views.board.toast.taskUpdated.detail'),
                   life: 3000,
                 },
               ];
@@ -121,8 +123,8 @@ export class BoardService {
           {
             success: true,
             severity: 'success' as const,
-            summary: 'Status zmieniony',
-            detail: 'Status zadania został zmieniony pomyślnie',
+            summary: this.translate.instant('views.board.toast.taskStatusChanged.summary'),
+            detail: this.translate.instant('views.board.toast.taskStatusChanged.detail'),
             life: 2000,
           },
         ];
@@ -155,14 +157,13 @@ export class BoardService {
       filter(({ confirmed }) => confirmed),
       switchMap(({ taskId }) => {
         this.tasksFacade.deleteTask(taskId);
-        this.tasksFacade.loadTasks();
 
         return [
           {
             success: true,
             severity: 'success' as const,
-            summary: 'Usunięto',
-            detail: 'Zadanie zostało usunięte',
+            summary: this.translate.instant('views.board.toast.taskDeleted.summary'),
+            detail: this.translate.instant('views.board.toast.taskDeleted.detail'),
             life: 3000,
           },
         ];

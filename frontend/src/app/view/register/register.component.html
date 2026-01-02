@@ -5,25 +5,39 @@
   <p-card class="w-full max-w-md">
     <ng-template pTemplate="header">
       <div class="text-center pt-6">
-        <h1 class="text-2xl font-semibold text-surface-900">Rejestracja</h1>
-        <p class="text-surface-600 text-sm mt-2">Zarejestruj nowe konto</p>
+        <h1 class="text-2xl font-semibold text-surface-900">{{ 'views.register.title' | translate }}</h1>
+        <p class="text-surface-600 text-sm mt-2">{{ 'views.register.subtitle' | translate }}</p>
       </div>
     </ng-template>
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
       <div class="space-y-2">
-        <input pInputText type="text" placeholder="Imię" formControlName="name" class="w-full" />
+        <input
+          pInputText
+          type="text"
+          [placeholder]="'views.register.placeholders.name' | translate"
+          formControlName="name"
+          class="w-full"
+        />
       </div>
 
       <div class="space-y-2">
-        <input pInputText type="email" placeholder="Email" formControlName="email" class="w-full" />
+        <input
+          pInputText
+          type="email"
+          [placeholder]="'views.register.placeholders.email' | translate"
+          formControlName="email"
+          class="w-full"
+        />
       </div>
 
       <div class="flex flex-col gap-2">
-        <label for="password" class="font-medium text-surface-700">Hasło</label>
+        <label for="password" class="font-medium text-surface-700">
+          {{ 'views.register.labels.password' | translate }}
+        </label>
         <p-password
           formControlName="password"
-          placeholder="Wprowadź hasło"
+          [placeholder]="'views.register.placeholders.password' | translate"
           [feedback]="false"
           [toggleMask]="true"
           inputStyleClass="w-full"
@@ -37,7 +51,7 @@
       }
 
       <p-button
-        label="Zarejestruj się"
+        [label]="'views.register.actions.submit' | translate"
         type="submit"
         [loading]="isLoading"
         [disabled]="form.invalid"
@@ -48,12 +62,12 @@
     <ng-template pTemplate="footer">
       <div class="text-center border-t pt-4">
         <p class="text-sm text-surface-600">
-          Masz już konto?
+          {{ 'views.register.footer.text' | translate }}
           <a
             routerLink="/login"
             class="text-primary-500 font-medium hover:text-primary-600 transition-colors"
           >
-            Zaloguj się
+            {{ 'views.register.footer.link' | translate }}
           </a>
         </p>
       </div>

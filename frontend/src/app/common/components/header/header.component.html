@@ -23,12 +23,8 @@
           outlined
           severity="secondary"
           size="small"
-          ariaLabel="Add task"
-          [pTooltip]="
-            !user_()
-              ? ('common.components.header.addTask' | translate)
-              : ('common.components.header.addTask' | translate)
-          "
+          [ariaLabel]="'common.components.header.addTask' | translate"
+          [pTooltip]="'common.components.header.addTask' | translate"
           tooltipPosition="bottom"
           [disabled]="!user_()"
           (onClick)="onAddTask()"

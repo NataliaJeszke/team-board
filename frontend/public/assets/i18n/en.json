@@ -3,6 +3,7 @@
     "components": {
       "header": {
         "board": "Board",
+        "addTask": "Add task",
         "menu": {
           "language": {
             "title": "Language",
@@ -55,6 +56,126 @@
           "email": "Invalid email format",
           "pattern": "Invalid format",
           "invalid": "Invalid value"
+        }
+      },
+      "confirm-dialog": {
+        "title": "Confirmation",
+        "message": "Are you sure you want to delete task \"{{title}}\"?",
+        "actions": {
+          "cancel": "Cancel",
+          "confirm": "Delete"
+        }
+      },
+      "task": {
+        "tooltips": {
+          "edit": "Edit",
+          "delete": "Delete",
+          "assigned": "Assigned",
+          "unassigned": "Unassigned",
+          "createdBy": "Created by"
+        },
+        "priority": {
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High"
+        },
+        "status": {
+          "todo": "To Do",
+          "in_progress": "In Progress",
+          "delayed": "Delayed",
+          "done": "Done"
+        }
+      },
+      "user-tasks-list": {
+        "loading": "Loading tasks...",
+        "empty": {
+          "title": "No tasks",
+          "subtitle": "Add a new task to get started"
+        }
+      },
+      "theme-toggle": {
+        "tooltips": {
+          "switchToLight": "Switch to light mode",
+          "switchToDark": "Switch to dark mode"
+        },
+        "ariaLabel": {
+          "light": "Switch to light mode",
+          "dark": "Switch to dark mode"
+        }
+      }
+    }
+  },
+  "views": {
+    "login": {
+      "title": "Login",
+      "subtitle": "Welcome back! Sign in to your account",
+      "labels": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "placeholders": {
+        "email": "your@email.com",
+        "password": "Enter password"
+      },
+      "actions": {
+        "submit": "Sign In"
+      },
+      "footer": {
+        "text": "Don't have an account?",
+        "link": "Sign Up"
+      },
+      "validation": {
+        "email": "Please provide a valid email address",
+        "password": "Password is required"
+      }
+    },
+    "register": {
+      "title": "Registration",
+      "subtitle": "Create a new account",
+      "labels": {
+        "name": "Name",
+        "email": "Email",
+        "password": "Password"
+      },
+      "placeholders": {
+        "name": "Name",
+        "email": "Email",
+        "password": "Enter password"
+      },
+      "actions": {
+        "submit": "Sign Up"
+      },
+      "footer": {
+        "text": "Already have an account?",
+        "link": "Sign In"
+      }
+    },
+    "notFound": {
+      "code": "404",
+      "title": "Page Not Found",
+      "subtitle": "Sorry, the page you are looking for does not exist.",
+      "description": "The URL may have been entered incorrectly or the page has been moved.",
+      "actions": {
+        "goToBoard": "Go to Board"
+      }
+    },
+    "board": {
+      "toast": {
+        "taskCreated": {
+          "summary": "Success",
+          "detail": "Task has been successfully added"
+        },
+        "taskUpdated": {
+          "summary": "Changes Saved",
+          "detail": "Task has been updated"
+        },
+        "taskStatusChanged": {
+          "summary": "Status Changed",
+          "detail": "Task status has been successfully changed"
+        },
+        "taskDeleted": {
+          "summary": "Deleted",
+          "detail": "Task has been deleted"
         }
       }
     }

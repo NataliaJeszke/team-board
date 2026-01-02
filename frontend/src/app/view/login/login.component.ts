@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
@@ -21,6 +23,7 @@ import { AuthFacade } from '@core/auth/auth.facade';
     MessageModule,
     PasswordModule,
     InputTextModule,
+    TranslateModule,
     ReactiveFormsModule,
   ],
   templateUrl: './login.component.html',

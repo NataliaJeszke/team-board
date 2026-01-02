@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
+
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 
@@ -11,12 +13,13 @@ import { ConfirmDialogData } from './model/confirm-dialog.model';
 @Component({
   selector: 'tb-confirm-dialog',
   standalone: true,
-  imports: [CommonModule, ButtonModule],
+  imports: [CommonModule, ButtonModule, TranslateModule],
   templateUrl: './confirm-dialog.component.html',
 })
 export class ConfirmDialogComponent implements OnInit {
   private readonly ref = inject(DynamicDialogRef);
   private readonly config = inject(DynamicDialogConfig<ConfirmDialogData>);
+  private readonly translate = inject(TranslateService);
 
   task!: Task;
   message!: string;
@@ -29,7 +32,8 @@ export class ConfirmDialogComponent implements OnInit {
 
     this.task = this.config.data.task;
     this.message =
-      this.config.data.message || `Czy na pewno chcesz usunąć zadanie "${this.task.title}"?`;
+      this.config.data.message ||
+      this.translate.instant('common.components.confirm-dialog.message', { title: this.task.title });
   }
 
   confirm(): void {

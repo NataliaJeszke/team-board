@@ -3,6 +3,7 @@
     "components": {
       "header": {
         "board": "Tablica",
+        "addTask": "Dodaj zadanie",
         "menu": {
           "language": {
             "title": "Język",
@@ -55,6 +56,126 @@
           "email": "Nieprawidłowy format email",
           "pattern": "Nieprawidłowy format",
           "invalid": "Nieprawidłowa wartość"
+        }
+      },
+      "confirm-dialog": {
+        "title": "Potwierdzenie",
+        "message": "Czy na pewno chcesz usunąć zadanie \"{{title}}\"?",
+        "actions": {
+          "cancel": "Anuluj",
+          "confirm": "Usuń"
+        }
+      },
+      "task": {
+        "tooltips": {
+          "edit": "Edytuj",
+          "delete": "Usuń",
+          "assigned": "Przypisany",
+          "unassigned": "Nieprzypisany",
+          "createdBy": "Utworzony przez"
+        },
+        "priority": {
+          "low": "Niski",
+          "medium": "Średni",
+          "high": "Wysoki"
+        },
+        "status": {
+          "todo": "Do zrobienia",
+          "in_progress": "W trakcie",
+          "delayed": "Opóźnione",
+          "done": "Gotowe"
+        }
+      },
+      "user-tasks-list": {
+        "loading": "Ładowanie zadań...",
+        "empty": {
+          "title": "Brak zadań",
+          "subtitle": "Dodaj nowe zadanie, aby rozpocząć"
+        }
+      },
+      "theme-toggle": {
+        "tooltips": {
+          "switchToLight": "Przełącz na tryb jasny",
+          "switchToDark": "Przełącz na tryb ciemny"
+        },
+        "ariaLabel": {
+          "light": "Switch to light mode",
+          "dark": "Switch to dark mode"
+        }
+      }
+    }
+  },
+  "views": {
+    "login": {
+      "title": "Logowanie",
+      "subtitle": "Witaj ponownie! Zaloguj się do swojego konta",
+      "labels": {
+        "email": "Email",
+        "password": "Hasło"
+      },
+      "placeholders": {
+        "email": "twoj@email.com",
+        "password": "Wprowadź hasło"
+      },
+      "actions": {
+        "submit": "Zaloguj się"
+      },
+      "footer": {
+        "text": "Nie masz konta?",
+        "link": "Zarejestruj się"
+      },
+      "validation": {
+        "email": "Podaj prawidłowy adres email",
+        "password": "Hasło jest wymagane"
+      }
+    },
+    "register": {
+      "title": "Rejestracja",
+      "subtitle": "Zarejestruj nowe konto",
+      "labels": {
+        "name": "Imię",
+        "email": "Email",
+        "password": "Hasło"
+      },
+      "placeholders": {
+        "name": "Imię",
+        "email": "Email",
+        "password": "Wprowadź hasło"
+      },
+      "actions": {
+        "submit": "Zarejestruj się"
+      },
+      "footer": {
+        "text": "Masz już konto?",
+        "link": "Zaloguj się"
+      }
+    },
+    "notFound": {
+      "code": "404",
+      "title": "Strona nie znaleziona",
+      "subtitle": "Przykro nam, ale strona której szukasz nie istnieje.",
+      "description": "Możliwe, że adres URL został wpisany nieprawidłowo lub strona została przeniesiona.",
+      "actions": {
+        "goToBoard": "Wróć do tablicy"
+      }
+    },
+    "board": {
+      "toast": {
+        "taskCreated": {
+          "summary": "Sukces",
+          "detail": "Zadanie zostało dodane pomyślnie"
+        },
+        "taskUpdated": {
+          "summary": "Zapisano zmiany",
+          "detail": "Zadanie zostało zaktualizowane"
+        },
+        "taskStatusChanged": {
+          "summary": "Status zmieniony",
+          "detail": "Status zadania został zmieniony pomyślnie"
+        },
+        "taskDeleted": {
+          "summary": "Usunięto",
+          "detail": "Zadanie zostało usunięte"
         }
       }
     }

@@ -1,18 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+
+import { TranslateService } from '@ngx-translate/core';
 
 import { TaskPriority, TaskStatus } from '@feature/tasks/model/tasks.model';
 
 @Injectable()
 export class TaskUiService {
+  private readonly translate = inject(TranslateService);
+
   readonly availableStatuses: TaskStatus[] = ['todo', 'in_progress', 'done'];
 
   getPriorityLabel(priority: TaskPriority): string {
-    const labels: Record<TaskPriority, string> = {
-      low: 'Niski',
-      medium: 'Średni',
-      high: 'Wysoki',
-    };
-    return labels[priority];
+    return this.translate.instant(`common.components.task.priority.${priority}`);
   }
 
   getPrioritySeverity(priority: TaskPriority): 'success' | 'info' | 'danger' {
@@ -25,13 +24,7 @@ export class TaskUiService {
   }
 
   getStatusLabel(status: TaskStatus): string {
-    const labels: Record<TaskStatus, string> = {
-      todo: 'Do zrobienia',
-      in_progress: 'W trakcie',
-      delayed: 'Opóźnione',
-      done: 'Gotowe',
-    };
-    return labels[status];
+    return this.translate.instant(`common.components.task.status.${status}`);
   }
 
   getStatusSeverity(status: TaskStatus): 'secondary' | 'info' | 'warn' | 'success' {
