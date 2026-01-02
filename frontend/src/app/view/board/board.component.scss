@@ -1,0 +1,24 @@
+.board {
+  min-height: 100vh;
+  background-color: var(--p-content-background);
+
+  &__main {
+    padding: 1.5rem;
+  }
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  &__loading-content {
+    text-align: center;
+  }
+
+  &__loading-icon {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+  }
+}
