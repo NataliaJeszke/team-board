@@ -2,6 +2,10 @@
 
 A modern, production-grade Angular 21 application for team collaboration and task management, built with state management patterns.
 
+- **Frontend** - Task Board Application with Angular 21
+- **Backend** - Task Board Backend with NestJS
+( Both are creating monorepo. Backend is to download from: https://github.com/NataliaJeszke/team-board-backend )
+
 ## 📋 Table of Contents
 
 - [Project Overview](#-project-overview)
