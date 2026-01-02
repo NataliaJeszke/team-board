@@ -8,7 +8,7 @@ import { User } from '@core/models';
 import { TasksFacade } from '@feature/tasks/tasks.facade';
 import { UsersFacade } from '@feature/users-dictionary/users-dictionary.facade';
 import { TasksFilters } from '@feature/tasks/store/tasks/tasks.state';
-import { TaskOperationResult, TaskStatus } from '@feature/tasks/model/tasks.model';
+import { TaskOperationResult } from '@feature/tasks/model/tasks.model';
 import { TasksFiltersService } from '@feature/tasks/filters/service/tasks-filters.service';
 
 import { TaskDialogComponent } from '@common/components/task-dialog/task-dialog.component';
@@ -55,7 +55,6 @@ export class BoardService {
       switchMap(result => {
         if (result?.action === 'save' && result.formValue) {
           this.tasksFacade.createTask(result.formValue);
-          this.tasksFacade.loadTasks();
 
           return [
             {
@@ -97,7 +96,6 @@ export class BoardService {
       switchMap(result => {
         if (result?.action === 'save') {
           this.tasksFacade.updateTask(result.taskId!, result.formValue);
-          this.tasksFacade.loadTasks();
 
           return [
             {
@@ -121,8 +119,7 @@ export class BoardService {
       switchMap(([event, user]) => {
         if (!user) return EMPTY;
 
-        const upperStatus = event.status.toUpperCase() as TaskStatus;
-        this.tasksFacade.changeTaskStatus(event.taskId, upperStatus);
+        this.tasksFacade.changeTaskStatus(event.taskId, event.status);
 
         return [
           {
@@ -178,7 +175,6 @@ export class BoardService {
   }
 
   applyFilters(filters: FilterValues): void {
-    console.log('apply sie wywolalo service board', filters);
     this.tasksFacade.setFilters(filters as Partial<TasksFilters>);
   }
 

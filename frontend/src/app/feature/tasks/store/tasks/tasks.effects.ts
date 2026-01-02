@@ -65,7 +65,7 @@ export class TasksEffects {
       ofType(TasksActions.changeTaskStatus),
       mergeMap(({ id, status }) =>
         this.taskApiService.updateTaskStatus(id, status).pipe(
-          map(response => TasksActions.updateTaskSuccess({ task: response.data })),
+          map(response => TasksActions.changeTaskStatusSuccess({ task: response.data })),
           catchError(error => of(TasksActions.changeTaskStatusFailure({ error: error.message })))
         )
       )
