@@ -1,5 +1,5 @@
-@let error = error$ | async;
-@let loading = loading$ | async;
+@let currentError = error();
+@let isLoading = loading();
 
 <div class="min-h-screen flex items-center justify-center bg-surface-100 p-4">
   <p-card class="w-full max-w-md">
@@ -40,14 +40,14 @@
         }
       </div>
 
-      @if (error) {
-        <p-message severity="error" [text]="error" styleClass="w-full" />
+      @if (currentError) {
+        <p-message severity="error" [text]="currentError" styleClass="w-full" />
       }
 
       <p-button
         label="Zaloguj się"
         type="submit"
-        [loading]="loading ?? false"
+        [loading]="isLoading"
         [disabled]="form.invalid"
         styleClass="w-full"
         icon="pi pi-sign-in"

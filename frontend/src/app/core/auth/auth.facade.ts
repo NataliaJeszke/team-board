@@ -17,12 +17,12 @@ import {
 export class AuthFacade {
   private readonly authStore = inject(Store);
 
-  readonly user$ = this.authStore.select(selectCurrentUser);
-  readonly isAuthenticated$ = this.authStore.select(selectIsAuthenticated);
-  readonly loading$ = this.authStore.select(selectAuthLoading);
-  readonly error$ = this.authStore.select(selectAuthError);
-  readonly token$ = this.authStore.select(selectToken);
-  readonly initialized$ = this.authStore.select(selectAuthInitialized);
+  readonly user = this.authStore.selectSignal(selectCurrentUser);
+  readonly isAuthenticated = this.authStore.selectSignal(selectIsAuthenticated);
+  readonly loading = this.authStore.selectSignal(selectAuthLoading);
+  readonly error = this.authStore.selectSignal(selectAuthError);
+  readonly token = this.authStore.selectSignal(selectToken);
+  readonly initialized = this.authStore.selectSignal(selectAuthInitialized);
 
   login(credentials: LoginRequest) {
     this.authStore.dispatch(AuthActions.login({ credentials }));
