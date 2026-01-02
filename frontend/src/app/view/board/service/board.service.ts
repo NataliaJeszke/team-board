@@ -6,7 +6,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { User } from '@core/models';
 
 import { TasksFacade } from '@feature/tasks/tasks.facade';
-import { UsersFacade } from '@feature/users-dictionary/users-dictionary.facade';
+import { UsersDictionaryFacade } from '@feature/users-dictionary/users-dictionary.facade';
 import { TasksFilters } from '@feature/tasks/store/tasks/tasks.state';
 import { TaskOperationResult } from '@feature/tasks/model/tasks.model';
 import { TasksFiltersService } from '@feature/tasks/filters/service/tasks-filters.service';
@@ -23,9 +23,9 @@ export class BoardService {
   private readonly filtersService = inject(TasksFiltersService);
 
   private readonly tasksFacade = inject(TasksFacade);
-  private readonly usersFacade = inject(UsersFacade);
+  private readonly usersDictionaryFacade = inject(UsersDictionaryFacade);
 
-  readonly usersDictionary = this.usersFacade.dictionary;
+  readonly usersDictionary = this.usersDictionaryFacade.dictionary;
 
   getFiltersConfig(): FilterConfig[] {
     const dictionary = this.usersDictionary();
@@ -184,6 +184,6 @@ export class BoardService {
 
   initializeData(): void {
     this.tasksFacade.loadTasks();
-    this.usersFacade.loadUsersDictionary();
+    this.usersDictionaryFacade.loadUsersDictionary();
   }
 }

@@ -9,7 +9,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { AuthFacade } from '@core/auth/auth.facade';
 
 import { TasksFacade } from '@feature/tasks/tasks.facade';
-import { UsersFacade } from '@feature/users-dictionary/users-dictionary.facade';
+import { UsersDictionaryFacade } from '@feature/users-dictionary/users-dictionary.facade';
 
 import { FilterValues } from '@common/components/filters/model/filters.model';
 import { HeaderComponent } from '@common/components/header/header.component';
@@ -33,14 +33,14 @@ import { BoardService } from './service/board.service';
 })
 export class BoardComponent implements OnInit {
   private readonly authFacade = inject(AuthFacade);
-  private readonly usersFacade = inject(UsersFacade);
+  private readonly usersDictionaryFacade = inject(UsersDictionaryFacade);
   protected readonly tasksFacade = inject(TasksFacade);
 
   private readonly boardService = inject(BoardService);
   private readonly messageService = inject(MessageService);
 
   readonly currentUser$ = this.authFacade.user$;
-  readonly usersDictionary = this.usersFacade.dictionary;
+  readonly usersDictionary = this.usersDictionaryFacade.dictionary;
 
   readonly taskFiltersConfig = computed(() => {
     return this.boardService.getFiltersConfig();

@@ -6,7 +6,7 @@ import { UserDictionary } from '@core/api/models/users/users-api.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UsersFacade {
+export class UsersDictionaryFacade {
   private usersApi = inject(UsersApiService);
 
   private _dictionary = signal<UserDictionary>({});
