@@ -2,21 +2,23 @@
   <p-card class="w-full max-w-md text-center">
     <ng-template pTemplate="header">
       <div class="text-center pt-6">
-        <h1 class="text-6xl font-bold text-primary-500">404</h1>
-        <h2 class="text-2xl font-semibold text-surface-900 mt-4">Strona nie znaleziona</h2>
+        <h1 class="text-6xl font-bold text-primary-500">{{ 'views.notFound.code' | translate }}</h1>
+        <h2 class="text-2xl font-semibold text-surface-900 mt-4">
+          {{ 'views.notFound.title' | translate }}
+        </h2>
         <p class="text-surface-600 text-sm mt-2">
-          Przykro nam, ale strona której szukasz nie istnieje.
+          {{ 'views.notFound.subtitle' | translate }}
         </p>
       </div>
     </ng-template>
 
     <div class="py-4">
       <p class="text-surface-600 mb-6">
-        Możliwe, że adres URL został wpisany nieprawidłowo lub strona została przeniesiona.
+        {{ 'views.notFound.description' | translate }}
       </p>
 
       <p-button
-        label="Wróć do tablicy"
+        [label]="'views.notFound.actions.goToBoard' | translate"
         routerLink="/board"
         icon="pi pi-home"
         styleClass="w-full"

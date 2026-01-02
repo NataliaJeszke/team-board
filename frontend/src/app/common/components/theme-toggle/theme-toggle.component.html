@@ -1,11 +1,11 @@
 <button
   type="button"
   (click)="toggleTheme()"
-  [pTooltip]="isDarkMode() ? 'Przełącz na tryb jasny' : 'Przełącz na tryb ciemny'"
+  [pTooltip]="(isDarkMode() ? 'common.components.theme-toggle.tooltips.switchToLight' : 'common.components.theme-toggle.tooltips.switchToDark') | translate"
   tooltipPosition="bottom"
   class="theme-toggle__button"
   [ngClass]="isDarkMode() ? 'theme-toggle--dark' : 'theme-toggle--light'"
-  [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+  [attr.aria-label]="(isDarkMode() ? 'common.components.theme-toggle.ariaLabel.dark' : 'common.components.theme-toggle.ariaLabel.light') | translate"
   [attr.aria-pressed]="isDarkMode()"
 >
   <i class="pi theme-toggle__icon" [ngClass]="isDarkMode() ? 'pi-moon' : 'pi-sun'"></i>

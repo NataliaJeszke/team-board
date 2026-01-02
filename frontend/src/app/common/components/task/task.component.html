@@ -6,7 +6,7 @@
         text
         rounded
         severity="secondary"
-        pTooltip="Edytuj"
+        [pTooltip]="'common.components.task.tooltips.edit' | translate"
         (click)="onEdit()"
         class="p-button-sm md:p-button-md"
       />
@@ -15,7 +15,7 @@
         text
         rounded
         severity="danger"
-        pTooltip="Usuń"
+        [pTooltip]="'common.components.task.tooltips.delete' | translate"
         (click)="onDelete()"
         class="p-button-sm md:p-button-md"
       />
@@ -31,7 +31,7 @@
           styleClass="bg-primary text-white font-semibold"
           size="large"
           class="w-10 h-10 md:w-12 md:h-12 text-sm md:text-base"
-          pTooltip="Przypisany"
+          [pTooltip]="'common.components.task.tooltips.assigned' | translate"
         />
       } @else {
         <p-avatar
@@ -39,7 +39,7 @@
           styleClass="bg-red-500"
           size="large"
           class="w-10 h-10 md:w-12 md:h-12"
-          pTooltip="Nieprzypisany"
+          [pTooltip]="'common.components.task.tooltips.unassigned' | translate"
         />
       }
 
@@ -70,7 +70,7 @@
           [label]="getInitials(task_().createdByName || '')"
           styleClass="bg-surface-200 text-color font-medium"
           class="w-6 h-6 md:w-8 md:h-8 text-xs md:text-sm"
-          pTooltip="Utworzony przez"
+          [pTooltip]="'common.components.task.tooltips.createdBy' | translate"
         />
         <span>{{ task_().createdByName }}</span>
       </div>

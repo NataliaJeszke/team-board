@@ -2,10 +2,10 @@
   @if (loading_()) {
     <div class="loading-state">
       <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
-      <p>Ładowanie zadań...</p>
+      <p>{{ 'common.components.user-tasks-list.loading' | translate }}</p>
     </div>
   }
-  
+
   @else if (tasks_().length > 0) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       @for (task of tasks_(); track task.id) {
@@ -13,12 +13,12 @@
       }
     </div>
   }
-  
+
   @else {
     <div class="empty-state">
       <i class="pi pi-inbox text-4xl text-surface-400"></i>
-      <p>Brak zadań</p>
-      <small>Dodaj nowe zadanie, aby rozpocząć</small>
+      <p>{{ 'common.components.user-tasks-list.empty.title' | translate }}</p>
+      <small>{{ 'common.components.user-tasks-list.empty.subtitle' | translate }}</small>
     </div>
   }
 </div>

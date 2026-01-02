@@ -1,6 +1,8 @@
 import { Component, input, inject, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { TagModule } from 'primeng/tag';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -16,7 +18,7 @@ import { TaskPriority, TaskStatus, Task } from '@feature/tasks/model/tasks.model
 
 @Component({
   selector: 'tb-task',
-  imports: [CardModule, ButtonModule, TagModule, AvatarModule, TooltipModule, DatePipe],
+  imports: [CardModule, ButtonModule, TagModule, AvatarModule, TooltipModule, TranslateModule, DatePipe],
   providers: [TaskUiService],
   templateUrl: './task.component.html',
 })

@@ -5,38 +5,42 @@
   <p-card class="w-full max-w-md">
     <ng-template pTemplate="header">
       <div class="text-center pt-6">
-        <h1 class="text-2xl font-semibold text-surface-900">Logowanie</h1>
-        <p class="text-surface-600 text-sm mt-2">Witaj ponownie! Zaloguj się do swojego konta</p>
+        <h1 class="text-2xl font-semibold text-surface-900">{{ 'views.login.title' | translate }}</h1>
+        <p class="text-surface-600 text-sm mt-2">{{ 'views.login.subtitle' | translate }}</p>
       </div>
     </ng-template>
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
       <div class="flex flex-col gap-2">
-        <label for="email" class="font-medium text-surface-700">Email</label>
+        <label for="email" class="font-medium text-surface-700">
+          {{ 'views.login.labels.email' | translate }}
+        </label>
         <input
           pInputText
           id="email"
           type="email"
-          placeholder="twoj@email.com"
+          [placeholder]="'views.login.placeholders.email' | translate"
           formControlName="email"
           class="w-full"
         />
         @if (form.controls.email.invalid && form.controls.email.touched) {
-          <small class="text-red-500">Podaj prawidłowy adres email</small>
+          <small class="text-red-500">{{ 'views.login.validation.email' | translate }}</small>
         }
       </div>
 
       <div class="flex flex-col gap-2">
-        <label for="password" class="font-medium text-surface-700">Hasło</label>
+        <label for="password" class="font-medium text-surface-700">
+          {{ 'views.login.labels.password' | translate }}
+        </label>
         <p-password
           formControlName="password"
-          placeholder="Wprowadź hasło"
+          [placeholder]="'views.login.placeholders.password' | translate"
           [feedback]="false"
           [toggleMask]="true"
           inputStyleClass="w-full"
         />
         @if (form.controls.password.invalid && form.controls.password.touched) {
-          <small class="text-red-500">Hasło jest wymagane</small>
+          <small class="text-red-500">{{ 'views.login.validation.password' | translate }}</small>
         }
       </div>
 
@@ -45,7 +49,7 @@
       }
 
       <p-button
-        label="Zaloguj się"
+        [label]="'views.login.actions.submit' | translate"
         type="submit"
         [loading]="isLoading"
         [disabled]="form.invalid"
@@ -57,12 +61,12 @@
     <ng-template pTemplate="footer">
       <div class="text-center border-t pt-4">
         <p class="text-sm text-surface-600">
-          Nie masz konta?
+          {{ 'views.login.footer.text' | translate }}
           <a
             routerLink="/register"
             class="text-primary-500 font-medium hover:text-primary-600 transition-colors"
           >
-            Zarejestruj się
+            {{ 'views.login.footer.link' | translate }}
           </a>
         </p>
       </div>
