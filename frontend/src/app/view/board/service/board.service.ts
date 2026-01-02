@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { EMPTY, filter, first, map, Observable, switchMap, withLatestFrom } from 'rxjs';
+import { EMPTY, filter, first, map, Observable, switchMap } from 'rxjs';
 
 import { DialogService } from 'primeng/dynamicdialog';
 
@@ -33,25 +33,22 @@ export class BoardService {
     return this.filtersService.buildConfig(availableUsers);
   }
 
-  handleAddTaskDialog(currentUser$: Observable<User | null>): Observable<TaskOperationResult> {
-    return currentUser$.pipe(
-      first(Boolean),
-      map(user => {
-        const dictionary = this.usersDictionary();
-        const availableUsers = Object.values(dictionary);
-        return { user, availableUsers };
-      }),
-      switchMap(({ user, availableUsers }) => {
-        const ref = this.dialogService.open(TaskDialogComponent, {
-          header: 'Dodaj nowe zadanie',
-          width: '500px',
-          data: {
-            currentUserId: user.id,
-            availableUsers,
-          },
-        });
-        return ref?.onClose ?? EMPTY;
-      }),
+  handleAddTaskDialog(currentUser: User | null): Observable<TaskOperationResult> {
+    if (!currentUser) return EMPTY;
+
+    const dictionary = this.usersDictionary();
+    const availableUsers = Object.values(dictionary);
+
+    const ref = this.dialogService.open(TaskDialogComponent, {
+      header: 'Dodaj nowe zadanie',
+      width: '500px',
+      data: {
+        currentUserId: currentUser.id,
+        availableUsers,
+      },
+    });
+
+    return (ref?.onClose ?? EMPTY).pipe(
       switchMap(result => {
         if (result?.action === 'save' && result.formValue) {
           this.tasksFacade.createTask(result.formValue);
@@ -71,12 +68,11 @@ export class BoardService {
     );
   }
 
-  handleEditTaskEvents(currentUser$: Observable<User | null>): Observable<TaskOperationResult> {
+  handleEditTaskEvents(currentUser: User | null): Observable<TaskOperationResult> {
     return this.taskUiEvents.uiEvents$.pipe(
       filter(e => e.type === 'edit'),
-      withLatestFrom(currentUser$),
-      switchMap(([event, user]) => {
-        if (!user) return EMPTY;
+      switchMap(event => {
+        if (!currentUser) return EMPTY;
 
         const dictionary = this.usersDictionary();
         const availableUsers = Object.values(dictionary);
@@ -86,38 +82,38 @@ export class BoardService {
           width: '500px',
           data: {
             task: event.task,
-            currentUserId: user.id,
+            currentUserId: currentUser.id,
             availableUsers,
           },
         });
 
-        return ref?.onClose ?? EMPTY;
-      }),
-      switchMap(result => {
-        if (result?.action === 'save') {
-          this.tasksFacade.updateTask(result.taskId!, result.formValue);
+        return (ref?.onClose ?? EMPTY).pipe(
+          switchMap(result => {
+            if (result?.action === 'save') {
+              this.tasksFacade.updateTask(result.taskId!, result.formValue);
 
-          return [
-            {
-              success: true,
-              severity: 'success' as const,
-              summary: 'Zapisano zmiany',
-              detail: 'Zadanie zostało zaktualizowane',
-              life: 3000,
-            },
-          ];
-        }
-        return EMPTY;
+              return [
+                {
+                  success: true,
+                  severity: 'success' as const,
+                  summary: 'Zapisano zmiany',
+                  detail: 'Zadanie zostało zaktualizowane',
+                  life: 3000,
+                },
+              ];
+            }
+            return EMPTY;
+          })
+        );
       })
     );
   }
 
-  handleStatusChangeEvents(currentUser$: Observable<User | null>): Observable<TaskOperationResult> {
+  handleStatusChangeEvents(currentUser: User | null): Observable<TaskOperationResult> {
     return this.taskUiEvents.uiEvents$.pipe(
       filter(e => e.type === 'statusChange'),
-      withLatestFrom(currentUser$),
-      switchMap(([event, user]) => {
-        if (!user) return EMPTY;
+      switchMap(event => {
+        if (!currentUser) return EMPTY;
 
         this.tasksFacade.changeTaskStatus(event.taskId, event.status);
 

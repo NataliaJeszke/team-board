@@ -1,5 +1,5 @@
-@let error = error$ | async;
-@let loading = loading$ | async;
+@let currentError = error();
+@let isLoading = loading();
 
 <div class="min-h-screen flex items-center justify-center bg-surface-100 p-4">
   <p-card class="w-full max-w-md">
@@ -30,13 +30,19 @@
         />
       </div>
 
-      <p-button label="Zarejestruj się" type="submit" [loading]="loading" styleClass="w-full"></p-button>
-
-      @if (error) {
+      @if (currentError) {
         <div class="p-error text-center mb-3">
-          {{ error }}
+          {{ currentError }}
         </div>
       }
+
+      <p-button
+        label="Zarejestruj się"
+        type="submit"
+        [loading]="isLoading"
+        [disabled]="form.invalid"
+        styleClass="w-full"
+      ></p-button>
     </form>
 
     <ng-template pTemplate="footer">

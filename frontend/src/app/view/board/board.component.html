@@ -1,6 +1,6 @@
 <p-toast position="top-right" />
 
-@let user = currentUser$ | async;
+@let user = currentUser();
 @let tasks = tasksFacade.filteredTasks();
 
 <div class="min-h-screen bg-surface-50">

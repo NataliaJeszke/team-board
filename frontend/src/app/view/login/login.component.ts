@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -16,7 +15,6 @@ import { AuthFacade } from '@core/auth/auth.facade';
   selector: 'tb-login',
   standalone: true,
   imports: [
-    AsyncPipe,
     RouterLink,
     CardModule,
     ButtonModule,
@@ -31,23 +29,13 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private authFacade = inject(AuthFacade);
 
-  loading$ = this.authFacade.loading$;
-  error$ = this.authFacade.error$;
+  loading = this.authFacade.loading;
+  error = this.authFacade.error;
 
   form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
-
-  constructor() {
-    this.loading$.subscribe(loading => {
-      if (loading) {
-        this.form.disable();
-      } else {
-        this.form.enable();
-      }
-    });
-  }
 
   submit(): void {
     if (this.form.invalid) return;

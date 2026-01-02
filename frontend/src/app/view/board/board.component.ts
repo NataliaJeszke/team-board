@@ -1,5 +1,4 @@
 import { Component, computed, effect, inject, OnInit } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
@@ -21,14 +20,7 @@ import { BoardService } from './service/board.service';
 @Component({
   selector: 'tb-board',
   templateUrl: './board.component.html',
-  imports: [
-    AsyncPipe,
-    ButtonModule,
-    HeaderComponent,
-    UserTasksComponent,
-    ToastModule,
-    FiltersComponent,
-  ],
+  imports: [ButtonModule, HeaderComponent, UserTasksComponent, ToastModule, FiltersComponent],
   providers: [DialogService, MessageService, BoardService],
 })
 export class BoardComponent implements OnInit {
@@ -39,7 +31,7 @@ export class BoardComponent implements OnInit {
   private readonly boardService = inject(BoardService);
   private readonly messageService = inject(MessageService);
 
-  readonly currentUser$ = this.authFacade.user$;
+  readonly currentUser = this.authFacade.user;
   readonly usersDictionary = this.usersDictionaryFacade.dictionary;
 
   readonly taskFiltersConfig = computed(() => {
@@ -78,7 +70,7 @@ export class BoardComponent implements OnInit {
   }
 
   onAddTask(): void {
-    this.boardService.handleAddTaskDialog(this.currentUser$).subscribe(result => {
+    this.boardService.handleAddTaskDialog(this.currentUser()).subscribe(result => {
       this.messageService.add(result);
     });
   }
@@ -92,12 +84,14 @@ export class BoardComponent implements OnInit {
   }
 
   private subscribeToUiTaskEvents(): void {
+    const user = this.currentUser();
+
     this.boardService
-      .handleEditTaskEvents(this.currentUser$)
+      .handleEditTaskEvents(user)
       .subscribe(result => this.messageService.add(result));
 
     this.boardService
-      .handleStatusChangeEvents(this.currentUser$)
+      .handleStatusChangeEvents(user)
       .subscribe(result => this.messageService.add(result));
 
     this.boardService.handleDeleteTaskEvents().subscribe(result => this.messageService.add(result));

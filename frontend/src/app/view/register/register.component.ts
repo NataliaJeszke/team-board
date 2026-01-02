@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -16,7 +15,6 @@ import { AuthFacade } from '@core/auth/auth.facade';
   standalone: true,
   imports: [
     CardModule,
-    AsyncPipe,
     RouterLink,
     ButtonModule,
     PasswordModule,
@@ -29,8 +27,8 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authFacade = inject(AuthFacade);
 
-  loading$ = this.authFacade.loading$;
-  error$ = this.authFacade.error$;
+  loading = this.authFacade.loading;
+  error = this.authFacade.error;
 
   form = this.fb.nonNullable.group({
     name: ['', Validators.required],
