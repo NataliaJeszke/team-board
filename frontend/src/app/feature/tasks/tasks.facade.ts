@@ -32,7 +32,6 @@ export class TasksFacade {
   readonly warning = this.store.selectSignal(selectTasksWarning);
 
   loadTasks(): void {
-    console.log('TasksFacade: loadTasks called');
     this.store.dispatch(TasksActions.loadTasks());
   }
 
