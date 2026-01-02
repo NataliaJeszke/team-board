@@ -42,7 +42,7 @@ export class BoardService {
     const availableUsers = Object.values(dictionary);
 
     const ref = this.dialogService.open(TaskDialogComponent, {
-      header: 'Dodaj nowe zadanie',
+      header: this.translate.instant('common.components.task-dialog.titleCreate'),
       width: '500px',
       data: {
         currentUserId: currentUser.id,
@@ -80,7 +80,7 @@ export class BoardService {
         const availableUsers = Object.values(dictionary);
 
         const ref = this.dialogService.open(TaskDialogComponent, {
-          header: 'Edytuj zadanie',
+          header: this.translate.instant('common.components.task-dialog.titleEdit'),
           width: '500px',
           data: {
             task: event.task,

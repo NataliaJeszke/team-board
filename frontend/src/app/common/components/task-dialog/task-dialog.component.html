@@ -20,7 +20,7 @@
       }
     </div>
 
-    <div class="field">
+    <div class="field field-column">
       <label for="assignedTo" class="field-label">
         {{ 'common.components.task-dialog.labels.assignedTo' | translate }}
       </label>
@@ -32,6 +32,7 @@
         optionValue="id"
         [placeholder]="'common.components.task-dialog.placeholders.assignedTo' | translate"
         [showClear]="true"
+        class="w-full"
         [class.ng-invalid]="isFieldInvalid('assignedToId')"
         [class.ng-dirty]="isFieldInvalid('assignedToId')"
       />
@@ -73,7 +74,7 @@
     </div>
   </div>
 
-  <div class="dialog-footer">
+  <div class="dialog-footer mt-4">
     <p-button
       [label]="'common.components.task-dialog.actions.cancel' | translate"
       severity="secondary"

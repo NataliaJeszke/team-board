@@ -22,6 +22,8 @@
         }
       },
       "task-dialog": {
+        "titleCreate": "Dodaj nowe zadanie",
+        "titleEdit": "Edytuj zadanie",
         "labels": {
           "title": "Tytuł",
           "assignedTo": "Przypisane do",
