@@ -97,8 +97,8 @@
       },
       "theme-toggle": {
         "tooltips": {
-          "switchToLight": "Przełącz na tryb jasny",
-          "switchToDark": "Przełącz na tryb ciemny"
+          "light": "Przełącz na tryb jasny",
+          "dark": "Przełącz na tryb ciemny"
         },
         "ariaLabel": {
           "light": "Switch to light mode",

@@ -2,26 +2,29 @@ import { Injectable, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { TaskStatus, Task, TaskPriority, TaskFormValue } from '@feature/tasks/model/tasks.model';
-import { TASK_PRIORITY, TASK_PRIORITY_OPTIONS, TASK_STATUS, TASK_STATUS_OPTIONS } from '../constants/task-dialog.constants';
+import {
+  TASK_PRIORITY,
+  TASK_PRIORITY_OPTIONS,
+  TASK_STATUS,
+  TASK_STATUS_OPTIONS,
+} from '../constants/task-dialog.constants';
 
 @Injectable()
 export class TaskDialogUiService {
   private readonly fb = inject(FormBuilder);
   private readonly translate = inject(TranslateService);
 
-  get priorityOptions() {
-    return TASK_PRIORITY_OPTIONS.map(opt => ({
-      value: opt.value,
-      label: this.translate.instant(opt.labelKey),
-    }));
-  }
+  readonly priorityOptions = TASK_PRIORITY_OPTIONS.map(opt => ({
+    value: opt.value,
+    labelKey: opt.labelKey,
+    label: this.translate.instant(opt.labelKey),
+  }));
 
-  get statusOptions() {
-    return TASK_STATUS_OPTIONS.map(opt => ({
-      value: opt.value,
-      label: this.translate.instant(opt.labelKey),
-    }));
-  }
+  readonly statusOptions = TASK_STATUS_OPTIONS.map(opt => ({
+    value: opt.value,
+    labelKey: opt.labelKey,
+    label: this.translate.instant(opt.labelKey),
+  }));
 
   createTaskForm(): FormGroup {
     return this.fb.group({

@@ -1,11 +1,11 @@
 <button
   type="button"
   (click)="toggleTheme()"
-  [pTooltip]="(isDarkMode() ? defaultTooltipMessage.DARK : defaultTooltipMessage.LIGHT) | translate"
+  [pTooltip]="(isDarkMode() ? defaultTooltipMessage.LIGHT : defaultTooltipMessage.DARK) | translate"
   tooltipPosition="bottom"
   class="theme-toggle__button"
   [ngClass]="isDarkMode() ? 'theme-toggle--dark' : 'theme-toggle--light'"
-  [attr.aria-label]="(isDarkMode() ? defaultAriaLabelMessage.DARK : defaultAriaLabelMessage.LIGHT) | translate"
+  [attr.aria-label]="(isDarkMode() ? defaultAriaLabelMessage.LIGHT : defaultAriaLabelMessage.DARK) | translate"
   [attr.aria-pressed]="isDarkMode()"
 >
   <i class="pi theme-toggle__icon" [ngClass]="isDarkMode() ? 'pi-moon' : 'pi-sun'"></i>
