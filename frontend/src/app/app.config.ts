@@ -3,7 +3,8 @@ import {
   provideZoneChangeDetection,
   isDevMode,
   importProvidersFrom,
-  APP_INITIALIZER,
+  provideAppInitializer,
+  inject,
 } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
@@ -43,22 +44,14 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([apiPrefixInterceptor, authInterceptor])),
     { provide: API_CONFIG, useValue: { baseUrl: environment.apiBaseUrl } },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (translationInitService: TranslationInitService) => {
-        return () => firstValueFrom(translationInitService.initializeTranslations());
-      },
-      deps: [TranslationInitService],
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (authInitService: AuthInitService) => {
-        return () => firstValueFrom(authInitService.initializeAuth());
-      },
-      deps: [AuthInitService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const translationInitService = inject(TranslationInitService);
+      return firstValueFrom(translationInitService.initializeTranslations());
+    }),
+    provideAppInitializer(() => {
+      const authInitService = inject(AuthInitService);
+      return firstValueFrom(authInitService.initializeAuth());
+    }),
     importProvidersFrom(
       TranslateModule.forRoot({
         fallbackLang: 'pl',
