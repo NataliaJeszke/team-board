@@ -3,7 +3,8 @@ import {
   provideZoneChangeDetection,
   isDevMode,
   importProvidersFrom,
-  APP_INITIALIZER,
+  provideAppInitializer,
+  inject,
 } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
@@ -34,6 +35,7 @@ import { tasksReducer } from '@feature/tasks/store/tasks/tasks.reducer';
 import { environment } from './environments/environment';
 import MyBlueTheme from '../theme';
 import { AuthInitService } from '@core/auth/services/auth-init/auth-init.service';
+import { TranslationInitService } from '@core/language/services/translation-init/translation-init.service';
 import { firstValueFrom } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
@@ -42,14 +44,14 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([apiPrefixInterceptor, authInterceptor])),
     { provide: API_CONFIG, useValue: { baseUrl: environment.apiBaseUrl } },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (authInitService: AuthInitService) => {
-        return () => firstValueFrom(authInitService.initializeAuth());
-      },
-      deps: [AuthInitService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const translationInitService = inject(TranslationInitService);
+      return firstValueFrom(translationInitService.initializeTranslations());
+    }),
+    provideAppInitializer(() => {
+      const authInitService = inject(AuthInitService);
+      return firstValueFrom(authInitService.initializeAuth());
+    }),
     importProvidersFrom(
       TranslateModule.forRoot({
         fallbackLang: 'pl',
