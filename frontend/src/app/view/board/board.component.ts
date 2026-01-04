@@ -61,11 +61,6 @@ export class BoardComponent implements OnInit {
         });
       }
     });
-
-    effect(() => {
-      const count = this.tasksFacade.count();
-      console.log(`BoardComponent: Total tasks count is ${count}`);
-    });
   }
 
   ngOnInit(): void {
