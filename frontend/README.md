@@ -517,6 +517,48 @@ NgRx **store logic (actions, reducers, effects, selectors)** is intentionally **
 
 The testing setup can be extended in the future if deeper store-level test coverage becomes necessary.
 
+### E2E Tests with Playwright
+
+End-to-end (E2E) testing is implemented using **Playwright**, a modern framework for browser automation. Playwright was chosen for its reliability, speed, and support for testing across multiple browsers, providing robust coverage for user flows and application behavior.
+
+#### Why Playwright?
+
+- **Cross-browser support**  
+  Playwright enables testing in Chromium, Firefox, and WebKit, ensuring the application works consistently for all users.
+
+- **Reliable and fast**  
+  Playwright's architecture minimizes flaky tests and provides fast execution, even for complex user interactions.
+
+- **Powerful automation**  
+  Supports advanced scenarios such as file uploads, authentication flows, and network mocking, allowing comprehensive E2E coverage.
+
+- **Developer-friendly**  
+  Provides readable test output, excellent debugging tools, and rich reporting for test runs.
+
+#### What E2E Tests Cover
+
+Playwright E2E tests validate:
+- **Authentication flows**: Login, registration, and access control for protected routes
+- **Task management**: Creating, editing, and deleting tasks, as well as real-time updates on the board
+- **User management**: Registration, profile updates, and role-based access
+- **Internationalization**: Language switching and translation rendering
+- **Navigation and routing**: Route protection and 404 handling
+
+These tests simulate real user interactions, ensuring that critical workflows function correctly across supported browsers and environments.
+
+#### Running E2E Tests
+
+To execute Playwright E2E tests, use:
+```bash
+npm run e2e
+# or, if Playwright is installed globally
+npx playwright test
+```
+
+Refer to the [Playwright documentation](https://playwright.dev/docs/intro) for advanced usage and configuration.
+
+
+
 
 ## 📁 Project Structure
 
