@@ -565,6 +565,22 @@ frontend/
 
 ## 📚 Development Guidelines
 
+## 🤖 AI Assistant Support (Claude)
+
+This project includes a dedicated **Claude.md** file containing curated context and guidelines for working with the Claude AI assistant.
+
+### Purpose of `Claude.md`
+
+The file is intended to:
+- Provide architectural context for the project
+- Explain conventions, patterns, and naming used in the codebase
+- Reduce repeated explanations when collaborating with AI
+- Improve the quality and relevance of AI-generated suggestions
+
+### When to Use
+
+If a developer works with **Claude** while developing or refactoring this project, the `Claude.md` file should be shared with the AI at the beginning of the session to ensure better alignment with the project's architecture and standards.
+
 ### Code Style
 
 - **TypeScript**: Strict mode enabled
