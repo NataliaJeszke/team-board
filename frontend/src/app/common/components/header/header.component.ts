@@ -1,4 +1,5 @@
 import { Component, computed, inject, input, output } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
@@ -45,13 +46,18 @@ export class HeaderComponent {
 
   readonly currentLanguage = this.languageFacade.currentLanguage;
 
-  readonly userMenuItems = computed<MenuItem[]>(() =>
-    this.buildUserMenuItems(this.currentLanguage())
-  );
+  readonly langChangeEvent = toSignal(this.translate.onLangChange, {
+    initialValue: { lang: this.currentLanguage(), translations: {} },
+  });
+
+  readonly userMenuItems = computed<MenuItem[]>(() => {
+    this.langChangeEvent();
+    return this.buildUserMenuItems(this.currentLanguage());
+  });
 
   readonly defaultButtonTooltipMessage = DEAFULT_BUTTON_ADD_TASK_TOOLTIP;
   readonly defaultButtonAriaLabelMessage = DEAFULT_BUTTON_ADD_TASK_ARIA_LABEL;
-  
+
   readonly getInitialsFromName = getInitialsFromName;
 
   onAddTask(): void {

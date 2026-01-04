@@ -34,6 +34,7 @@ import { tasksReducer } from '@feature/tasks/store/tasks/tasks.reducer';
 import { environment } from './environments/environment';
 import MyBlueTheme from '../theme';
 import { AuthInitService } from '@core/auth/services/auth-init/auth-init.service';
+import { TranslationInitService } from '@core/language/services/translation-init/translation-init.service';
 import { firstValueFrom } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
@@ -42,6 +43,14 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([apiPrefixInterceptor, authInterceptor])),
     { provide: API_CONFIG, useValue: { baseUrl: environment.apiBaseUrl } },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (translationInitService: TranslationInitService) => {
+        return () => firstValueFrom(translationInitService.initializeTranslations());
+      },
+      deps: [TranslationInitService],
+      multi: true,
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: (authInitService: AuthInitService) => {
