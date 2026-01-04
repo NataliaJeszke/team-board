@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TooltipModule } from 'primeng/tooltip';
 
 import { ThemeService } from '@core/services/theme/theme.service';
+import { ThemeToggleAriaLabel, ThemeToggleTooltip } from './constants/theme-toggle.constants';
 
 @Component({
   selector: 'tb-common-theme-toggle',
@@ -14,6 +15,9 @@ import { ThemeService } from '@core/services/theme/theme.service';
 })
 export class ThemeToggleComponent {
   private readonly themeService = inject(ThemeService);
+
+  readonly defaultTooltipMessage = ThemeToggleTooltip;
+  readonly defaultAriaLabelMessage = ThemeToggleAriaLabel;
 
   isDarkMode = () => this.themeService.isDarkMode();
 
