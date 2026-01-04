@@ -1,10 +1,12 @@
+@let filterConfig = config();
+
 <p-card class="mb-4">
   @if (filterForm(); as form) {
     <form [formGroup]="form" class="flex flex-wrap gap-4">
-      @for (filter of config(); track filter.key) {
+      @for (filter of filterConfig; track filter.key) {
         <div>
           @switch (filter.type) {
-            @case ('select') {
+            @case (filterType.SELECT) {
               <div [ngStyle]="{ width: filter.width }">
                 <p-select
                   [options]="getSelectOptions(filter)"
@@ -17,7 +19,7 @@
                 />
               </div>
             }
-            @case ('date') {
+            @case (filterType.DATE) {
               <p-datepicker
                 [formControlName]="filter.key"
                 [placeholder]="getPlaceholder(filter.placeholder)"
@@ -38,7 +40,7 @@
           class="p-button-text text-sm"
           (click)="resetFilters()"
         >
-          {{ 'common.components.filters.actions.reset' | translate }}
+          {{ defaultButtonReset | translate }}
         </p-button>
       </div>
     </form>
