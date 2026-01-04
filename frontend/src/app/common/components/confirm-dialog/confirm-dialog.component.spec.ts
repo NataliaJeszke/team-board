@@ -5,7 +5,6 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
-// Custom loader for tests
 class FakeLoader implements TranslateLoader {
   getTranslation() {
     return of({});

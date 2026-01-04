@@ -1,11 +1,12 @@
 import { inject } from '@angular/core';
-import { Router, CanActivateFn } from '@angular/router';
+import { Router } from '@angular/router';
+import { CanActivateFn } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, take, filter, switchMap } from 'rxjs/operators';
 
-import { selectIsAuthenticated, selectAuthInitialized } from '../store/auth.selectors';
+import { selectIsAuthenticated, selectAuthInitialized } from '../../store/auth.selectors';
 
-export const guestGuard: CanActivateFn = () => {
+export const authGuard: CanActivateFn = () => {
   const store = inject(Store);
   const router = inject(Router);
 
@@ -14,8 +15,8 @@ export const guestGuard: CanActivateFn = () => {
     switchMap(() => store.select(selectIsAuthenticated)),
     take(1),
     map(isAuthenticated => {
-      if (isAuthenticated) {
-        router.navigate(['/board']);
+      if (!isAuthenticated) {
+        router.navigate(['/login']);
         return false;
       }
       return true;

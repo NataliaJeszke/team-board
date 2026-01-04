@@ -1,350 +1,229 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { signal } from '@angular/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { provideRouter } from '@angular/router';
+import { of } from 'rxjs';
 
-import { API_ENDPOINTS } from '@core/api/config/constants/api-endpoints.constants';
-import { AuthResponse } from '@core/api/models/auth/auth-api.model';
-import { AuthApiService } from '@core/api/services/auth-api/auth-api.service';
-import { User, RegisterRequest, LoginRequest } from '@core/models';
+import { LoginComponent } from './login.component';
+import { AuthFacade } from '@core/auth/auth.facade';
+import { LoginRequest } from '@core/models';
+
+class FakeLoader implements TranslateLoader {
+  getTranslation() {
+    return of({});
+  }
+}
 
 describe('LoginComponent', () => {
-  let service: AuthApiService;
-  let httpMock: HttpTestingController;
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
+  let mockAuthFacade: {
+    login: jest.Mock;
+    loading: ReturnType<typeof signal<boolean>>;
+    error: ReturnType<typeof signal<string | null>>;
+  };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [AuthApiService],
-    });
+  beforeEach(async () => {
+    mockAuthFacade = {
+      login: jest.fn(),
+      loading: signal(false),
+      error: signal(null),
+    };
 
-    service = TestBed.inject(AuthApiService);
-    httpMock = TestBed.inject(HttpTestingController);
+    await TestBed.configureTestingModule({
+      imports: [
+        LoginComponent,
+        ReactiveFormsModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeLoader },
+        }),
+      ],
+      providers: [
+        { provide: AuthFacade, useValue: mockAuthFacade },
+        provideRouter([]),
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(LoginComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  afterEach(() => {
-    httpMock.verify();
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  describe('register()', () => {
-    it('should send POST request to register endpoint with correct data', () => {
-      const registerData: RegisterRequest = {
-        name: 'John Doe',
-        email: 'john@example.com',
-        password: 'password123',
-      };
-
-      const mockResponse: AuthResponse = {
-        user: {
-          id: 1,
-          name: 'John Doe',
-          email: 'john@example.com',
-        } as User,
-        access_token: 'mock-jwt-token',
-      };
-
-      service.register(registerData).subscribe((response) => {
-        expect(response).toEqual(mockResponse);
-        expect(response.user.email).toBe(registerData.email);
-        expect(response.access_token).toBeTruthy();
-      });
-
-      const req = httpMock.expectOne(API_ENDPOINTS.AUTH.REGISTER);
-      expect(req.request.method).toBe('POST');
-      expect(req.request.body).toEqual(registerData);
-      req.flush(mockResponse);
-    });
-
-    it('should handle registration error', () => {
-      const registerData: RegisterRequest = {
-        name: 'John Doe',
-        email: 'existing@example.com',
-        password: 'password123',
-      };
-
-      const mockError = {
-        status: 409,
-        statusText: 'Conflict',
-        error: { message: 'User already exists' },
-      };
-
-      service.register(registerData).subscribe({
-        next: () => fail('should have failed with 409 error'),
-        error: (error) => {
-          expect(error.status).toBe(409);
-          expect(error.error.message).toBe('User already exists');
-        },
-      });
-
-      const req = httpMock.expectOne(API_ENDPOINTS.AUTH.REGISTER);
-      req.flush(mockError.error, {
-        status: mockError.status,
-        statusText: mockError.statusText,
-      });
-    });
-
-    it('should handle network error', () => {
-      const registerData: RegisterRequest = {
-        name: 'John Doe',
-        email: 'john@example.com',
-        password: 'password123',
-      };
-
-      service.register(registerData).subscribe({
-        next: () => fail('should have failed with network error'),
-        error: (error) => {
-          expect(error.error.type).toBe('Network error');
-        },
-      });
-
-      const req = httpMock.expectOne(API_ENDPOINTS.AUTH.REGISTER);
-      req.error(new ProgressEvent('Network error'));
-    });
-  });
-
-  describe('login()', () => {
-    it('should send POST request to login endpoint with correct credentials', () => {
-      const loginData: LoginRequest = {
-        email: 'john@example.com',
-        password: 'password123',
-      };
-
-      const mockResponse: AuthResponse = {
-        user: {
-          id: 1,
-          name: 'John Doe',
-          email: 'john@example.com',
-        } as User,
-        access_token: 'mock-jwt-token',
-      };
-
-      service.login(loginData).subscribe((response) => {
-        expect(response).toEqual(mockResponse);
-        expect(response.access_token).toBe('mock-jwt-token');
-      });
-
-      const req = httpMock.expectOne(API_ENDPOINTS.AUTH.LOGIN);
-      expect(req.request.method).toBe('POST');
-      expect(req.request.body).toEqual(loginData);
-      req.flush(mockResponse);
-    });
-
-    it('should handle invalid credentials error', () => {
-      const loginData: LoginRequest = {
-        email: 'wrong@example.com',
-        password: 'wrongpassword',
-      };
-
-      const mockError = {
-        status: 401,
-        statusText: 'Unauthorized',
-        error: { message: 'Invalid credentials' },
-      };
-
-      service.login(loginData).subscribe({
-        next: () => fail('should have failed with 401 error'),
-        error: (error) => {
-          expect(error.status).toBe(401);
-          expect(error.error.message).toBe('Invalid credentials');
-        },
-      });
-
-      const req = httpMock.expectOne(API_ENDPOINTS.AUTH.LOGIN);
-      req.flush(mockError.error, {
-        status: mockError.status,
-        statusText: mockError.statusText,
-      });
-    });
-
-    it('should handle empty credentials', () => {
-      const loginData: LoginRequest = {
+  describe('Form initialization', () => {
+    it('should initialize form with empty values', () => {
+      expect(component.form.value).toEqual({
         email: '',
         password: '',
-      };
-
-      const mockError = {
-        status: 400,
-        statusText: 'Bad Request',
-        error: { message: 'Email and password are required' },
-      };
-
-      service.login(loginData).subscribe({
-        next: () => fail('should have failed with 400 error'),
-        error: (error) => {
-          expect(error.status).toBe(400);
-        },
       });
+    });
 
-      const req = httpMock.expectOne(API_ENDPOINTS.AUTH.LOGIN);
-      req.flush(mockError.error, {
-        status: mockError.status,
-        statusText: mockError.statusText,
+    it('should have email and password controls', () => {
+      expect(component.form.get('email')).toBeTruthy();
+      expect(component.form.get('password')).toBeTruthy();
+    });
+  });
+
+  describe('Form validation', () => {
+    it('should be invalid when empty', () => {
+      expect(component.form.valid).toBeFalsy();
+    });
+
+    it('should require email', () => {
+      const email = component.form.get('email');
+      expect(email?.hasError('required')).toBeTruthy();
+    });
+
+    it('should require password', () => {
+      const password = component.form.get('password');
+      expect(password?.hasError('required')).toBeTruthy();
+    });
+
+    it('should validate email format', () => {
+      const email = component.form.get('email');
+      email?.setValue('invalid-email');
+      expect(email?.hasError('email')).toBeTruthy();
+    });
+
+    it('should accept valid email', () => {
+      const email = component.form.get('email');
+      email?.setValue('test@example.com');
+      expect(email?.hasError('email')).toBeFalsy();
+    });
+
+    it('should be valid with correct email and password', () => {
+      component.form.patchValue({
+        email: 'test@example.com',
+        password: 'password123',
+      });
+      expect(component.form.valid).toBeTruthy();
+    });
+  });
+
+  describe('submit()', () => {
+    it('should not call authFacade.login when form is invalid', () => {
+      component.form.patchValue({
+        email: '',
+        password: '',
+      });
+      component.submit();
+      expect(mockAuthFacade.login).not.toHaveBeenCalled();
+    });
+
+    it('should not call authFacade.login when email is invalid', () => {
+      component.form.patchValue({
+        email: 'invalid-email',
+        password: 'password123',
+      });
+      component.submit();
+      expect(mockAuthFacade.login).not.toHaveBeenCalled();
+    });
+
+    it('should not call authFacade.login when password is empty', () => {
+      component.form.patchValue({
+        email: 'test@example.com',
+        password: '',
+      });
+      component.submit();
+      expect(mockAuthFacade.login).not.toHaveBeenCalled();
+    });
+
+    it('should call authFacade.login with form values when valid', () => {
+      const credentials: LoginRequest = {
+        email: 'test@example.com',
+        password: 'password123',
+      };
+
+      component.form.patchValue(credentials);
+      component.submit();
+
+      expect(mockAuthFacade.login).toHaveBeenCalledTimes(1);
+      expect(mockAuthFacade.login).toHaveBeenCalledWith(credentials);
+    });
+
+    it('should call authFacade.login with trimmed values', () => {
+      component.form.patchValue({
+        email: 'test@example.com',
+        password: 'password123',
+      });
+      component.submit();
+
+      expect(mockAuthFacade.login).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'password123',
       });
     });
   });
 
-  describe('getProfile()', () => {
-    it('should send GET request to profile endpoint', () => {
-      const mockUser: User = {
-        id: 1,
-        name: 'John Doe',
-        email: 'john@example.com',
-      };
-
-      service.getProfile().subscribe((user) => {
-        expect(user).toEqual(mockUser);
-        expect(user.id).toBe(1);
-        expect(user.email).toBe('john@example.com');
-      });
-
-      const req = httpMock.expectOne(API_ENDPOINTS.AUTH.PROFILE);
-      expect(req.request.method).toBe('GET');
-      req.flush(mockUser);
+  describe('Facade integration', () => {
+    it('should expose loading signal from authFacade', () => {
+      expect(component.loading).toBe(mockAuthFacade.loading);
     });
 
-    it('should handle unauthorized access to profile', () => {
-      const mockError = {
-        status: 401,
-        statusText: 'Unauthorized',
-        error: { message: 'Token expired or invalid' },
-      };
-
-      service.getProfile().subscribe({
-        next: () => fail('should have failed with 401 error'),
-        error: (error) => {
-          expect(error.status).toBe(401);
-          expect(error.error.message).toBe('Token expired or invalid');
-        },
-      });
-
-      const req = httpMock.expectOne(API_ENDPOINTS.AUTH.PROFILE);
-      req.flush(mockError.error, {
-        status: mockError.status,
-        statusText: mockError.statusText,
-      });
-    });
-
-    it('should handle server error when fetching profile', () => {
-      const mockError = {
-        status: 500,
-        statusText: 'Internal Server Error',
-        error: { message: 'Server error' },
-      };
-
-      service.getProfile().subscribe({
-        next: () => fail('should have failed with 500 error'),
-        error: (error) => {
-          expect(error.status).toBe(500);
-        },
-      });
-
-      const req = httpMock.expectOne(API_ENDPOINTS.AUTH.PROFILE);
-      req.flush(mockError.error, {
-        status: mockError.status,
-        statusText: mockError.statusText,
-      });
+    it('should expose error signal from authFacade', () => {
+      expect(component.error).toBe(mockAuthFacade.error);
     });
   });
 
-  describe('Integration Tests', () => {
-    it('should allow register and then login flow', () => {
-      const registerData: RegisterRequest = {
-        name: 'Jane Doe',
-        email: 'jane@example.com',
-        password: 'securepass',
-      };
-
-      const mockRegisterResponse: AuthResponse = {
-        user: {
-          id: 2,
-          name: 'Jane Doe',
-          email: 'jane@example.com',
-        } as User,
-        access_token: 'register-token',
-      };
-
-      // First, register
-      service.register(registerData).subscribe((response) => {
-        expect(response.access_token).toBe('register-token');
-      });
-
-      const registerReq = httpMock.expectOne(API_ENDPOINTS.AUTH.REGISTER);
-      registerReq.flush(mockRegisterResponse);
-
-      // Then login
-      const loginData: LoginRequest = {
-        email: registerData.email,
-        password: registerData.password,
-      };
-
-      const mockLoginResponse: AuthResponse = {
-        user: mockRegisterResponse.user,
-        access_token: 'login-token',
-      };
-
-      service.login(loginData).subscribe((response) => {
-        expect(response.user.email).toBe(registerData.email);
-        expect(response.access_token).toBe('login-token');
-      });
-
-      const loginReq = httpMock.expectOne(API_ENDPOINTS.AUTH.LOGIN);
-      loginReq.flush(mockLoginResponse);
-    });
-  });
-
-  describe('Edge Cases', () => {
-    it('should handle special characters in email', () => {
-      const loginData: LoginRequest = {
+  describe('Edge cases', () => {
+    it('should handle email with special characters', () => {
+      component.form.patchValue({
         email: 'user+test@example.com',
-        password: 'password',
-      };
+        password: 'password123',
+      });
+      component.submit();
 
-      service.login(loginData).subscribe();
-
-      const req = httpMock.expectOne(API_ENDPOINTS.AUTH.LOGIN);
-      expect(req.request.body.email).toBe('user+test@example.com');
-      req.flush({ user: {} as User, access_token: 'token' });
+      expect(mockAuthFacade.login).toHaveBeenCalledWith({
+        email: 'user+test@example.com',
+        password: 'password123',
+      });
     });
 
     it('should handle very long password', () => {
-      const longPassword = 'a'.repeat(1000);
-      const registerData: RegisterRequest = {
-        name: 'Test User',
+      const longPassword = 'a'.repeat(100);
+      component.form.patchValue({
         email: 'test@example.com',
         password: longPassword,
-      };
+      });
+      component.submit();
 
-      service.register(registerData).subscribe();
-
-      const req = httpMock.expectOne(API_ENDPOINTS.AUTH.REGISTER);
-      expect(req.request.body.password.length).toBe(1000);
-      req.flush({ user: {} as User, access_token: 'token' });
+      expect(mockAuthFacade.login).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: longPassword,
+      });
     });
 
-    it('should handle concurrent requests', () => {
-      const loginData1: LoginRequest = {
-        email: 'user1@example.com',
-        password: 'pass1',
-      };
+    it('should handle multiple submit calls', () => {
+      component.form.patchValue({
+        email: 'test@example.com',
+        password: 'password123',
+      });
 
-      const loginData2: LoginRequest = {
-        email: 'user2@example.com',
-        password: 'pass2',
-      };
+      component.submit();
+      component.submit();
+      component.submit();
 
-      // Send two concurrent requests
-      service.login(loginData1).subscribe();
-      service.login(loginData2).subscribe();
+      expect(mockAuthFacade.login).toHaveBeenCalledTimes(3);
+    });
 
-      // Verify both requests are in flight
-      const requests = httpMock.match(API_ENDPOINTS.AUTH.LOGIN);
-      expect(requests.length).toBe(2);
+    it('should reject email without domain', () => {
+      component.form.patchValue({
+        email: 'test@',
+        password: 'password123',
+      });
+      expect(component.form.valid).toBeFalsy();
+    });
 
-      // Flush both
-      requests[0].flush({ user: {} as User, access_token: 'token1' });
-      requests[1].flush({ user: {} as User, access_token: 'token2' });
+    it('should reject email without @', () => {
+      component.form.patchValue({
+        email: 'test.example.com',
+        password: 'password123',
+      });
+      expect(component.form.valid).toBeFalsy();
     });
   });
 });

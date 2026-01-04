@@ -252,6 +252,81 @@ describe('TaskDialogUiService', () => {
       // Assert
       expect(result).toContain('translated_common.components.task-dialog.validation.maxlength');
     });
+
+    it('should return null when field has no errors', () => {
+      const form = service.createTaskForm();
+      form.get('title')?.setValue('Valid Title');
+
+      const result = service.getFieldError(form, 'title');
+
+      expect(result).toBeNull();
+    });
+
+    it('should return translated required error message', () => {
+      const form = service.createTaskForm();
+      const titleControl = form.get('title');
+      titleControl?.setValue('');
+      titleControl?.markAsTouched();
+
+      const result = service.getFieldError(form, 'title');
+
+      expect(result).toBe('translated_common.components.task-dialog.validation.required');
+    });
+
+    it('should return translated minlength error message with parameters', () => {
+      const form = service.createTaskForm();
+      const titleControl = form.get('title');
+      titleControl?.setValue('ab');
+      titleControl?.markAsTouched();
+
+      const result = service.getFieldError(form, 'title');
+
+      expect(result).toContain('translated_common.components.task-dialog.validation.minlength');
+    });
+
+    it('should return translated maxlength error message with parameters', () => {
+      const form = service.createTaskForm();
+      const titleControl = form.get('title');
+      titleControl?.setValue('a'.repeat(101));
+      titleControl?.markAsTouched();
+
+      const result = service.getFieldError(form, 'title');
+
+      expect(result).toContain('translated_common.components.task-dialog.validation.maxlength');
+    });
+
+    it('should return translated email error message', () => {
+      const form = service.createTaskForm();
+      const control = form.get('title');
+      control?.setErrors({ email: true });
+      control?.markAsTouched();
+
+      const result = service.getFieldError(form, 'title');
+
+      expect(result).toBe('translated_common.components.task-dialog.validation.email');
+    });
+
+    it('should return translated pattern error message', () => {
+      const form = service.createTaskForm();
+      const control = form.get('title');
+      control?.setErrors({ pattern: true });
+      control?.markAsTouched();
+
+      const result = service.getFieldError(form, 'title');
+
+      expect(result).toBe('translated_common.components.task-dialog.validation.pattern');
+    });
+
+    it('should return translated invalid error message for unknown error', () => {
+      const form = service.createTaskForm();
+      const control = form.get('title');
+      control?.setErrors({ unknownError: true });
+      control?.markAsTouched();
+
+      const result = service.getFieldError(form, 'title');
+
+      expect(result).toBe('translated_common.components.task-dialog.validation.invalid');
+    });
   });
 
   describe('validateForm', () => {
@@ -386,7 +461,9 @@ describe('TaskDialogUiService', () => {
 
     it('should return status value when option not found', () => {
       // Act
-      const result = service.getStatusLabel('unknown' as 'todo' | 'in_progress' | 'delayed' | 'done');
+      const result = service.getStatusLabel(
+        'unknown' as 'todo' | 'in_progress' | 'delayed' | 'done'
+      );
 
       // Assert
       expect(result).toBe('unknown');
