@@ -52,7 +52,6 @@ describe('AuthFacade', () => {
     facade = TestBed.inject(AuthFacade);
     store = TestBed.inject(MockStore);
 
-    // Spy on dispatch method
     jest.spyOn(store, 'dispatch');
   });
 

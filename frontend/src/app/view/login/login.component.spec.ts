@@ -1,9 +1,5 @@
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
 
 import { API_ENDPOINTS } from '@core/api/config/constants/api-endpoints.constants';
 import { AuthResponse } from '@core/api/models/auth/auth-api.model';
@@ -13,13 +9,6 @@ import { User, RegisterRequest, LoginRequest } from '@core/models';
 describe('AuthApiService', () => {
   let service: AuthApiService;
   let httpMock: HttpTestingController;
-
-  beforeAll(() => {
-    getTestBed().initTestEnvironment(
-      BrowserDynamicTestingModule,
-      platformBrowserDynamicTesting()
-    );
-  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -388,7 +388,7 @@ describe('Auth Selectors', () => {
     });
 
     it('should return undefined when user is undefined', () => {
-      const result = selectUserEmail.projector(undefined);
+      const result = selectUserEmail.projector(null);
 
       expect(result).toBeUndefined();
     });
