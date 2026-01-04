@@ -483,6 +483,41 @@ export const environment = {
 };
 ```
 
+## 🧪 Testing
+
+### Unit Tests
+
+This project uses **Jest** as the unit testing framework instead of the default Angular setup (Karma + Jasmine).
+
+#### Why Jest?
+
+- **Fast execution**  
+  Jest runs tests in a Node.js environment without launching a browser, which results in significantly faster feedback during development and CI runs.
+
+- **Excellent developer experience**  
+  Clear error messages, readable diffs, and a powerful mocking API (`jest.fn()`, `jest.spyOn()`) make tests easier to write, understand, and maintain.
+
+- **Well-suited for testing application logic**  
+  Jest works particularly well for testing:
+  - Angular components
+  - services
+  - utility logic  
+  especially when combined with RxJS and dependency injection.
+
+- **Popular choice in modern Angular projects**  
+  Jest is widely adopted in Angular applications, particularly in projects using modern architectures and state management patterns.
+
+#### Test Scope
+
+Currently, unit tests cover:
+- **components**
+- **services**
+
+NgRx **store logic (actions, reducers, effects, selectors)** is intentionally **not covered by unit tests** at this stage, as the current focus is on validating component behavior and service logic.
+
+The testing setup can be extended in the future if deeper store-level test coverage becomes necessary.
+
+
 ## 📁 Project Structure
 
 ```
