@@ -6,7 +6,7 @@ import { AuthResponse } from '@core/api/models/auth/auth-api.model';
 import { AuthApiService } from '@core/api/services/auth-api/auth-api.service';
 import { User, RegisterRequest, LoginRequest } from '@core/models';
 
-describe('AuthApiService', () => {
+describe('LoginComponent', () => {
   let service: AuthApiService;
   let httpMock: HttpTestingController;
 

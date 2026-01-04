@@ -1,10 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { of } from 'rxjs';
-
 import { ConfirmDialogComponent } from './confirm-dialog.component';
 import { Task } from '@feature/tasks/model/tasks.model';
+import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { of } from 'rxjs';
+
+// Custom loader for tests
+class FakeLoader implements TranslateLoader {
+  getTranslation() {
+    return of({});
+  }
+}
 
 describe('ConfirmDialogComponent', () => {
   let component: ConfirmDialogComponent;
@@ -26,17 +32,15 @@ describe('ConfirmDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfirmDialogComponent, TranslateModule.forRoot()], // standalone w imports
+      imports: [
+        ConfirmDialogComponent,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeLoader }
+        })
+      ],
       providers: [
         { provide: DynamicDialogRef, useValue: refMock },
         { provide: DynamicDialogConfig, useValue: configMock },
-        { 
-          provide: TranslateService, 
-          useValue: {
-            instant: (key: string) => key, // synchronously zwraca klucz
-            get: (key: string) => of(key),  // asynchronicznie zwraca Observable
-          } 
-        },
       ],
     }).compileComponents();
   });
@@ -49,5 +53,19 @@ describe('ConfirmDialogComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have task from config data', () => {
+    expect(component.task).toEqual(mockTask);
+  });
+
+  it('should close dialog when confirm is called', () => {
+    component.confirm();
+    expect(refMock.close).toHaveBeenCalledWith(true);
+  });
+
+  it('should close dialog when cancel is called', () => {
+    component.cancel();
+    expect(refMock.close).toHaveBeenCalledWith(false);
   });
 });
