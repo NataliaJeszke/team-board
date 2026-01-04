@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { normalizeDate, isSameDay } from '@utils/date.utils';
-import { applyCurrentFilters } from '@utils/applyFilters.utils';
+import { normalizeDate, isSameDay } from '@utils/date/date.utils';
+import { applyCurrentFilters } from '@utils/applyFilters/applyFilters.utils';
 
 import { initialState, TasksFilters } from './tasks.state';
 import { TasksActions } from './tasks.actions';
@@ -100,7 +100,7 @@ export const tasksReducer = createReducer(
     error: null,
   })),
 
-    on(TasksActions.changeTaskStatusSuccess, (state, { task }) => {
+  on(TasksActions.changeTaskStatusSuccess, (state, { task }) => {
     const updatedTasks = state.tasks.map(t => (t.id === task.id ? task : t));
 
     return {
@@ -119,22 +119,22 @@ export const tasksReducer = createReducer(
 
   on(TasksActions.setFilters, (state, { filters }) => {
     const newFilters: TasksFilters = { ...state.filters, ...filters };
-  
+
     if (newFilters.createdAt) {
       newFilters.createdAt = normalizeDate(newFilters.createdAt);
     }
-  
+
     const filteredTasks = state.tasks.filter(task => {
       if (newFilters.status && task.status !== newFilters.status) return false;
       if (newFilters.priority && task.priority !== newFilters.priority) return false;
       if (newFilters.authorId && task.createdById !== newFilters.authorId) return false;
       if (newFilters.assigneeId && task.assignedToId !== newFilters.assigneeId) return false;
-  
+
       if (newFilters.createdAt && !isSameDay(task.createdAt, newFilters.createdAt)) return false;
-  
+
       return true;
     });
-  
+
     return { ...state, filters: newFilters, filteredTasks };
   }),
 

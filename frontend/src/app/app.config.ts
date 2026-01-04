@@ -36,7 +36,7 @@ import { TasksEffects } from '@feature/tasks/store/tasks/tasks.effects';
 import { tasksReducer } from '@feature/tasks/store/tasks/tasks.reducer';
 
 import { environment } from './environments/environment';
-import MyBlueTheme from '../theme';
+import MyBlueTheme from './theme';
 
 export const appConfig: ApplicationConfig = {
   providers: [
