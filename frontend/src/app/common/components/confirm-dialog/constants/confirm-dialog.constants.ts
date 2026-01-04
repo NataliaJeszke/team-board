@@ -1,0 +1,1 @@
+export const CONFIRM_DIALOG_DEFAULT_MESSAGE = 'common.components.confirm-dialog.messages.default';

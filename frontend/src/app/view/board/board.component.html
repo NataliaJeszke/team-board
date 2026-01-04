@@ -1,23 +1,24 @@
 <p-toast position="top-right" />
 
 @let user = currentUser();
+@let taskCount = tasksFacade.count();
 @let tasks = tasksFacade.filteredTasks();
 
-<div class="min-h-screen bg-surface-50">
+<div class="board">
   @if (user) {
-    <tb-header [user_]="user" (addTaskClick)="onAddTask()" />
+    <tb-header [user_]="user" [taskCount_]="taskCount" (addTaskClick)="onAddTask()" />
 
-    <main class="p-6">
-      <tb-filters 
+    <main class="board__main">
+      <tb-filters
       [config]="taskFiltersConfig()"
       (filtersChanged)="onFiltersChanged($event)"
     />
       <tb-user-tasks [user_]="user" [tasks_]="tasks"/>
     </main>
   } @else {
-    <div class="flex items-center justify-center min-h-screen">
-      <div class="text-center">
-        <i class="pi pi-spin pi-spinner text-4xl text-primary mb-4"></i>
+    <div class="board__loading">
+      <div class="board__loading-content">
+        <i class="pi pi-spin pi-spinner board__loading-icon text-primary"></i>
         <p class="text-surface-600">Ładowanie danych użytkownika...</p>
       </div>
     </div>

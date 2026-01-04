@@ -1,4 +1,5 @@
 import { Component, computed, inject, input, output } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
@@ -17,6 +18,7 @@ import { Language, User } from '@core/models';
 import { LANGUAGES } from '@core/language/constants/language.constants';
 
 import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
+import { DEAFULT_BUTTON_ADD_TASK_TOOLTIP, DEAFULT_BUTTON_ADD_TASK_ARIA_LABEL } from './constants/header.constants';
 
 @Component({
   selector: 'tb-header',
@@ -37,16 +39,24 @@ export class HeaderComponent {
   private readonly translate = inject(TranslateService);
   private readonly languageFacade = inject(LanguageFacade);
 
-  readonly user_ = input<User>();
+  readonly user_ = input.required<User>();
   readonly taskCount_ = input<number>(0);
 
   readonly addTaskClick = output<void>();
 
   readonly currentLanguage = this.languageFacade.currentLanguage;
 
-  readonly userMenuItems = computed<MenuItem[]>(() =>
-    this.buildUserMenuItems(this.currentLanguage())
-  );
+  readonly langChangeEvent = toSignal(this.translate.onLangChange, {
+    initialValue: { lang: this.currentLanguage(), translations: {} },
+  });
+
+  readonly userMenuItems = computed<MenuItem[]>(() => {
+    this.langChangeEvent();
+    return this.buildUserMenuItems(this.currentLanguage());
+  });
+
+  readonly defaultButtonTooltipMessage = DEAFULT_BUTTON_ADD_TASK_TOOLTIP;
+  readonly defaultButtonAriaLabelMessage = DEAFULT_BUTTON_ADD_TASK_ARIA_LABEL;
 
   readonly getInitialsFromName = getInitialsFromName;
 

@@ -16,7 +16,14 @@ import { TaskDialogUiService } from './service/task-dialog-ui.service';
 
 @Component({
   selector: 'tb-task-dialog',
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, SelectModule, TranslateModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    InputTextModule,
+    SelectModule,
+    TranslateModule,
+  ],
   providers: [TaskDialogUiService],
   templateUrl: './task-dialog.component.html',
 })
@@ -46,9 +53,10 @@ export class TaskDialogComponent implements OnInit {
     }
   }
 
+  priorityOptions = this.taskDialogUiService.priorityOptions;
+  statusOptions = this.taskDialogUiService.statusOptions;
+  
   isEditMode = () => this.task !== null;
-  priorityOptions = () => this.taskDialogUiService.priorityOptions;
-  statusOptions = () => this.taskDialogUiService.statusOptions;
 
   onCancel(): void {
     this.ref.close({ action: 'cancel' } as TaskDialogResult);

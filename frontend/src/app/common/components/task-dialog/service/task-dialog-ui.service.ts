@@ -2,56 +2,36 @@ import { Injectable, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { TaskStatus, Task, TaskPriority, TaskFormValue } from '@feature/tasks/model/tasks.model';
+import {
+  TASK_PRIORITY,
+  TASK_PRIORITY_OPTIONS,
+  TASK_STATUS,
+  TASK_STATUS_OPTIONS,
+} from '../constants/task-dialog.constants';
 
 @Injectable()
 export class TaskDialogUiService {
   private readonly fb = inject(FormBuilder);
   private readonly translate = inject(TranslateService);
 
-  get priorityOptions() {
-    return [
-      {
-        value: 'low' as TaskPriority,
-        label: this.translate.instant('common.components.task-dialog.priority.low'),
-      },
-      {
-        value: 'medium' as TaskPriority,
-        label: this.translate.instant('common.components.task-dialog.priority.medium'),
-      },
-      {
-        value: 'high' as TaskPriority,
-        label: this.translate.instant('common.components.task-dialog.priority.high'),
-      },
-    ];
-  }
+  readonly priorityOptions = TASK_PRIORITY_OPTIONS.map(opt => ({
+    value: opt.value,
+    labelKey: opt.labelKey,
+    label: this.translate.instant(opt.labelKey),
+  }));
 
-  get statusOptions() {
-    return [
-      {
-        value: 'todo' as TaskStatus,
-        label: this.translate.instant('common.components.task-dialog.status.todo'),
-      },
-      {
-        value: 'in_progress' as TaskStatus,
-        label: this.translate.instant('common.components.task-dialog.status.in_progress'),
-      },
-      {
-        value: 'delayed' as TaskStatus,
-        label: this.translate.instant('common.components.task-dialog.status.delayed'),
-      },
-      {
-        value: 'done' as TaskStatus,
-        label: this.translate.instant('common.components.task-dialog.status.done'),
-      },
-    ];
-  }
+  readonly statusOptions = TASK_STATUS_OPTIONS.map(opt => ({
+    value: opt.value,
+    labelKey: opt.labelKey,
+    label: this.translate.instant(opt.labelKey),
+  }));
 
   createTaskForm(): FormGroup {
     return this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       assignedToId: [null as number | null],
-      priority: ['medium' as TaskPriority, Validators.required],
-      status: ['todo' as TaskStatus, Validators.required],
+      priority: [TASK_PRIORITY.MEDIUM, Validators.required],
+      status: [TASK_STATUS.TODO, Validators.required],
     });
   }
 
@@ -91,8 +71,8 @@ export class TaskDialogUiService {
     form.reset({
       title: '',
       assignedToId: null,
-      priority: 'medium' as TaskPriority,
-      status: 'todo' as TaskStatus,
+      priority: TASK_PRIORITY.MEDIUM,
+      status: TASK_STATUS.TODO,
     });
   }
 

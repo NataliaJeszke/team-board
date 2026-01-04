@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { FilterConfig, FilterOption, FilterValues } from '../model/filters.model';
+import { FilterType } from '../constants/filters.constants';
 
 @Injectable()
 export class FiltersService {
@@ -53,6 +54,6 @@ export class FiltersService {
     if (filter.defaultValue !== undefined) {
       return filter.defaultValue;
     }
-    return filter.type === 'date' ? null : '';
+    return filter.type === FilterType.DATE ? null : '';
   }
 }

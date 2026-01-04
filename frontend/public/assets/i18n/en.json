@@ -22,6 +22,8 @@
         }
       },
       "task-dialog": {
+        "titleCreate": "Add New Task",
+        "titleEdit": "Edit Task",
         "labels": {
           "title": "Title",
           "assignedTo": "Assigned To",
@@ -95,8 +97,8 @@
       },
       "theme-toggle": {
         "tooltips": {
-          "switchToLight": "Switch to light mode",
-          "switchToDark": "Switch to dark mode"
+          "light": "Switch to light mode",
+          "dark": "Switch to dark mode"
         },
         "ariaLabel": {
           "light": "Switch to light mode",

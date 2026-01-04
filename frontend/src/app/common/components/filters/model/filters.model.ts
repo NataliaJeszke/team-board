@@ -1,3 +1,5 @@
+import { FilterType } from "../constants/filters.constants";
+
 export interface FilterOption {
   label: string;
   value: number | string;
@@ -5,7 +7,7 @@ export interface FilterOption {
 
 export interface FilterConfig {
   key: string;
-  type: 'select' | 'date';
+  type: FilterType;
   options?: readonly FilterOption[];
   placeholder?: string;
   width?: string;

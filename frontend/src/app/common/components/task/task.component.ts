@@ -11,14 +11,22 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { getInitialsFromName } from '@utils/index';
 
+import { TaskPriority, TaskStatus, Task } from '@feature/tasks/model/tasks.model';
+
 import { TaskUiService } from '@common/components/task/service/task-ui.service';
 import { TaskUiEventsService } from '@common/components/task/service/task-ui-events.service';
 
-import { TaskPriority, TaskStatus, Task } from '@feature/tasks/model/tasks.model';
-
 @Component({
   selector: 'tb-task',
-  imports: [CardModule, ButtonModule, TagModule, AvatarModule, TooltipModule, TranslateModule, DatePipe],
+  imports: [
+    DatePipe,
+    TagModule,
+    CardModule,
+    ButtonModule,
+    AvatarModule,
+    TooltipModule,
+    TranslateModule,
+  ],
   providers: [TaskUiService],
   templateUrl: './task.component.html',
 })

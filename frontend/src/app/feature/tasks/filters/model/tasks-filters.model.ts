@@ -1,5 +1,7 @@
 import { TaskStatus, TaskPriority } from "@feature/tasks/model/tasks.model";
 
+import { TASK_KEYS } from "../constants/tasks-filters.constants";
+
 export interface TaskFilters {
     status?: TaskStatus;
     priority?: TaskPriority;
@@ -12,3 +14,5 @@ export interface TaskFilters {
     id: number;
     name: string;
   }
+
+  export type TaskKey = typeof TASK_KEYS[keyof typeof TASK_KEYS];

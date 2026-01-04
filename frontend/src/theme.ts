@@ -45,6 +45,13 @@ export const MyBlueTheme = definePreset(Lara, {
           900: '{slate.900}',
           950: '{slate.950}',
         },
+        header: {
+          background: '{surface.0}',
+          borderColor: '{surface.200}',
+        },
+        content: {
+          background: '{surface.50}',
+        },
       },
       dark: {
         primary: {
@@ -72,6 +79,29 @@ export const MyBlueTheme = definePreset(Lara, {
           800: '{zinc.800}',
           900: '{zinc.900}',
           950: '{zinc.950}',
+        },
+        header: {
+          background: '{surface.800}',
+          borderColor: '{surface.700}',
+        },
+        content: {
+          background: '{surface.900}',
+        },
+      },
+    },
+  },
+  components: {
+    card: {
+      colorScheme: {
+        light: {
+          root: {
+            background: '{surface.0}',
+          },
+        },
+        dark: {
+          root: {
+            background: '{surface.800}',
+          },
         },
       },
     },

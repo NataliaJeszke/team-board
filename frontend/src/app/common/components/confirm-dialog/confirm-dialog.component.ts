@@ -9,6 +9,7 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Task } from '@feature/tasks/model/tasks.model';
 
 import { ConfirmDialogData } from './model/confirm-dialog.model';
+import { CONFIRM_DIALOG_DEFAULT_MESSAGE } from './constants/confirm-dialog.constants';
 
 @Component({
   selector: 'tb-confirm-dialog',
@@ -33,7 +34,7 @@ export class ConfirmDialogComponent implements OnInit {
     this.task = this.config.data.task;
     this.message =
       this.config.data.message ||
-      this.translate.instant('common.components.confirm-dialog.message', { title: this.task.title });
+      this.translate.instant(CONFIRM_DIALOG_DEFAULT_MESSAGE, { title: this.task.title });
   }
 
   confirm(): void {

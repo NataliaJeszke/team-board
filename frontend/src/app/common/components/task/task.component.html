@@ -1,3 +1,11 @@
+@let taskTitle = task_().title;
+@let taskStatus = task_().status;
+@let taskPriority = task_().priority;
+@let taskCreatedDate = task_().createdAt;
+@let assignToId = task_().assignedToId;
+@let assignToName = task_().assignedToName;
+@let taskAuthorName = task_().createdByName;
+
 <p-card class="relative h-full rounded-2xl shadow-sm hover:shadow-md transition-shadow flex flex-col p-4 md:p-6">
   @if (isCreator()) {
     <div class="absolute top-2 right-2 flex gap-1 md:top-3 md:right-3">
@@ -24,10 +32,10 @@
 
   <div class="flex flex-col gap-3 md:gap-6 pt-8">
     <div class="flex items-start gap-2 md:gap-3">
-      @if (task_().assignedToId) {
+      @if (assignToId) {
         <p-avatar
           shape="circle"
-          [label]="getInitials(task_().assignedToName || '')"
+          [label]="getInitials(assignToName || '')"
           styleClass="bg-primary text-white font-semibold"
           size="large"
           class="w-10 h-10 md:w-12 md:h-12 text-sm md:text-base"
@@ -44,20 +52,20 @@
       }
 
       <h3 class="text-base md:text-lg font-semibold leading-snug flex-1">
-        {{ task_().title }}
+        {{ taskTitle }}
       </h3>
     </div>
 
     <div class="flex flex-wrap gap-1 md:gap-2">
       <p-tag
-        [value]="getStatusLabel(task_().status)"
-        [severity]="getStatusSeverity(task_().status)"
+        [value]="getStatusLabel(taskStatus)"
+        [severity]="getStatusSeverity(taskStatus)"
         rounded
         class="text-xs md:text-sm"
       />
       <p-tag
-        [value]="getPriorityLabel(task_().priority)"
-        [severity]="getPrioritySeverity(task_().priority)"
+        [value]="getPriorityLabel(taskPriority)"
+        [severity]="getPrioritySeverity(taskPriority)"
         rounded
         class="text-xs md:text-sm"
       />
@@ -67,16 +75,16 @@
       <div class="flex items-center gap-2">
         <p-avatar
           shape="circle"
-          [label]="getInitials(task_().createdByName || '')"
+          [label]="getInitials(taskAuthorName || '')"
           styleClass="bg-surface-200 text-color font-medium"
           class="w-6 h-6 md:w-8 md:h-8 text-xs md:text-sm"
           [pTooltip]="'common.components.task.tooltips.createdBy' | translate"
         />
-        <span>{{ task_().createdByName }}</span>
+        <span>{{ taskAuthorName }}</span>
       </div>
 
       <span class="whitespace-nowrap">
-        {{ task_().createdAt | date: 'dd.MM.yyyy' }}
+        {{ taskCreatedDate | date: 'dd.MM.yyyy' }}
       </span>
     </div>
 
@@ -88,7 +96,7 @@
             text
             rounded
             [label]="getStatusLabel(status)"
-            [disabled]="task_().status === status"
+            [disabled]="taskStatus === status"
             (click)="onStatusChange(status)"
             class="text-xs md:text-sm"
           />

@@ -20,6 +20,7 @@ import { BoardService } from './service/board.service';
 @Component({
   selector: 'tb-board',
   templateUrl: './board.component.html',
+  styleUrl: './board.component.scss',
   imports: [ButtonModule, HeaderComponent, UserTasksComponent, ToastModule, FiltersComponent],
   providers: [DialogService, MessageService, BoardService],
 })
@@ -44,7 +45,6 @@ export class BoardComponent implements OnInit {
       if (error) {
         this.messageService.add({
           severity: 'error',
-          summary: 'Błąd',
           detail: error,
           life: 5000,
         });
@@ -56,7 +56,6 @@ export class BoardComponent implements OnInit {
       if (warning) {
         this.messageService.add({
           severity: 'warn',
-          summary: 'Uwaga',
           detail: warning,
           life: 4000,
         });

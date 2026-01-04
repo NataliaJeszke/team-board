@@ -10,6 +10,7 @@ import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 
 import { FilterConfig, FilterOption, FilterValues } from './model/filters.model';
+import { DEFAULT_BUTTON_RESET, FilterType } from './constants/filters.constants';
 import { FiltersService } from './service/filters-ui.service';
 
 @Component({
@@ -35,6 +36,9 @@ export class FiltersComponent {
   private readonly destroyRef = inject(DestroyRef);
 
   readonly filterForm = signal<FormGroup | null>(null);
+  
+  readonly filterType = FilterType;
+  readonly defaultButtonReset = DEFAULT_BUTTON_RESET;
 
   constructor() {
     this.initializeForm();
