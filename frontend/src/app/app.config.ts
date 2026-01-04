@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
@@ -26,17 +27,16 @@ import { apiPrefixInterceptor } from '@core/api/config/interceptors/api-prefix/a
 
 import { AuthEffects } from '@core/auth/store/auth.effects';
 import { authReducer } from '@core/auth/store/auth.reducer';
+import { AuthInitService } from '@core/auth/services/auth-init/auth-init.service';
 import { languageReducer } from '@core/language/store/language.reducer';
 import { LanguageEffects } from '@core/language/store/language.effects';
+import { TranslationInitService } from '@core/language/services/translation-init/translation-init.service';
 
 import { TasksEffects } from '@feature/tasks/store/tasks/tasks.effects';
 import { tasksReducer } from '@feature/tasks/store/tasks/tasks.reducer';
 
 import { environment } from './environments/environment';
 import MyBlueTheme from '../theme';
-import { AuthInitService } from '@core/auth/services/auth-init/auth-init.service';
-import { TranslationInitService } from '@core/language/services/translation-init/translation-init.service';
-import { firstValueFrom } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
   providers: [
