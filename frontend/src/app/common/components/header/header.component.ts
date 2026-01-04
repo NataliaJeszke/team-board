@@ -17,6 +17,7 @@ import { Language, User } from '@core/models';
 import { LANGUAGES } from '@core/language/constants/language.constants';
 
 import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
+import { DEAFULT_BUTTON_ADD_TASK_TOOLTIP, DEAFULT_BUTTON_ADD_TASK_ARIA_LABEL } from './constants/header.constants';
 
 @Component({
   selector: 'tb-header',
@@ -37,7 +38,7 @@ export class HeaderComponent {
   private readonly translate = inject(TranslateService);
   private readonly languageFacade = inject(LanguageFacade);
 
-  readonly user_ = input<User>();
+  readonly user_ = input.required<User>();
   readonly taskCount_ = input<number>(0);
 
   readonly addTaskClick = output<void>();
@@ -48,6 +49,9 @@ export class HeaderComponent {
     this.buildUserMenuItems(this.currentLanguage())
   );
 
+  readonly defaultButtonTooltipMessage = DEAFULT_BUTTON_ADD_TASK_TOOLTIP;
+  readonly defaultButtonAriaLabelMessage = DEAFULT_BUTTON_ADD_TASK_ARIA_LABEL;
+  
   readonly getInitialsFromName = getInitialsFromName;
 
   onAddTask(): void {
