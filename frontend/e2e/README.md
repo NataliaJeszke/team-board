@@ -2,6 +2,23 @@
 
 This directory contains end-to-end (E2E) tests for the Team Board Angular application using Playwright.
 
+## Test Files Structure
+
+```
+e2e/
+├── app.spec.ts              # Basic application tests (HTML structure, meta tags, loading)
+├── auth-redirect.spec.ts    # Authentication redirects and route guards
+├── login-page.spec.ts       # Login page UI elements and validation
+├── register-page.spec.ts    # Register page UI elements and validation
+├── auth-flow.spec.ts        # Complete authentication flow (registration + login)
+├── board-page.spec.ts       # Board page tests (header, menu, tasks display)
+├── task-dialog.spec.ts      # Task dialog tests (add task form, validation, submission)
+├── helpers/
+│   ├── test-data.ts         # Test data generators and common selectors
+│   └── auth-helpers.ts      # Authentication helper functions
+└── README.md                # This file
+```
+
 ## Purpose
 
 E2E tests validate the application's behavior from a user's perspective by simulating real user interactions in a browser environment. These tests complement the Jest-based unit tests by:
@@ -36,11 +53,84 @@ Playwright is chosen for E2E testing because it:
 
 **Best Practice**: Write many unit tests (Jest) and fewer, focused E2E tests (Playwright).
 
+## Test Suites Overview
+
+### 1. **app.spec.ts** - Basic Application Tests
+Tests core application functionality:
+- Application loads successfully
+- HTML structure is correct
+- No JavaScript errors on load
+- Meta tags are properly set
+
+### 2. **auth-redirect.spec.ts** - Authentication Redirects
+Tests routing and authentication guards:
+- Unauthenticated users redirected to `/login`
+- Protected routes (e.g., `/board`) require authentication
+- Public routes (e.g., `/register`) accessible without auth
+
+### 3. **login-page.spec.ts** - Login Page UI
+Tests all UI elements on login page:
+- Email and password inputs visible
+- Submit button state (enabled/disabled)
+- Form validation messages
+- Navigation to register page
+- Password toggle functionality
+
+### 4. **register-page.spec.ts** - Register Page UI
+Tests all UI elements on register page:
+- Name, email, and password inputs visible
+- Submit button state
+- Form validation
+- Navigation to login page
+- Proper layout and styling
+
+### 5. **auth-flow.spec.ts** - Authentication Flow (Requires Backend)
+Tests actual registration and login functionality:
+- User registration with valid data
+- Login with valid credentials
+- Error handling for invalid credentials
+- Complete flow: register → login → access board
+- Loading states during API calls
+
+**Note**: `auth-flow.spec.ts` requires a running backend server to work properly.
+
+### 6. **board-page.spec.ts** - Board Page Tests (Requires Backend & Auth)
+Tests the main board view after successful login:
+- Board component visibility
+- Header with all elements (title, add task button, menu, theme toggle)
+- User menu expandability and functionality
+- Add task button visibility and clickability
+- Menu items (Language, Logout)
+- Empty state display (no tasks)
+- Tasks grid display (with tasks)
+- Filters component
+- Responsive layout
+
+**Note**: This test suite requires a logged-in user, so backend must be running.
+
+### 7. **task-dialog.spec.ts** - Task Dialog Tests (Requires Backend & Auth)
+Tests the Add Task dialog functionality:
+- Dialog opens when clicking Add Task button
+- All form fields visible (Title, Assigned To, Priority, Status)
+- Cancel and Save buttons present
+- Default values (Priority: "Medium", Status: "To Do")
+- Form validation (title required, minimum 3 characters)
+- Error messages ("This field is required")
+- Priority select with options (Low, Medium, High)
+- Status select with options (To Do, In Progress, Delayed, Done)
+- Assigned To select with user list
+- Cancel closes dialog without saving
+- Save submits task to backend
+- Complete task creation flow
+
+**Note**: Requires logged-in user and running backend for save functionality.
+
 ## Running E2E Tests
 
 ### Prerequisites
 
-Ensure the Angular dev server is running or use the built-in webServer feature (configured in `playwright.config.ts`).
+- **Frontend**: Angular dev server will start automatically (configured in `playwright.config.ts`)
+- **Backend** (for auth-flow tests): Ensure backend API is running if testing authentication flows
 
 ### Available Commands
 
@@ -67,11 +157,67 @@ npm run e2e:report
 # Run a specific test file
 npx playwright test e2e/app.spec.ts
 
+# Run specific test suite
+npx playwright test e2e/login-page.spec.ts
+npx playwright test e2e/register-page.spec.ts
+npx playwright test e2e/auth-redirect.spec.ts
+npx playwright test e2e/auth-flow.spec.ts
+npx playwright test e2e/board-page.spec.ts
+npx playwright test e2e/task-dialog.spec.ts
+
 # Run tests matching a pattern
 npx playwright test --grep "login"
+npx playwright test --grep "registration"
+
+# Run UI tests only (excluding flow tests that require backend)
+npx playwright test e2e/app.spec.ts e2e/auth-redirect.spec.ts e2e/login-page.spec.ts e2e/register-page.spec.ts
 
 # Run a specific test by line number
 npx playwright test e2e/app.spec.ts:15
+```
+
+### Test Helpers
+
+### Test Data Helpers (`helpers/test-data.ts`)
+
+Utilities for test data and selectors:
+
+- **`generateUniqueEmail()`** - Creates unique email addresses for testing
+- **`generateTestUser()`** - Generates complete test user objects
+- **`TEST_USERS`** - Predefined test user credentials
+- **`SELECTORS`** - Common CSS selectors (login, register, common)
+- **`BOARD_SELECTORS`** - Board page specific selectors (header, menu, board)
+- **`TASK_DIALOG_SELECTORS`** - Task dialog selectors (inputs, buttons, validation)
+- **`TIMEOUTS`** - Standard timeout values for different operations
+
+Example usage:
+```typescript
+import { generateTestUser, SELECTORS, BOARD_SELECTORS } from './helpers/test-data';
+
+const user = generateTestUser('John Doe');
+await page.locator(SELECTORS.login.emailInput).fill(user.email);
+await page.locator(BOARD_SELECTORS.header.addTaskButton).click();
+```
+
+### Authentication Helpers (`helpers/auth-helpers.ts`)
+
+Helper functions for authentication:
+
+- **`loginViaUI(page, credentials)`** - Login through the UI (slow but realistic)
+- **`loginViaAPI(page, credentials)`** - Login via API (fast, for setup)
+- **`isLoggedIn(page)`** - Check if user is authenticated
+- **`logoutViaUI(page)`** - Logout through the UI
+- **`clearAuthState(page)`** - Clear authentication from localStorage
+
+Example usage:
+```typescript
+import { loginViaUI, logoutViaUI } from './helpers/auth-helpers';
+
+// In test setup
+await loginViaUI(page, { email: 'test@example.com', password: 'password' });
+
+// In test
+await logoutViaUI(page);
 ```
 
 ## Writing E2E Tests

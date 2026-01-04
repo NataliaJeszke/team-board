@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Example E2E test for the Angular application
- * This test verifies that the application loads successfully
+ * Basic E2E tests for the Angular application
+ * This test suite verifies core application functionality
  */
-test.describe('Team Board Application', () => {
+test.describe('Team Board Application - Basic Tests', () => {
   test('should load the application successfully', async ({ page }) => {
     // Navigate to the application root
     await page.goto('/');
@@ -20,33 +20,43 @@ test.describe('Team Board Application', () => {
     await expect(appRoot).toBeVisible();
   });
 
-  test('should display the login page for unauthenticated users', async ({ page }) => {
-    // Navigate to the application
+  test('should have proper HTML structure', async ({ page }) => {
     await page.goto('/');
-
-    // Wait for navigation to complete
     await page.waitForLoadState('networkidle');
 
-    // Verify that the login component or form is visible
-    // Adjust the selector based on your actual login page structure
-    const loginElement = page.locator('tb-login, [data-testid="login-form"]').first();
+    // Verify HTML lang attribute
+    const html = page.locator('html');
+    await expect(html).toHaveAttribute('lang', 'en');
 
-    // Check if we're on the login page (URL should contain 'login' or show login component)
-    const currentUrl = page.url();
-    const isLoginVisible = await loginElement.isVisible().catch(() => false);
-
-    // At least one condition should be true
-    expect(
-      currentUrl.includes('login') || isLoginVisible
-    ).toBeTruthy();
-  });
-
-  test('should have proper meta tags', async ({ page }) => {
-    // Navigate to the application
-    await page.goto('/');
+    // Verify meta charset
+    const charset = page.locator('meta[charset]');
+    await expect(charset).toHaveAttribute('charset', 'utf-8');
 
     // Check viewport meta tag
     const viewportMeta = page.locator('meta[name="viewport"]');
     await expect(viewportMeta).toHaveAttribute('content', /width=device-width/);
+  });
+
+  test('should load without JavaScript errors', async ({ page }) => {
+    const errors: string[] = [];
+
+    // Listen for console errors
+    page.on('pageerror', (error) => {
+      errors.push(error.message);
+    });
+
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+
+    // There should be no critical JavaScript errors
+    expect(errors).toHaveLength(0);
+  });
+
+  test('should have favicon', async ({ page }) => {
+    await page.goto('/');
+
+    // Check if favicon link exists
+    const favicon = page.locator('link[rel="icon"]');
+    await expect(favicon).toHaveAttribute('href', 'favicon.ico');
   });
 });
