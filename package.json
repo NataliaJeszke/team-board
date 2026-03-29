@@ -1,0 +1,54 @@
+{
+  "name": "team-board-workspace",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "scripts": {
+    "start": "nx run-many -t serve",
+    "start:frontend": "nx serve frontend",
+    "start:backend": "nx serve backend",
+    "build": "nx run-many -t build",
+    "build:frontend": "nx build frontend",
+    "build:backend": "nx build backend",
+    "test": "nx run-many -t test",
+    "test:frontend": "nx test frontend",
+    "test:backend": "nx test backend",
+    "lint": "nx run-many -t lint",
+    "lint:frontend": "nx lint frontend",
+    "lint:backend": "nx lint backend",
+    "affected:build": "nx affected -t build",
+    "affected:test": "nx affected -t test",
+    "affected:lint": "nx affected -t lint",
+    "graph": "nx graph",
+    "generate:openapi": "cd apps/backend && npm run generate:openapi",
+    "generate:api-client": "openapi-generator-cli generate -i apps/backend/openapi.json -g typescript-angular -o libs/api-client --additional-properties=ngVersion=21.0.0,serviceSuffix=Service,withInterfaces=true",
+    "generate:api": "npm run generate:openapi && npm run generate:api-client"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.0",
+    "@nx/eslint": "^22.6.3",
+    "@nx/jest": "^22.6.3",
+    "@nx/js": "^22.6.3",
+    "@nx/workspace": "^22.6.3",
+    "@openapitools/openapi-generator-cli": "^2.31.0",
+    "ansi-regex": "^5.0.1",
+    "chalk": "^4.1.2",
+    "ci-info": "^4.4.0",
+    "jest": "^30.2.0",
+    "nx": "^22.6.3"
+  },
+  "dependencies": {
+    "accepts": "^2.0.0",
+    "body-parser": "^2.2.2",
+    "content-disposition": "^1.0.1",
+    "content-type": "^1.0.5",
+    "cookie": "^0.7.2",
+    "cookie-signature": "^1.2.2",
+    "rxjs": "7.8.2"
+  },
+  "overrides": {
+    "rxjs": "7.8.2"
+  }
+}

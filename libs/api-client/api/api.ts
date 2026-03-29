@@ -1,0 +1,10 @@
+export * from './auth.service';
+import { AuthService } from './auth.service';
+export * from './auth.serviceInterface';
+export * from './tasks.service';
+import { TasksService } from './tasks.service';
+export * from './tasks.serviceInterface';
+export * from './users.service';
+import { UsersService } from './users.service';
+export * from './users.serviceInterface';
+export const APIS = [AuthService, TasksService, UsersService];
