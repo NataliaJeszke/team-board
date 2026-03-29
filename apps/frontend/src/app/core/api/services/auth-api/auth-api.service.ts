@@ -1,28 +1,30 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { API_ENDPOINTS } from '@core/api/config/constants/api-endpoints.constants';
+import { AuthService } from '@team-board/api-client';
 import { AuthResponse } from '@core/api/models/auth/auth-api.model';
 import { User, RegisterRequest, LoginRequest } from '@core/models';
 
-
+/**
+ * Adapter for generated API client
+ * Uses auto-generated AuthService from OpenAPI spec
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthApiService {
-  private http = inject(HttpClient);
+  private authService = inject(AuthService);
 
   register(data: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(API_ENDPOINTS.AUTH.REGISTER, data);
+    return this.authService.authControllerRegister(data) as Observable<AuthResponse>;
   }
 
   login(data: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, data);
+    return this.authService.authControllerLogin(data) as Observable<AuthResponse>;
   }
 
   getProfile(): Observable<User> {
-    return this.http.get<User>(API_ENDPOINTS.AUTH.PROFILE);
+    return this.authService.authControllerGetProfile() as Observable<User>;
   }
 }

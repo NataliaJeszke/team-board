@@ -8,6 +8,7 @@
   "scripts": {
     "build": "node -e \"const fs = require('fs'); fs.rmSync('dist', { recursive: true, force: true }); fs.rmSync('tsconfig.build.tsbuildinfo', { force: true });\" && node ../../node_modules/typescript/bin/tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "generate:openapi": "node -r ts-node/register src/generate-openapi.ts",
     "start": "node -r ts-node/register src/main.ts",
     "start:dev": "node --watch -r ts-node/register src/main.ts",
     "start:debug": "node --watch --inspect -r ts-node/register src/main.ts",
@@ -26,6 +27,7 @@
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/swagger": "^11.2.6",
     "@nestjs/typeorm": "^11.0.0",
     "accepts": "^2.0.0",
     "bcrypt": "^6.0.0",
@@ -51,6 +53,7 @@
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
+    "@openapitools/openapi-generator-cli": "^2.31.0",
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",

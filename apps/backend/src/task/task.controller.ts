@@ -17,6 +17,7 @@ import {
   BadRequestException,
   Patch,
 } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import type { CreateTaskDto } from './task.model';
 import { TasksService } from './task.service';
@@ -24,12 +25,16 @@ import { TasksService } from './task.service';
 const getErrorMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Wystapil nieznany blad';
 
+@ApiTags('tasks')
+@ApiBearerAuth()
 @Controller('tasks')
 @UseGuards(JwtAuthGuard)
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Get all tasks for current user' })
+  @ApiResponse({ status: 200, description: 'Returns all tasks' })
   async findAll(@Req() req) {
     const userId = req.user.id;
 
@@ -55,6 +60,10 @@ export class TasksController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get task by ID' })
+  @ApiParam({ name: 'id', description: 'Task ID' })
+  @ApiResponse({ status: 200, description: 'Returns task' })
+  @ApiResponse({ status: 404, description: 'Task not found' })
   async findOne(@Param('id') id: string, @Req() req) {
     const taskId = parseInt(id, 10);
 
@@ -81,6 +90,9 @@ export class TasksController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Create new task' })
+  @ApiResponse({ status: 201, description: 'Task created successfully' })
+  @ApiResponse({ status: 400, description: 'Bad request' })
   async create(@Req() req, @Body() createTaskDto: CreateTaskDto) {
     const userId = req.user.id;
 
@@ -233,6 +245,10 @@ export class TasksController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Delete task' })
+  @ApiParam({ name: 'id', description: 'Task ID' })
+  @ApiResponse({ status: 200, description: 'Task deleted successfully' })
+  @ApiResponse({ status: 404, description: 'Task not found' })
   async delete(@Param('id') id: string, @Req() req) {
     const taskId = parseInt(id, 10);
 

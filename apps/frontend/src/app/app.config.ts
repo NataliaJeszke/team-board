@@ -24,6 +24,7 @@ import { routes } from './app.routes';
 import { API_CONFIG } from '@core/api/config/tokens/api-config.token';
 import { authInterceptor } from '@core/api/config/interceptors/auth/auth.interceptor';
 import { apiPrefixInterceptor } from '@core/api/config/interceptors/api-prefix/api-prefix.interceptor';
+import { BASE_PATH, Configuration } from '@team-board/api-client';
 
 import { AuthEffects } from '@core/auth/store/auth.effects';
 import { authReducer } from '@core/auth/store/auth.reducer';
@@ -44,6 +45,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([apiPrefixInterceptor, authInterceptor])),
     { provide: API_CONFIG, useValue: { baseUrl: environment.apiBaseUrl } },
+    { provide: BASE_PATH, useValue: environment.apiBaseUrl },
+    {
+      provide: Configuration,
+      useValue: new Configuration({ basePath: environment.apiBaseUrl })
+    },
     provideAppInitializer(() => {
       const translationInitService = inject(TranslationInitService);
       return firstValueFrom(translationInitService.initializeTranslations());
