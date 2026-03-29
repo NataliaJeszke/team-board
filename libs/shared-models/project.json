@@ -1,0 +1,15 @@
+{
+  "name": "shared-models",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/shared-models/src",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/shared-models/src/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["type:lib", "scope:shared"]
+}

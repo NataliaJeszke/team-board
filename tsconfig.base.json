@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@team-board/shared-models": ["libs/shared-models/src/index.ts"]
+    }
+  }
+}
