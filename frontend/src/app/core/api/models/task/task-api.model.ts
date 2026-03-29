@@ -1,4 +1,4 @@
-import { Task, TaskStatus, TaskPriority } from "@feature/tasks/model/tasks.model";
+import { Task, TaskStatus, TaskPriority } from "@core/models";
 
 export interface ApiResponse<T = unknown> {
   data: T;

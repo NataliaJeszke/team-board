@@ -11,7 +11,7 @@ import { User } from '@core/models';
 
 import { Task } from '@feature/tasks/model/tasks.model';
 
-import { TaskComponent } from '@common/components/task/task.component';
+import { TaskComponent } from '@feature/tasks/components/task/task.component';
 
 @Component({
   selector: 'tb-user-tasks',

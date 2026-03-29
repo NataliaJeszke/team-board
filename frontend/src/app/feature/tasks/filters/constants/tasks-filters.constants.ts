@@ -1,7 +1,6 @@
-import { FilterType } from '@common/components/filters/constants/filters.constants';
-import { FilterConfig, FilterOption } from '@common/components/filters/model/filters.model';
-
-import { TASK_PRIORITIES, TASK_STATUSES } from '@feature/tasks/constants/tasks.constants';
+import { FilterType } from '@shared/ui/filters/constants/filters.constants';
+import { FilterConfig, FilterOption } from '@shared/ui/filters/model/filters.model';
+import { TASK_PRIORITIES, TASK_STATUSES } from '@core/models';
 
 export const TASK_STATUS_OPTIONS: readonly FilterOption[] = TASK_STATUSES.map(status => ({
   label: `features.tasks.filters.status.${status}`,

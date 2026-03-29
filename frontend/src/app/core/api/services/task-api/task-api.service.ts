@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { API_ENDPOINTS } from '@core/api/config/constants/api-endpoints.constants';
 import { TaskListResponse, TaskResponse, NewTaskRequest } from '@core/api/models/task/task-api.model';
-import { Task, TaskStatus } from '@feature/tasks/model/tasks.model';
+import { Task, TaskStatus } from '@core/models';
 
 @Injectable({
   providedIn: 'root',

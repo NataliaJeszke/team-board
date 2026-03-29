@@ -9,9 +9,9 @@ import { BoardService } from './board.service';
 import { TasksFacade } from '@feature/tasks/tasks.facade';
 import { UsersDictionaryFacade } from '@feature/users-dictionary/users-dictionary.facade';
 import { TasksFiltersService } from '@feature/tasks/filters/service/tasks-filters.service';
-import { TaskUiEventsService, TaskUiEvent } from '@common/components/task/service/task-ui-events.service';
-import { FilterType } from '@common/components/filters/constants/filters.constants';
-import { FilterConfig } from '@common/components/filters/model/filters.model';
+import { TaskUiEventsService, TaskUiEvent } from '@feature/tasks/services/task-ui-events.service';
+import { FilterType } from '@shared/ui/filters/constants/filters.constants';
+import { FilterConfig } from '@shared/ui/filters/model/filters.model';
 import { User } from '@core/models';
 import { Task } from '@feature/tasks/model/tasks.model';
 

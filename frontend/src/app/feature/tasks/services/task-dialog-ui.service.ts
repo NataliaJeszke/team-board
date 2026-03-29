@@ -7,7 +7,7 @@ import {
   TASK_PRIORITY_OPTIONS,
   TASK_STATUS,
   TASK_STATUS_OPTIONS,
-} from '../constants/task-dialog.constants';
+} from '@feature/tasks/constants/task-dialog.constants';
 
 @Injectable()
 export class TaskDialogUiService {

@@ -4,7 +4,7 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { MockBuilder, MockInstance, MockProvider } from 'ng-mocks';
 
 import { TaskDialogComponent } from './task-dialog.component';
-import { TaskDialogUiService } from './service/task-dialog-ui.service';
+import { TaskDialogUiService } from '@feature/tasks/services/task-dialog-ui.service';
 import { Task, TaskDialogData } from '@feature/tasks/model/tasks.model';
 
 describe('TaskDialogComponent', () => {

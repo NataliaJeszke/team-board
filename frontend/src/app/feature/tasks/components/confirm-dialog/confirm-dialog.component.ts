@@ -8,8 +8,8 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 import { Task } from '@feature/tasks/model/tasks.model';
 
-import { ConfirmDialogData } from './model/confirm-dialog.model';
-import { CONFIRM_DIALOG_DEFAULT_MESSAGE } from './constants/confirm-dialog.constants';
+import { ConfirmDialogData } from '@feature/tasks/model/confirm-dialog.model';
+import { CONFIRM_DIALOG_DEFAULT_MESSAGE } from '@feature/tasks/constants/confirm-dialog.constants';
 
 @Component({
   selector: 'tb-confirm-dialog',

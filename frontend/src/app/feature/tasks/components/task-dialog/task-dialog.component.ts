@@ -12,7 +12,7 @@ import { UserDictionary } from '@core/api/models/users/users-api.model';
 
 import { Task, TaskDialogData, TaskDialogResult } from '@feature/tasks/model/tasks.model';
 
-import { TaskDialogUiService } from './service/task-dialog-ui.service';
+import { TaskDialogUiService } from '@feature/tasks/services/task-dialog-ui.service';
 
 @Component({
   selector: 'tb-task-dialog',

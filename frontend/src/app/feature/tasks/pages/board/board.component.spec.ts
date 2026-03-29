@@ -13,7 +13,7 @@ import { AuthFacade } from '@core/auth/auth.facade';
 import { TasksFacade } from '@feature/tasks/tasks.facade';
 import { UsersDictionaryFacade } from '@feature/users-dictionary/users-dictionary.facade';
 
-import { FilterValues } from '@common/components/filters/model/filters.model';
+import { FilterValues } from '@shared/ui/filters/model/filters.model';
 
 import { BoardComponent } from './board.component';
 import { BoardService } from './service/board.service';

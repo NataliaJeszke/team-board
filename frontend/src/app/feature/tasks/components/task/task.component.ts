@@ -13,8 +13,8 @@ import { getInitialsFromName } from '@utils/index';
 
 import { TaskPriority, TaskStatus, Task } from '@feature/tasks/model/tasks.model';
 
-import { TaskUiService } from '@common/components/task/service/task-ui.service';
-import { TaskUiEventsService } from '@common/components/task/service/task-ui-events.service';
+import { TaskUiService } from '@feature/tasks/services/task-ui.service';
+import { TaskUiEventsService } from '@feature/tasks/services/task-ui-events.service';
 
 @Component({
   selector: 'tb-task',

@@ -1,19 +1,9 @@
 import { UserDictionary } from "@core/api/models/users/users-api.model";
+import { Task, TaskStatus, TaskPriority } from '@core/models';
 
-import { TASK_STATUSES, TASK_PRIORITIES } from "../constants/tasks.constants";
-
-export interface Task {
-  id: number;
-  title: string;
-  createdById: number;
-  createdByName?: string;
-  priority: TaskPriority;
-  status: TaskStatus;
-  createdAt: Date;
-  updatedAt: Date;
-  assignedToId?: number;
-  assignedToName?: string;
-}
+// Re-export core types
+export type { Task, TaskStatus, TaskPriority } from '@core/models';
+export { TASK_STATUSES, TASK_PRIORITIES } from '@core/models';
 
 export interface TaskFormValue {
   title: string;
@@ -40,6 +30,3 @@ export interface TaskOperationResult {
   summary: string;
   detail: string;
 }
-
-export type TaskStatus = (typeof TASK_STATUSES)[number];
-export type TaskPriority = (typeof TASK_PRIORITIES)[number];

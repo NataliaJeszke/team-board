@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockBuilder, MockInstance, MockProvider } from 'ng-mocks';
 
 import { TaskComponent } from './task.component';
-import { TaskUiService } from './service/task-ui.service';
-import { TaskUiEventsService } from './service/task-ui-events.service';
+import { TaskUiService } from '@feature/tasks/services/task-ui.service';
+import { TaskUiEventsService } from '@feature/tasks/services/task-ui-events.service';
 import { Task } from '@feature/tasks/model/tasks.model';
 
 describe('TaskComponent', () => {

@@ -18,10 +18,9 @@
     "baseUrl": "src",
     "paths": {
       "@core/*": ["app/core/*"],
-      "@view/*": ["app/view/*"],
-      "@common/*": ["app/common/*"],
+      "@shared/*": ["app/shared/*"],
       "@feature/*": ["app/feature/*"],
-      "@utils/*": ["app/utils/*"],
+      "@utils/*": ["app/utils/*"]
     }
   },
   "angularCompilerOptions": {

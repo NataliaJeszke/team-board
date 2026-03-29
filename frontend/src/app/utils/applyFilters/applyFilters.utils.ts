@@ -1,4 +1,4 @@
-import { Task } from '@feature/tasks/model/tasks.model';
+import { Task } from '@core/models';
 import { TasksFilters } from '@feature/tasks/store/tasks/tasks.state';
 
 import { normalizeDate, isSameDay } from '../date/date.utils';

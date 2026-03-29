@@ -17,7 +17,7 @@ import { LanguageFacade } from '@core/language/language.facade';
 import { Language, User } from '@core/models';
 import { LANGUAGES } from '@core/language/constants/language.constants';
 
-import { ThemeToggleComponent } from '@common/components/theme-toggle/theme-toggle.component';
+import { ThemeToggleComponent } from '@shared/ui/theme-toggle/theme-toggle.component';
 import { DEAFULT_BUTTON_ADD_TASK_TOOLTIP, DEAFULT_BUTTON_ADD_TASK_ARIA_LABEL } from './constants/header.constants';
 
 @Component({

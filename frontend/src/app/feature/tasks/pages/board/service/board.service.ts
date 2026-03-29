@@ -12,10 +12,10 @@ import { TasksFilters } from '@feature/tasks/store/tasks/tasks.state';
 import { TaskOperationResult } from '@feature/tasks/model/tasks.model';
 import { TasksFiltersService } from '@feature/tasks/filters/service/tasks-filters.service';
 
-import { TaskDialogComponent } from '@common/components/task-dialog/task-dialog.component';
-import { ConfirmDialogComponent } from '@common/components/confirm-dialog/confirm-dialog.component';
-import { TaskUiEventsService } from '@common/components/task/service/task-ui-events.service';
-import { FilterConfig, FilterValues } from '@common/components/filters/model/filters.model';
+import { TaskDialogComponent } from '@feature/tasks/components/task-dialog/task-dialog.component';
+import { ConfirmDialogComponent } from '@feature/tasks/components/confirm-dialog/confirm-dialog.component';
+import { TaskUiEventsService } from '@feature/tasks/services/task-ui-events.service';
+import { FilterConfig, FilterValues } from '@shared/ui/filters/model/filters.model';
 
 @Injectable()
 export class BoardService {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { FilterConfig, FilterOption } from '@common/components/filters/model/filters.model';
+import { FilterConfig, FilterOption } from '@shared/ui/filters/model/filters.model';
 
 import { TASK_FILTERS_CONFIG } from '../constants/tasks-filters.constants';
 import { UserForFilters } from '../model/tasks-filters.model';

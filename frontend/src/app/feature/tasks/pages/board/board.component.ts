@@ -10,10 +10,10 @@ import { AuthFacade } from '@core/auth/auth.facade';
 import { TasksFacade } from '@feature/tasks/tasks.facade';
 import { UsersDictionaryFacade } from '@feature/users-dictionary/users-dictionary.facade';
 
-import { FilterValues } from '@common/components/filters/model/filters.model';
-import { HeaderComponent } from '@common/components/header/header.component';
-import { FiltersComponent } from '@common/components/filters/filters.component';
-import { UserTasksComponent } from '@common/components/user-tasks-list/user-tasks-list.component';
+import { FilterValues } from '@shared/ui/filters/model/filters.model';
+import { HeaderComponent } from '@shared/ui/header/header.component';
+import { FiltersComponent } from '@shared/ui/filters/filters.component';
+import { UserTasksComponent } from '@feature/tasks/components/user-tasks-list/user-tasks-list.component';
 
 import { BoardService } from './service/board.service';
 

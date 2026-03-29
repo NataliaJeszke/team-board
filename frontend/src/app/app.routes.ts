@@ -6,18 +6,20 @@ import { guestGuard } from '@core/auth/guards/guest/guest.guard';
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('./view/login/login.component').then(m => m.LoginComponent),
+    loadComponent: () =>
+      import('./feature/auth/pages/login/login.component').then(m => m.LoginComponent),
     canActivate: [guestGuard],
   },
   {
     path: 'register',
     loadComponent: () =>
-      import('./view/register/register.component').then(m => m.RegisterComponent),
+      import('./feature/auth/pages/register/register.component').then(m => m.RegisterComponent),
     canActivate: [guestGuard],
   },
   {
     path: 'board',
-    loadComponent: () => import('./view/board/board.component').then(m => m.BoardComponent),
+    loadComponent: () =>
+      import('./feature/tasks/pages/board/board.component').then(m => m.BoardComponent),
     canActivate: [authGuard],
   },
   {
@@ -28,6 +30,6 @@ export const routes: Routes = [
   {
     path: '**',
     loadComponent: () =>
-      import('./view/not-found/not-found.component').then(m => m.NotFoundComponent),
+      import('./shared/ui/not-found/not-found.component').then(m => m.NotFoundComponent),
   },
 ];
